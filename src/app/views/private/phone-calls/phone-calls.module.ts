@@ -1,21 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { RequestsRoutingModule } from './requests-routing.module';
-import { RequestsComponent } from './requests/requests.component';
+import { PhoneCallsRoutingModule } from './phone-calls-routing.module';
+import { PhoneCallsComponent } from './phone-calls/phone-calls.component';
 import { SharedModule } from '@shared/shared.module';
 import { MatRippleModule } from '@angular/material/core';
 
 
 @NgModule({
   declarations: [
-    RequestsComponent
+    PhoneCallsComponent
   ],
   imports: [
     CommonModule,
-    RequestsRoutingModule,
+    PhoneCallsRoutingModule,
     SharedModule,
     MatRippleModule
   ]
 })
-export class RequestsModule { }
+export class PhoneCallsModule { }

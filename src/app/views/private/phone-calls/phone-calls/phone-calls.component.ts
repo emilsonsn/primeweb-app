@@ -17,11 +17,11 @@ import { DialogOrderComponent } from '@shared/dialogs/dialog-order/dialog-order.
 import { OrderService } from '@services/order.service';
 
 @Component({
-  selector: 'app-requests',
-  templateUrl: './requests.component.html',
-  styleUrl: './requests.component.scss'
+  selector: 'app-phone-calls',
+  templateUrl: './phone-calls.component.html',
+  styleUrl: './phone-calls.component.scss'
 })
-export class RequestsComponent {
+export class PhoneCallsComponent {
 
   cards = signal<requestCards>(
     {

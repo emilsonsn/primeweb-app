@@ -1,8 +1,8 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {LoginComponent} from "@app/views/session/login/login.component";
-import {ForgotPasswordComponent} from "@app/views/session/forgot-password/forgot-password.component";
-import {PasswordRecoveryComponent} from "@app/views/session/password-recovery/password-recovery.component";
+import {LoginComponent} from "@app/views/public/login/login.component";
+import {ForgotPasswordComponent} from "@app/views/public/forgot-password/forgot-password.component";
+import {PasswordRecoveryComponent} from "@app/views/public/password-recovery/password-recovery.component";
 
 const routes: Routes = [
   {

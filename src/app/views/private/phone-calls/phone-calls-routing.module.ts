@@ -1,11 +1,11 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {RequestsComponent} from "@app/views/private/requests/requests/requests.component";
+import {PhoneCallsComponent} from "@app/views/private/phone-calls/phone-calls/phone-calls.component";
 
 const routes: Routes = [
   {
     path: '',
-    component: RequestsComponent
+    component: PhoneCallsComponent
   }
 ];
 
@@ -13,5 +13,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class RequestsRoutingModule {
+export class PhoneCallsRoutingModule {
 }

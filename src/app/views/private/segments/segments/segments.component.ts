@@ -8,11 +8,11 @@ import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 
 @Component({
-  selector: 'app-construction',
-  templateUrl: './construction.component.html',
-  styleUrl: './construction.component.scss'
+  selector: 'app-segments',
+  templateUrl: './segments.component.html',
+  styleUrl: './segments.component.scss'
 })
-export class ConstructionComponent {
+export class SegmentsComponent {
   public loading: boolean = false;
 
   constructor(

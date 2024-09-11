@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ServicesRoutingModule } from './services-routing.module';
-import { ServicesComponent } from './services/services.component';
+import { LogsRoutingModule } from './logs-routing.module';
+import { LogsComponent } from './logs/logs.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SharedModule } from '@shared/shared.module';
 import {MatRipple} from "@angular/material/core";
@@ -10,14 +10,14 @@ import {MatRipple} from "@angular/material/core";
 
 @NgModule({
   declarations: [
-    ServicesComponent
+    LogsComponent
   ],
   imports: [
     CommonModule,
-    ServicesRoutingModule,
+    LogsRoutingModule,
     SharedModule,
     MatDialogModule,
     MatRipple,
   ]
 })
-export class ServicesModule { }
+export class LogsModule { }

@@ -1,34 +1,36 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Service } from '@models/service';
-import { ServiceService } from '@services/service.service';
+import { ISmallInformationCard } from '@models/cardInformation';
+import { Supplier } from '@models/supplier';
+import { SupplierService } from '@services/supplier.service';
 import { DialogConfirmComponent } from '@shared/dialogs/dialog-confirm/dialog-confirm.component';
-import { DialogServiceComponent } from '@shared/dialogs/dialog-service/dialog-service.component';
+import { DialogProviderComponent } from '@shared/dialogs/dialog-provider/dialog-provider.component';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 
 @Component({
-  selector: 'app-services',
-  templateUrl: './services.component.html',
-  styleUrl: './services.component.scss'
+  selector: 'app-contacts',
+  templateUrl: './contacts.component.html',
+  styleUrl: './contacts.component.scss'
 })
-export class ServicesComponent {
+export class ContactsComponent {
+
   public loading: boolean = false;
 
   constructor(
     private readonly _dialog: MatDialog,
     private readonly _toastr: ToastrService,
-    private readonly _serviceService: ServiceService
+    private readonly _providerService: SupplierService
   ) {}
 
   private _initOrStopLoading(): void {
     this.loading = !this.loading;
   }
 
-  openDialogService(service?: Service) {
+  openDialogProvider(provider?: Supplier) {
     this._dialog
-      .open(DialogServiceComponent, {
-        data: { service },
+      .open(DialogProviderComponent, {
+        data: { provider },
         width: '80%',
         maxWidth: '850px',
         maxHeight: '90%',
@@ -37,20 +39,20 @@ export class ServicesComponent {
       .subscribe((res) => {
         if (res) {
           if (res.id) {
-            this._patchService(res);
+            this._patchProvider(res);
             return;
           }
 
-          this._postService(res);
+          this._postProvider(res);
         }
       });
   }
 
-  _patchService(service: Service) {
+  _patchProvider(provider: Supplier) {
     this._initOrStopLoading();
 
-    this._serviceService
-      .patchService(service.id, service)
+    this._providerService
+      .patchSupplier(provider.id, provider)
       .pipe(finalize(() => this._initOrStopLoading()))
       .subscribe({
         next: (res) => {
@@ -64,11 +66,11 @@ export class ServicesComponent {
       });
   }
 
-  _postService(service: Service) {
+  _postProvider(provider: Supplier) {
     this._initOrStopLoading();
 
-    this._serviceService
-      .postService(service)
+    this._providerService
+      .postSupplier(provider)
       .pipe(finalize(() => this._initOrStopLoading()))
       .subscribe({
         next: (res) => {
@@ -82,22 +84,22 @@ export class ServicesComponent {
       });
   }
 
-  onDeleteService(id: number) {
+  onDeleteProvider(id: number) {
     const text = 'Tem certeza? Essa ação não pode ser revertida!';
     this._dialog
       .open(DialogConfirmComponent, { data: { text } })
       .afterClosed()
       .subscribe((res: boolean) => {
         if (res) {
-          this._deleteService(id);
+          this._deleteProvider(id);
         }
       });
   }
 
-  _deleteService(id: number) {
+  _deleteProvider(id: number) {
     this._initOrStopLoading();
-    this._serviceService
-      .deleteService(id)
+    this._providerService
+      .deleteSupplier(id)
       .pipe(finalize(() => this._initOrStopLoading()))
       .subscribe({
         next: (res) => {
@@ -109,3 +111,4 @@ export class ServicesComponent {
       });
   }
 }
+

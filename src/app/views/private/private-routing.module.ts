@@ -1,4 +1,3 @@
-import { CollaboratorModule } from './collaborator/collaborator.module';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LayoutPrivateComponent } from "@shared/layouts/layout-private/layout-private.component";
@@ -19,11 +18,11 @@ const routes: Routes = [
         }
       },
       {
-        path: 'requests',
-        loadChildren: () => import('./requests/requests.module').then(m => m.RequestsModule),
+        path: 'phone-calls',
+        loadChildren: () => import('./phone-calls/phone-calls.module').then(m => m.PhoneCallsModule),
         canActivate: [permissionGuard],
         data: {
-          page: 'requests'
+          page: 'phone-calls'
         }
       },
       {
@@ -35,35 +34,35 @@ const routes: Routes = [
         }
       },
       {
-        path: 'collaborator',
-        loadChildren: () => import('./collaborator/collaborator.module').then(m => m.CollaboratorModule),
+        path: 'schedule',
+        loadChildren: () => import('./schedule/schedule.module').then(m => m.ScheduleModule),
         canActivate: [permissionGuard],
         data: {
-          page: 'collaborator'
+          page: 'schedule'
         }
       },
       {
-        path: 'construction',
-        loadChildren: () => import('./construction/construction.module').then(m => m.ConstructionModule),
+        path: 'segments',
+        loadChildren: () => import('./segments/segments.module').then(m => m.SegmentsModule),
         canActivate: [permissionGuard],
         data: {
-          page: 'construction'
+          page: 'segments'
         }
       },
       {
-        path: 'provider',
-        loadChildren: () => import('./provider/provider.module').then(m => m.ProviderModule),
+        path: 'contacts',
+        loadChildren: () => import('./contacts/contacts.module').then(m => m.ContactsModule),
         canActivate: [permissionGuard],
         data: {
-          page: 'provider'
+          page: 'contacts'
         }
       },
       {
-        path: 'services',
-        loadChildren: () => import('./services/services.module').then(m => m.ServicesModule),
+        path: 'logs',
+        loadChildren: () => import('./logs/logs.module').then(m => m.LogsModule),
         canActivate: [permissionGuard],
         data: {
-          page: 'services'
+          page: 'logs'
         }
       },
       {

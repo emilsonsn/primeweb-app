@@ -6,7 +6,7 @@ import { hasSessionGuard } from './guards/has-session.guard';
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./views/session/session.module').then(m => m.SessionModule)
+    loadChildren: () => import('./views/public/session.module').then(m => m.SessionModule)
   },
   {
     path: 'painel',

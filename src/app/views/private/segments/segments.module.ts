@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ConstructionRoutingModule } from './construction-routing.module';
-import { ConstructionComponent } from './construction/construction.component';
+import { ConstructionRoutingModule } from './segments-routing.module';
+import { SegmentsComponent } from './segments/segments.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SharedModule } from '@shared/shared.module';
 
 
 @NgModule({
   declarations: [
-    ConstructionComponent
+    SegmentsComponent
   ],
   imports: [
     CommonModule,
@@ -18,4 +18,4 @@ import { SharedModule } from '@shared/shared.module';
     MatDialogModule,
   ]
 })
-export class ConstructionModule { }
+export class SegmentsModule { }

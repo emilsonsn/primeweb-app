@@ -10,11 +10,11 @@ import {User} from '@models/user';
 import {UserService} from '@services/user.service';
 
 @Component({
-  selector: 'app-collaborator',
-  templateUrl: './collaborator.component.html',
-  styleUrl: './collaborator.component.scss',
+  selector: 'app-schedule',
+  templateUrl: './schedule.component.html',
+  styleUrl: './schedule.component.scss',
 })
-export class CollaboratorComponent {
+export class ScheduleComponent {
   public loading: boolean = false;
 
   protected itemsRequests: ISmallInformationCard[] = [

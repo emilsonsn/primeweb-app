@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ProviderRoutingModule } from './provider-routing.module';
-import { ProviderComponent } from './provider/provider.component';
+import { ContactsRoutingModule } from './contacts-routing.module';
+import { ContactsComponent } from './contacts/contacts.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SharedModule } from '@shared/shared.module';
@@ -11,15 +11,15 @@ import {MatRipple} from "@angular/material/core";
 
 @NgModule({
   declarations: [
-    ProviderComponent
+    ContactsComponent
   ],
   imports: [
     CommonModule,
-    ProviderRoutingModule,
+    ContactsRoutingModule,
     SharedModule,
     MatDialogModule,
     MatButtonModule,
     MatRipple
   ]
 })
-export class ProviderModule { }
+export class ContactsModule { }

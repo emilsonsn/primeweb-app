@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CollaboratorComponent } from './collaborator/collaborator.component';
+import {SegmentsComponent} from "@app/views/private/segments/segments/segments.component";
 
 const routes: Routes = [
   {
     path: '',
-    component: CollaboratorComponent
+    component: SegmentsComponent
   }
 ];
 
@@ -13,4 +13,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class CollaboratorRoutingModule { }
+export class ConstructionRoutingModule { }
