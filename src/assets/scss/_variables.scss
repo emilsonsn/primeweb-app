@@ -1,5 +1,31 @@
-$primary: #fca311; // used pallet color
-$secondary: #14213d; // used pallet color
+// Project Colors
+$primary: #333547;
+$secondary: #8699ad;
+$terciary: #f8f8fa;
+$quaternary: #38a4f8;
+$quinary: #007bff;
+$senary: #525f80;
+$septenary: #626ed4;
+$octonary: #454d55;
+$nonary: #ea2e4d;
+$denary: rgba(255,255,255,.5);
+$undecenary: #28a745;
+$duodenary: #dc3545;
+$tredecenary: #a71d2a;
+$quattuordenary: #02a499;
+$quindecenary: #5b626b;
+$sexdecenary: #6c757d;
+$septendecenary: #ec4561;
+$octodecenary: #555555;
+$novemdecenary: #b4c9de;
+$vigenary: #383b4e;
+$unvigenary: #FFFFFF;
+$duovigenary: #FFFFFF;
+$trevigenary: #FFFFFF;
+$quattuorvigenary: #FFFFFF;
+$quinvigenary: #FFFFFF;
+
+// Default Colors
 
 $blue: #0d6efd;
 $indigo: #6610f2;
@@ -43,7 +69,6 @@ $black-500: #282828;
 $black-600: #121212;
 $black-700: #000000; // used pallet color
 
-// Remover depois
 $white: #FFFFFF;
 $white_opacity: #FFFFFF29;
 $black1: #111111;
@@ -57,9 +82,6 @@ $black_opacity: #00000015;
 $orange1: #EC5200;
 $orange2: #F46A20;
 $orange3: #C05C27;
-$orange1_opacity: #ec7535;
-$orange2_opacity: #f46a209c;
-$orange3_opacity: #F46A2029;
 $red1: #B70606;
 $red2: #ff0000;
 $green1 : #06B76C;

@@ -20,49 +20,34 @@ export class LayoutPrivateComponent {
   public menuItem: IMenuItem[] = [
     {
       label: 'Home',
-      icon: 'fa-solid fa-house',
+      icon: 'fa-regular fa-house',
       route: '/painel/home',
       active: true
     },
     {
-      label: 'Pedidos',
-      icon: 'fa-solid fa-box',
-      route: '/painel/orders'
+      label: 'Telefonemas',
+      icon: 'fa-sharp fa-solid fa-phone-volume',
+      route: '/painel/phone-calls'
     },
     {
-      label: 'Solicitações',
-      icon: 'fa-solid fa-bookmark',
-      route: '/painel/requests'
+      label: 'Segmentos',
+      icon: 'fa-duotone fa-solid fa-boxes-stacked',
+      route: '/painel/segments'
     },
     {
-      label: 'Colaboradores',
-      icon: 'fa-solid fa-users',
-      route: '/painel/collaborator'
+      label: 'Contatos',
+      icon: 'fa-solid fa-message',
+      route: '/painel/contacts'
     },
     {
-      label: 'Fornecedores',
-      icon: 'fa-solid fa-truck',
-      route: '/painel/provider'
+      label: 'Agenda',
+      icon: 'fa-regular fa-calendar-day',
+      route: '/painel/schedule'
     },
     {
-      label: 'Obras',
-      icon: 'fa-solid fa-person-digging',
-      route: '/painel/construction'
-    },
-    {
-      label: 'Clientes/Contratantes',
-      icon: 'fa-solid fa-user-tie',
-      route: '/painel/client'
-    },
-    {
-      label: 'Serviços',
-      icon: 'fa-solid fa-tools',
-      route: '/painel/services'
-    },
-    {
-      label: 'Tarefas',
-      icon: 'fa-solid fa-tasks',
-      route: '/painel/tasks'
+      label: 'Logs',
+      icon: 'fa-duotone fa-solid fa-signal-stream',
+      route: '/painel/logs'
     }
   ]
 
@@ -93,7 +78,7 @@ export class LayoutPrivateComponent {
         if(user?.company_position.position == 'Requester')
           this.permitedMenuItem = this.menuItem.filter(item =>
             item.label == 'Pedidos' ||
-            item.label == 'Solicitações' || 
+            item.label == 'Solicitações' ||
             item.label == 'Fornecedores'
           );
         else
