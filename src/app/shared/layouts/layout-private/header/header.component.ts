@@ -1,4 +1,4 @@
-import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, HostListener, Input, OnInit, Output, signal} from '@angular/core';
 import {Router} from '@angular/router';
 import {IMenuItem} from "@models/ItemsMenu";
 import {SidebarService} from '@services/sidebar.service';
@@ -13,15 +13,26 @@ import { SessionQuery } from '@store/session.query';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+  @Input() user!: User;
+
   @Input() menuItem: IMenuItem[] = [];
-  activeLabel: string = '';
-  show_dropdown = false;
+
   @Output() toggleSidebar = new EventEmitter<void>();
 
-  onToggleSidebar() {
-    event.stopPropagation();
-    this._sidebarService.showSidebar.set(true);
-  }
+  public activeLabel: string = '';
+
+  protected readonly console = console;
+
+  public isMenuOpened = signal(false);
+
+  public notifications = [
+    {
+      title: 'Nova Notificação'
+    },
+    {
+      title: 'Teste Notificação'
+    }
+  ];
 
   constructor(
     protected router: Router,
@@ -29,8 +40,7 @@ export class HeaderComponent implements OnInit {
     private readonly _authService: AuthService,
     private readonly _sessionService : SessionService,
     private readonly _sessionQuery : SessionQuery
-  ) {
-  }
+  ) { }
 
   ngOnInit() {
     this.updateActiveLabel();
@@ -39,7 +49,6 @@ export class HeaderComponent implements OnInit {
     });
 
     this._sessionService.getUserFromBack().subscribe();
-
   }
 
   private updateActiveLabel() {
@@ -47,26 +56,11 @@ export class HeaderComponent implements OnInit {
     const activeItem = this.menuItem.find(item => item.route === currentUrl);
     this.activeLabel = activeItem ? activeItem.label : '';
   }
-
-  protected readonly console = console;
-
-
-  toggleDropdown(event: Event) {
-    event.stopPropagation();
-    this.show_dropdown = !this.show_dropdown;
-  }
-
-  @HostListener('document:click', ['$event'])
-  clickOutside(event: MouseEvent) {
-    const target = event.target as HTMLElement;
-    if (!target.closest('.dropdown') && this.show_dropdown) {
-      this.show_dropdown = false;
-    }
+  public logout() {
+    this._authService.logout();
   }
 
   // Utils
-  @Input() user!: User;
-
   public get isMobile() {
     return this._sidebarService.mobile();
   }
@@ -75,8 +69,33 @@ export class HeaderComponent implements OnInit {
     return this._sidebarService.showSidebar();
   }
 
-
-  logout() {
-    this._authService.logout();
+  public onToggleSidebar() {
+    event.stopPropagation();
+    this._sidebarService.showSidebar.set(true);
   }
+
+  public toggleDropdown() {
+    this.isMenuOpened.set(!this.isMenuOpened());
+  }
+
+  public toggleFullScreen() {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch((err) => {
+        console.error(`Erro ao tentar entrar em tela cheia: ${err.message}`);
+      });
+    } else {
+      document.exitFullscreen().catch((err) => {
+        console.error(`Erro ao tentar sair do modo de tela cheia: ${err.message}`);
+      });
+    }
+  }
+
+  public navigateTousers() {
+    this.router.navigate(['/painel/users']);
+  }
+
+  public navigateToProfile() {
+    this.router.navigate(['/painel/profile']);
+  }
+
 }

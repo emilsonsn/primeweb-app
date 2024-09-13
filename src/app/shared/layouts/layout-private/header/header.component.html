@@ -1,35 +1,77 @@
 <header>
   <div class="title">
     @if (!isSidebarOpen && isMobile) {
-      <div matRipple id="toggleSidebar" (click)="onToggleSidebar()">
-        <i class="fa-solid fa-bars"></i>
-      </div>
+    <div matRipple id="toggleSidebar" (click)="onToggleSidebar()">
+      <i class="fa-solid fa-bars"></i>
+    </div>
     }
     <h3>{{ activeLabel }}</h3>
   </div>
-  <div class="container-buttons">
-    <div class="dropdown">
-      <button class="dropdown-btn" (click)="toggleDropdown($event)">
-        <i class="fa-solid fa-user"></i>
-        <!--<span>{{ user?.name }}</span>-->
-        <span>{{user?.name}}</span>
-        @if (show_dropdown) {
-          <i class="fa-solid fa-angle-up"></i>
-        } @else {
-          <i class="fa-solid fa-chevron-down"></i>
-        }
-      </button>
+  <div id="items">
 
-      <div class="dropdown-content" [ngClass]="show_dropdown ? 'show-dropdown' : ''">
-        <!--<div class="dropdown-item" (click)="openUserModal()">
-          <i class="fa-solid fa-user"></i>
-          Perfil
-        </div>-->
-        <div class="dropdown-item" (click)="logout()">
-          <i class="fa-solid fa-right-from-bracket"></i>
-          Sair
+    <div class="item">
+      <div matRipple id="full-screen" (click)="toggleFullScreen()">
+        <div class="d-flex">
+          <i class="fa-solid fa-expand"></i>
         </div>
       </div>
     </div>
+
+    <div id="notificationsTrigger" class="item" [matMenuTriggerFor]="notificationsMenu">
+      <div matRipple id="notifications" [matRippleCentered]="true" [matRippleRadius]="20">
+        <i class="fa-regular fa-bell"></i>
+        <div id="count">{{ notifications.length < 99 ? notifications.length : "99" }}</div>
+      </div>
+    </div>
+
+    <div id="perfilTrigger" class="item" [matMenuTriggerFor]="perfilMenu" (menuClosed)="toggleDropdown()" (menuOpened)="toggleDropdown()">
+      <button mat-button>
+        <div id="perfil">
+          <i class="fa-solid fa-user"></i>
+          <span>Gabriel</span> <!-- {{user?.name}} -->
+            @if (this.isMenuOpened()) { <i class="fa-solid fa-angle-up toggle"></i> }
+            @else { <i class="fa-solid fa-chevron-down toggle"></i> }
+        </div>
+      </button>
+    </div>
   </div>
 </header>
+
+<!-- Menus -->
+
+<!-- PERFIL -->
+<mat-menu #perfilMenu="matMenu">
+  <div class="menu-content">
+    <div class="items">
+      <div matRipple class="menu-item" (click)="navigateToProfile()">
+        <i class="fa-solid fa-circle-user"></i> <span>Perfil</span>
+      </div>
+
+      <div matRipple class="menu-item" (click)="navigateTousers()">
+        <i class="fa-solid fa-users"></i> <span>Usuários</span>
+      </div>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <div matRipple class="menu-item exit" (click)="logout()">
+      <i class="fa-solid fa-power-off"></i> <span>Sair</span>
+    </div>
+  </div>
+</mat-menu>
+
+<!-- NOTIFICAÇÕES -->
+<mat-menu #notificationsMenu="matMenu">
+  <div class="menu-content notifications">
+    <div class="items">
+      <div class="d-flex px-2">
+        <span class="fw-bold">Notificações ({{notifications.length}})</span>
+      </div>
+      @for(notification of notifications; track notification) {
+        <div matRipple class="menu-item">
+          <i class="fa-solid fa-circle-exclamation"></i> <span>{{ notification.title }}</span>
+        </div>
+      }
+    </div>
+  </div>
+</mat-menu>

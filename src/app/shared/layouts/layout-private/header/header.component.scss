@@ -4,6 +4,9 @@ $header-height: 80px;
 $header-background: '';
 $header-button-box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .14), 0 7px 10px -5px rgba(244, 140, 54, 0.4);
 
+$header-text-color : $senary;
+$menu-text-color: $gray-900;
+$menu-icon-color: $sexdecenary;
 
 header {
   display: flex;
@@ -19,9 +22,10 @@ header {
     align-items: center;
     justify-content: flex-start;
     gap: 1rem;
+
     h3 {
       margin: 0;
-      color: $gray-600;
+      color: $header-text-color;
     }
 
     #toggleSidebar {
@@ -38,92 +42,123 @@ header {
     }
   }
 
-  .container-buttons {
+    #perfil {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      span {
+        color: $header-text-color;
+        font-size: 1rem;
+      }
+
+      .fa-user {
+        color: $header-text-color;
+        font-size: 1.2rem;
+      }
+
+      .toggle {
+        color: $header-text-color;
+        font-size: 0.8rem;
+        width: 1.2rem;
+      }
+    }
+
+  #items {
     display: flex;
     align-items: center;
     gap: 1rem;
-    z-index: 2;
 
-    .dropdown {
+    .item {
+      cursor: pointer;
+      i {
+        color: $header-text-color;
+        font-size: 1.3rem;
+      }
+    }
+
+    #full-screen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50px;
+    }
+
+    #notifications {
+      display: flex;
       position: relative;
-      display: inline-block;
+      border-radius: 50px;
+      padding: 0.5rem;
+      overflow: visible;
 
-      button {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 1rem;
-        border: none;
-        border-radius: 4px;
-        padding: 14px 20px;
-        outline: none;
-        cursor: pointer;
-        font-size: 16px;
-        background-color: $primary;
-        color: $black-600;
-        box-shadow: $header-button-box-shadow;
-
-        &:hover {
-          background-color: $primary;
-          color: $black-600;
-          opacity: .9;
-        }
-
-      }
-
-      @media only screen and (max-width: 800px) {
-        .dropdown-btn {
-          min-width: auto !important;
-
-          span {
-            display: none;
-          }
-        }
-
-        .dropdown-content{
-          min-width: auto !important;
-        }
-      }
-
-      .dropdown-btn {
-        min-width: 180px;
-      }
-
-      .dropdown-content {
-        min-width: 180px;
+      #count {
         position: absolute;
-        display: none;
-        background-color: $white-400;
-        z-index: 1;
-        margin-top: 20px;
-        border-radius: 4px;
-        padding: 0.5rem;
-        border-bottom: 2px solid $primary;
-        box-shadow: $header-button-box-shadow;
-
-        .dropdown-item {
-          cursor: pointer;
-          color: $black-300;
-          padding: 15px 16px;
-          text-decoration: none;
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-          border-radius: 8px;
-
-          &:hover {
-            background-color: $primary;
-            color: $black-600;
-            box-shadow: 0 0 10px 0 rgba(223, 198, 255, 0.37);
-          }
-
-        }
+        width: 1.3rem;
+        height: 1.3rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50px;
+        background-color: $red2;
+        color: $white;
+        top: -0.2rem;
+        left: 0.9rem;
+        font-size: 0.9rem;
       }
 
-      .show-dropdown {
-        display: block;
+      &:hover {
+        background-color: $white_opacity;
       }
     }
   }
 
+}
+
+// MENUS
+.menu-content {
+  width: 11rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.5rem 0rem;
+
+  &.notifications {
+    width: 15rem;
+  }
+
+  .items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .menu-item {
+    display: flex;
+    align-items: center;
+    color: $menu-text-color;
+    gap: 0.6rem;
+    padding: 0 1rem;
+    font-size: 0.9rem;
+    height: 2.5rem;
+
+    i {
+      font-size: 1rem;
+      color: $menu-icon-color;
+    }
+
+    &.exit {
+      color: $red1;
+
+      i {
+        color: $red1;
+      }
+    }
+
+    &:hover {
+      background-color: $grey4;
+      cursor: pointer;
+    }
+  }
 }

@@ -26,14 +26,6 @@ const routes: Routes = [
         }
       },
       {
-        path: 'orders',
-        loadChildren: () => import('./orders/orders.module').then(m => m.OrdersModule),
-        canActivate: [permissionGuard],
-        data: {
-          page: 'orders'
-        }
-      },
-      {
         path: 'schedule',
         loadChildren: () => import('./schedule/schedule.module').then(m => m.ScheduleModule),
         canActivate: [permissionGuard],
@@ -66,6 +58,25 @@ const routes: Routes = [
         }
       },
       {
+        path: 'profile',
+        loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule),
+        canActivate: [permissionGuard],
+        data: {
+          page: 'profile'
+        }
+      },
+      {
+        path: 'users',
+        loadChildren: () => import('./users/users.module').then(m => m.UsersModule),
+        canActivate: [permissionGuard],
+        data: {
+          page: 'users'
+        }
+      },
+
+
+      // Deletar depois v
+      {
         path: 'tasks',
         loadChildren: () => import('./tasks/tasks.module').then(m => m.TasksModule),
         canActivate: [permissionGuard],
@@ -81,6 +92,16 @@ const routes: Routes = [
           page: 'client'
         }
       },
+      {
+        path: 'orders',
+        loadChildren: () => import('./orders/orders.module').then(m => m.OrdersModule),
+        canActivate: [permissionGuard],
+        data: {
+          page: 'orders'
+        }
+      },
+      // Deletar depois ^
+
       {
         path: '**',
         redirectTo: 'home',

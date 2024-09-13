@@ -7,6 +7,8 @@ import { FooterComponent } from './layout-private/footer/footer.component';
 import {RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
 import {MatDivider} from "@angular/material/divider";
 import { MatRippleModule } from '@angular/material/core';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
 
 
 
@@ -22,6 +24,8 @@ import { MatRippleModule } from '@angular/material/core';
     RouterOutlet,
     RouterLink,
     MatDivider,
+    MatMenuModule,
+    MatButtonModule,
     MatRippleModule,
     RouterLinkActive
   ]
