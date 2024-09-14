@@ -1,8 +1,9 @@
-import { Segment } from "chart.js/dist/helpers/helpers.segment";
+import { Segment } from "./segment";
 import { User } from "./user";
 
 export interface Contact {
 	id: number;
+  name : string;
   enterprise : string;
   domain : string;
   segment : Segment;
@@ -36,4 +37,15 @@ export enum ContactStatus {
   NEGOTIATION = 'NEGOTIATION',
   VISIT_SCHEDULING = 'VISIT_SCHEDULING',
   REISIT_SCHEDULING = 'REVISIT_SCHEDULING',
+}
+
+export enum ContactOrigin {
+  INDICATION = 'INDICATION',
+  EMAIL_MARKETING = 'EMAIL_MARKETING',
+  CONSULTANT = 'CONSULTANT',
+  EXTERNAL_LINK = 'EXTERNAL_LINK',
+  RETURN = 'RETURN',
+  GOOGLE = 'GOOGLE',
+  CONTACT_FILTER = 'CONTACT_FILTER',
+  OTHER = 'OTHER',
 }

@@ -7,14 +7,16 @@ import { RequestService } from '@services/request.service';
 import { SessionQuery } from '@store/session.query';
 import { PhoneCall } from '@models/phone-call';
 import { TestService } from '@services/test.service';
-import { Contact } from '@models/contact';
+import { Segment } from '@models/segment';
+import { Log } from '@models/log';
 
 @Component({
-  selector: 'app-table-contacts',
-  templateUrl: './table-contacts.component.html',
-  styleUrl: './table-contacts.component.scss'
+  selector: 'app-table-logs',
+  templateUrl: './table-logs.component.html',
+  styleUrl: './table-logs.component.scss'
 })
-export class TableContactsComponent {
+export class TableLogsComponent {
+
   private subscription: Subscription;
 
   @Input()
@@ -27,81 +29,48 @@ export class TableContactsComponent {
   loading: boolean = false;
 
   @Output()
-  public onViewContact = new EventEmitter<Contact>();
+  public onEditSegment = new EventEmitter<Segment>();
 
   @Output()
-  public onEditContact = new EventEmitter<Contact>();
-
-  @Output()
-  public onDeleteContact = new EventEmitter<Contact>();
-
-  @Output()
-  public onNewOcurrencyContact = new EventEmitter<Contact>();
+  public onDeleteSegment = new EventEmitter<Segment>();
 
   public columns = [
     {
-      slug: "enterprise",
+      slug: "id",
       order: false,
-      title: "Empresa",
+      title: "ID",
       classes: "",
     },
     {
-      slug: "domain",
+      slug: "user",
       order: false,
-      title: "Domínio",
+      title: "Usuário",
       classes: "",
     },
     {
-      slug: "name",
+      slug: "action",
       order: false,
-      title: "Nome",
+      title: "Ação",
       classes: "",
     },
     {
-      slug: "segment",
+      slug: "created_at",
       order: false,
-      title: "Segmento",
+      title: "Criado em",
       classes: "",
-    },
-    {
-      slug: "responsible",
-      order: false,
-      title: "Responsável",
-      classes: "",
-    },
-    {
-      slug: "status",
-      order: false,
-      title: "Status",
-      classes: "",
-    },
-    {
-      slug: "actions",
-      order: false,
-      title: "Menu",
-      classes: "justify-content-end me-5 pe-4",
-    },
-  ];
-
-  public contacts : Contact[] = [
-    {
-      id: 0,
-      enterprise: '',
-      domain: '',
-      name: "test",
-      telephones: [],
-      emails: [],
-      segments: [],
-      responsible: '',
-      created_at: '',
-      return_date: '',
-      status: '',
-      origin: '',
-      cnpj: '',
-      consultant: undefined,
-      segment: undefined
     }
   ];
+
+  public logs : Log[] = [
+    {
+      id: 0,
+      user: 'teste',
+      message: 'teste',
+      created_at: 'teste'
+    }
+  ];
+
+  public _testData : any;
 
   public pageControl: PageControl = {
     take: 10,
@@ -179,7 +148,7 @@ export class TableContactsComponent {
         this._initOrStopLoading()
       }))
       .subscribe((res) => {
-        this.contacts = res.data;
+        this._testData = res.data;
 
         this.pageControl.page = res.current_page - 1;
         this.pageControl.itemCount = res.total;

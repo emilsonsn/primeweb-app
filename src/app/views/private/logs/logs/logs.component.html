@@ -1,14 +1,45 @@
-<div class="mt-5 d-flex justify-content-end">
-  <button matRipple class="button yellow" (click)="openDialogService()">
-    <i class="fa-solid fa-circle-plus"></i> Novo serviço
-  </button>
+<div>
+  <app-component-header>
+
+    <div id="filters">
+      <form [formGroup]="formFilters">
+        <div class="row">
+
+          <div class="col-md-4 mb-md-0 mb-2">
+            <span class="filterField mb-1">Usuário</span>
+            <mat-form-field>
+              <mat-select formControlName="user" placeholder="Usuário" >
+                @for (user of userSelection; track user) {
+                  <mat-option [value]="user">{{ user }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="col-md-4 mb-md-0 mb-2">
+            <span class="filterField mb-1">Data</span>
+            <mat-form-field class="example-full-width">
+              <input matInput [matDatepicker]="picker" placeholder="DD/MM/YYYY" formControlName="date" readonly />
+              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+        </div>
+      </form>
+
+      <button matRipple class="button primary mt-2" (click)="updateFilters()">
+        <i class="fa-solid fa-magnifying-glass"></i> Pesquisar
+      </button>
+    </div>
+
+  </app-component-header>
 </div>
 
-
 <div id="componentTable" class="col-12 mt-4">
-  <app-table-service
+  <app-table-logs
     [loading]="loading"
-    (onServiceClick)="openDialogService($event)"
-    (onDeleteServiceClick)="onDeleteService($event)">
-  </app-table-service>
+    [filters]="filters"
+  >
+  </app-table-logs>
 </div>

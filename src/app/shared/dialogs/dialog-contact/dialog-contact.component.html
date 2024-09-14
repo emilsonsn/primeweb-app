@@ -60,19 +60,14 @@
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
-
-
-
-
-
         </div>
 
         <div class="mb-3">
           <span class="fw-bolder">Origem *</span>
           <mat-form-field appearance="outline">
             <mat-select formControlName="origin" placeholder="Origem">
-              <mat-option *ngFor="let construction of constructions" [value]="construction.id">
-                {{ construction.name }}
+              <mat-option *ngFor="let origin of originSelect" [value]="origin">
+                {{ origin }}
               </mat-option>
             </mat-select>
           </mat-form-field>

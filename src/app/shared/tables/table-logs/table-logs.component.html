@@ -7,9 +7,6 @@
           (click)="onClickOrderBy(col.slug, col.order)">
           <div class="d-flex {{col.classes}}">
             {{ col.title }}
-            <i class="material-icons" *ngIf="pageControl.orderField === col.slug">
-              {{ pageControl.order === 'DESC' ? 'arrow_downward' : 'arrow_upward' }}
-            </i>
           </div>
         </th>
         }
@@ -25,7 +22,7 @@
           </tr>
         }
         @else {
-          @if(!segments?.length) {
+          @if(!logs?.length) {
           <tr>
             <td [attr.colspan]="columns.length + 1" class="text-center">
               <div>Nenhum resultado encontrado</div>
@@ -33,37 +30,26 @@
           </tr>
           }
           @else {
-            @for (segment of segments; track segment) {
+            @for (log of logs; track log) {
               <tr class="table-line-hover" style="outline: none;">
                 <td>
                   <div>
-                    {{ segment.name}}
-                  </div>
-                </td>
-                <td>
-                  <div [ngClass]="segment?.status?.toLowerCase()">
-                    {{ segment.status }}
+                    {{ log.id}}
                   </div>
                 </td>
                 <td>
                   <div>
-                    {{ segment.created_by}}
+                    {{ log.user }}
                   </div>
                 </td>
                 <td>
                   <div>
-                    {{ segment.created_at}}
+                    {{ log.message}}
                   </div>
                 </td>
                 <td>
-                  <div class="d-flex justify-content-end">
-                    <div matTooltip="Editar" matRipple class="buttonTemplate" (click)="onEditSegment.emit(segment)">
-                      <i class="fa-solid fa-pen-to-square"></i>
-                    </div>
-
-                    <div matTooltip="Deletar" matRipple class="buttonTemplate delete" (click)="onDeleteSegment.emit(segment)">
-                      <i class="fa-solid fa-trash"></i>
-                    </div>
+                  <div>
+                    {{ log.created_at}}
                   </div>
                 </td>
               </tr>

@@ -5,7 +5,12 @@ import { LogsRoutingModule } from './logs-routing.module';
 import { LogsComponent } from './logs/logs.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SharedModule } from '@shared/shared.module';
-import {MatRipple} from "@angular/material/core";
+import {MatOptionModule, MatRipple} from "@angular/material/core";
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 
 @NgModule({
@@ -18,6 +23,13 @@ import {MatRipple} from "@angular/material/core";
     SharedModule,
     MatDialogModule,
     MatRipple,
+    MatInputModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatOptionModule,
+    MatDatepickerModule
   ]
 })
 export class LogsModule { }

@@ -24,6 +24,7 @@ import { TablePhoneCallsComponent } from './table-phone-calls/table-phone-calls.
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TableSegmentsComponent } from './table-segments/table-segments.component';
 import { TableContactsComponent } from './table-contacts/table-contacts.component';
+import { TableLogsComponent } from './table-logs/table-logs.component';
 
 const tables = [
   TableOrdersComponent,
@@ -40,6 +41,7 @@ const tables = [
   TablePhoneCallsComponent,
   TableSegmentsComponent,
   TableContactsComponent,
+  TableLogsComponent,
 ]
 
 @NgModule({

@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { ContactOrigin } from '@models/contact';
 import { Service } from '@models/service';
 import { ServiceService } from '@services/service.service';
 import { DialogConfirmComponent } from '@shared/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogServiceComponent } from '@shared/dialogs/dialog-service/dialog-service.component';
+import dayjs from 'dayjs';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 
@@ -15,11 +18,24 @@ import { finalize } from 'rxjs';
 export class LogsComponent {
   public loading: boolean = false;
 
+  public formFilters: FormGroup;
+  public filters;
+
+  userSelection = Object.values(ContactOrigin);
+
   constructor(
     private readonly _dialog: MatDialog,
     private readonly _toastr: ToastrService,
-    private readonly _serviceService: ServiceService
+    private readonly _serviceService: ServiceService,
+    private readonly _fb: FormBuilder
   ) {}
+
+  ngOnInit() {
+    this.formFilters = this._fb.group({
+      user : [null],
+      date : [null]
+    })
+  }
 
   private _initOrStopLoading(): void {
     this.loading = !this.loading;
@@ -108,4 +124,14 @@ export class LogsComponent {
         },
       });
   }
+
+  // Utils
+  public updateFilters() {
+    console.log(this.formFilters.getRawValue())
+    this.filters = {
+      ...this.formFilters.getRawValue(),
+      date : dayjs(this.formFilters.get('date').value).format("YYYY-MM-DD")
+    };
+  }
+
 }

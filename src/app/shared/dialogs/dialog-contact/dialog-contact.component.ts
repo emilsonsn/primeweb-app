@@ -47,7 +47,7 @@ import { DialogOrderSolicitationComponent } from '../dialog-order-solicitation/d
 import { RequestService } from '@services/request.service';
 import { RequestStatus } from '@models/request';
 import { SessionQuery } from '@store/session.query';
-import { Contact } from '@models/contact';
+import { Contact, ContactOrigin } from '@models/contact';
 import { TestService } from '@services/test.service';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -73,6 +73,8 @@ export class DialogContactComponent {
   protected requestStatusSelection = Object.values(RequestOrderStatus);
   protected requestOrderPaymentSelection = Object.values(PaymentForm);
   protected requestResponsibleSelection = Object.values(OrderResponsible);
+
+  protected originSelect = Object.values(ContactOrigin);
 
   protected constructions: Construction[] = [];
   protected users: User[] = [];

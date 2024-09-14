@@ -12,6 +12,7 @@ import { DialogOcurrencyComponent } from '@shared/dialogs/dialog-ocurrency/dialo
 import { ContactStatus } from '@models/contact';
 import { DialogContactComponent } from '@shared/dialogs/dialog-contact/dialog-contact.component';
 import { DialogContactDetailsComponent } from '@shared/dialogs/dialog-contact-details/dialog-contact-details.component';
+import { DialogContactOcurrencyComponent } from '@shared/dialogs/dialog-contact-ocurrency/dialog-contact-ocurrency.component';
 
 @Component({
   selector: 'app-contacts',
@@ -47,8 +48,6 @@ export class ContactsComponent {
       status : [null],
       responsible : [null],
       origin : [null],
-
-
     })
   }
 
@@ -66,7 +65,7 @@ export class ContactsComponent {
       ...dialogConfig,
     });
   }
-  public openEditPhoneCallDialog(request) {
+  public openEditContactDialog(request) {
     this._orderService.getOrderById(request.order_id).subscribe((order) => {
       const dialogConfig: MatDialogConfig = {
         width: '80%',
@@ -82,7 +81,7 @@ export class ContactsComponent {
     });
   }
 
-  public openDetailsPhoneCallDialog(request?) {
+  public openDetailsContactDialog(request?) {
     this._orderService.getOrderById(request.order_id).subscribe((order) => {
       const dialogConfig: MatDialogConfig = {
         width: '80%',
@@ -99,7 +98,7 @@ export class ContactsComponent {
     });
   }
 
-  public openNewOcurrencyDialog(request) {
+  public openNewOcurrencyContactDialog(request) {
     const dialogConfig: MatDialogConfig = {
       width: '80%',
       maxWidth: '850px',
@@ -108,12 +107,12 @@ export class ContactsComponent {
       closeOnNavigation: true,
     };
 
-    this._dialog.open(DialogOcurrencyComponent, {
+    this._dialog.open(DialogContactOcurrencyComponent, {
       ...dialogConfig,
     });
   }
 
-  public openDeletePhoneCallDialog(request) {
+  public openDeleteContactDialog(request) {
     const dialogConfig: MatDialogConfig = {
       width: '80%',
       maxWidth: '550px',

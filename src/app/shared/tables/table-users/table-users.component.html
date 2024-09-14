@@ -115,6 +115,7 @@
     [pageSizeOptions]="[10, 25, 50, 100]"
     [hidePageSize]="false"
     [pageIndex]="pageControl.page - 1"
+    (page)="pageEvent($event)"
     aria-label="Select page"
   >
   </mat-paginator>

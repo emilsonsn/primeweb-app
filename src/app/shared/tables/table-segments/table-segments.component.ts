@@ -2,10 +2,8 @@ import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/
 import { Order, PageControl } from '@models/application';
 import { ToastrService } from 'ngx-toastr';
 import { finalize, Subscription } from 'rxjs';
-import { Request } from '@models/request';
 import { RequestService } from '@services/request.service';
 import { SessionQuery } from '@store/session.query';
-import { PhoneCall } from '@models/phone-call';
 import { TestService } from '@services/test.service';
 import { Segment } from '@models/segment';
 
