@@ -1,0 +1,72 @@
+<mat-dialog-content>
+  <div class="d-flex align-items-center justify-content-between">
+    <span class="fw-bold fs-5">{{ title }}</span>
+
+    <div class="d-flex align-items-center gap-2">
+      <div matRipple class="close" (click)="onCancel()">
+        <i class="fa-solid fa-close"></i>
+      </div>
+    </div>
+  </div>
+
+  <mat-divider class="my-3"></mat-divider>
+
+  <form [formGroup]="form" class="row">
+
+    <div class="col-md-6 mb-3">
+      <span class="fw-bolder">Data *</span>
+      <mat-form-field>
+        <input matInput formControlName="date" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" placeholder="Data e Hora" readonly>
+        <owl-date-time #dt1></owl-date-time>
+        <i matSuffix [owlDateTimeTrigger]="dt1" class="fa-solid fa-calendar me-3"></i>
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <span class="fw-bolder">Status *</span>
+      <mat-form-field>
+        <mat-select formControlName="status" placeholder="Status" >
+          @for (status of statusSelection; track status) {
+            <mat-option [value]="status">{{ status | status }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="col-12 mb-3">
+      <span class="fw-bolder">Observações</span>
+      <mat-form-field>
+        <textarea matInput
+          formControlName="description"
+          cdkTextareaAutosize
+          #autosize="cdkTextareaAutosize"
+          cdkAutosizeMinRows="1"
+          cdkAutosizeMaxRows="5"
+          [placeholder]="'Observações'">
+        </textarea>
+      </mat-form-field>
+    </div>
+
+  </form>
+
+</mat-dialog-content>
+<mat-dialog-actions>
+  <div class="w-100 me-2">
+    <div id="actionsDialog" class="flex-sm-row flex-column">
+      @if(loading) {
+        <div matRipple class="me-auto me-sm-0 mb-sm-0 mb-2 loading">
+          <mat-spinner></mat-spinner>
+        </div>
+      }
+
+      <div id="buttonsDialog" class="flex-sm-row flex-column">
+        <div class="col-auto">
+          <button matRipple id="cancel" class="button cancel" (click)="onCancel()">Cancelar</button>
+        </div>
+          <div class="col-auto">
+            <button matRipple id="submit" class="button primary" (click)="!loading ? onConfirm() : null">Criar</button>
+          </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-actions>

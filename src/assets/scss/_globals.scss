@@ -143,7 +143,7 @@ mat-form-field {
   border: none;
   color: $white-100;
 
-  &.yellow {
+  &.primary {
     background-color: $primary;
 
     &:hover {
@@ -167,52 +167,6 @@ mat-form-field {
   box-shadow: 0px 0px 10px $grey2;
 }
 
-#componentHeaderTemplate {
-
-  width: 100%;
-  overflow-x: auto;
-  min-height: 1.6rem;
-
-  #componentHeader {
-    display: flex;
-    justify-content: space-between;
-    min-width: fit-content;
-    gap: 1rem;
-    height: 3rem;
-
-    #options {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding-left: 0.5rem;
-
-      #filter {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border: 1.5px solid $grey1;
-        border-radius: 5px;
-        cursor: pointer;
-
-        i {
-          color: $grey1;
-          font-size: 1.3rem;
-          padding: 0.5rem;
-        }
-
-        &:hover {
-          i {
-            animation: pop 1.3s infinite;
-          }
-        }
-      }
-
-    }
-
-  }
-
-}
-
 #componentTable {
   background: #ffffff;
   border-radius: 0.8rem;
@@ -226,14 +180,14 @@ mat-form-field {
 
       th {
         height: 4rem;
-        background-color: $grey5;
+        background-color: $primary;
 
         div {
           display: flex;
           align-items: center;
           height: 100%;
-          color: $black2;
-          background-color: $grey5;
+          color: $white-100;
+          background-color: $primary;
         }
       }
 
@@ -306,17 +260,26 @@ mat-form-field {
   min-height: 2.3rem;
   justify-content: center;
   align-items: center;
-  background-image: linear-gradient(45deg, #e5df15 0%, #ff9700 51%, #bf9a2b 100%);
+  background-color: $septenary;
   border-radius: 5px;
-  background-color: $grey4;
   font-size: larger;
   cursor: pointer;
   margin-right: 0.5rem;
+
+  &.delete {
+    background-image: none;
+    background-color: $red;
+  }
 
   i {
     color: $white-100;
     font-size: 1rem;
   }
+}
+
+.filterField {
+  font-weight: 500;
+  color: $quindecenary;
 }
 
 .close {
@@ -369,6 +332,10 @@ mat-form-field {
   mat-spinner {
     height: 4.5rem!important;
   }
+}
+
+.mat-mdc-dialog-content {
+  max-height: 100%!important;
 }
 
 // Retirar após setar o tema do material

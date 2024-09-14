@@ -34,10 +34,18 @@ import {TablesModule} from '@shared/tables/tables.module';
 import {DialogTypeServiceComponent} from './dialog-type-service/dialog-type-service.component';
 import {DialogTypeUserSectorComponent} from './dialog-type-user-sector/dialog-type-user-sector.component';
 import {DialogTaskComponent} from './dialog-task/dialog-task.component';
-import {MatIcon} from "@angular/material/icon";
+import {MatIcon, MatIconModule} from "@angular/material/icon";
 import {NgxMatSelectSearchModule} from 'ngx-mat-select-search';
 import {DialogOrderSolicitationComponent} from './dialog-order-solicitation/dialog-order-solicitation.component';
-
+import { DialogPhoneCallComponent } from './dialog-phone-call/dialog-phone-call.component';
+import { DialogOcurrencyComponent } from './dialog-ocurrency/dialog-ocurrency.component';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
+import { PhoneCallDetailsComponent } from './phone-call-details/phone-call-details.component';
+import { DialogSegmentComponent } from './dialog-segment/dialog-segment.component';
+import { DialogContactComponent } from './dialog-contact/dialog-contact.component';
+import { DialogContactDetailsComponent } from './dialog-contact-details/dialog-contact-details.component';
+import {MatChipInputEvent, MatChipsModule} from '@angular/material/chips';
+import {MatAutocompleteModule, MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -53,7 +61,13 @@ import {DialogOrderSolicitationComponent} from './dialog-order-solicitation/dial
     DialogTypeServiceComponent,
     DialogTypeUserSectorComponent,
     DialogTaskComponent,
-    DialogOrderSolicitationComponent
+    DialogOrderSolicitationComponent,
+    DialogPhoneCallComponent,
+    DialogOcurrencyComponent,
+    PhoneCallDetailsComponent,
+    DialogSegmentComponent,
+    DialogContactComponent,
+    DialogContactDetailsComponent
   ],
   imports: [
     CommonModule,
@@ -77,9 +91,14 @@ import {DialogOrderSolicitationComponent} from './dialog-order-solicitation/dial
     MatTooltipModule,
     MatDividerModule,
     MatRippleModule,
+    MatAutocompleteModule,
+    MatIconModule,
+    MatChipsModule,
     TextFieldModule,
     CdkTextareaAutosize,
     CurrencyMaskModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
     NgxMaskDirective,
     NgxMaskPipe,
     NgxMatSelectSearchModule,

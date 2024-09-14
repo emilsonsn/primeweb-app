@@ -1,44 +1,52 @@
-<div class="row mt-4">
-  @for (item of itemsRequests(); track item) {
-    <div class="col-md-4 col-12">
-      <app-small-information-card [data]="item"></app-small-information-card>
-    </div>
-  }
-</div>
+<div>
+  <app-component-header>
 
-<div id="componentHeaderTemplate">
-  <div id="componentHeader">
-
-    <div>
-      <!-- <app-search-input
-        (onSearchInputChanged)="handleSearchTerm($event)">
-      </app-search-input> -->
+    <div id="buttons">
+      <button matRipple class="button primary" (click)="openNewPhoneCallDialog()">
+        <i class="fa-solid fa-plus"></i> Telefonema
+      </button>
     </div>
 
-    <div id="options">
-      @if(false) {
-        <div id="filter" matRipple (click)="openOrderFilterDialog()">
-          <i class="fa-solid fa-filter"></i>
+    <div id="filters">
+      <form [formGroup]="formFilters">
+        <div class="row">
+          <div class="col-md-4 mb-md-0 mb-2">
+            <span class="filterField mb-1">Empresa</span>
+            <mat-form-field>
+              <input matInput formControlName="enterprise">
+            </mat-form-field>
+          </div>
+          <div class="col-md-4 mb-md-0 mb-2">
+            <span class="filterField mb-1">Domínio</span>
+            <mat-form-field>
+              <input matInput formControlName="domain">
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <span class="filterField mb-1">Telefone</span>
+            <mat-form-field>
+              <input matInput formControlName="telephone">
+            </mat-form-field>
+          </div>
         </div>
-      }
-      <div id="buttons">
-        <button matRipple class="button yellow" (click)="openRequestDialog()">
-          <i class="fa-solid fa-plus"></i> Nova Solicitação
-        </button>
-      </div>
+      </form>
 
+      <button matRipple class="button primary mt-2" (click)="updateFilters()">
+        <i class="fa-solid fa-magnifying-glass"></i> Pesquisar
+      </button>
     </div>
-  </div>
+
+  </app-component-header>
 </div>
 
 <div id="componentTable" class="col-12 mt-4">
-  <app-table-request
-    (onViewOrder)="openRequestDialog($event)"
-    (onOpenOrder)="openRequestDialog($event)"
-    (onDeleteOrder)="deleteDialog($event)"
-    (onOrderModal)="onOrderModal($event)"
+  <app-table-phone-calls
+    (onViewPhoneCall)="testPhoneCallDialog()"
+    (onEditPhoneCall)="openEditPhoneCallDialog($event)"
+    (onNewOcurrency)="openNewOcurrencyDialog($event)"
+    (onDeletePhoneCall)="openDeletePhoneCallDialog($event)"
     [loading]="loading"
     [filters]="filters"
-    >
-  </app-table-request>
+  >
+  </app-table-phone-calls>
 </div>

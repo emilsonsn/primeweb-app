@@ -20,6 +20,10 @@ import { TableTypeUserSectorComponent } from './table-type-user-sector/table-typ
 import { TableUserComponent } from './table-users/table-users.component';
 import {SharedModule} from "@shared/shared.module";
 import {AvatarModule} from "@shared/components/avatar/avatar.module";
+import { TablePhoneCallsComponent } from './table-phone-calls/table-phone-calls.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { TableSegmentsComponent } from './table-segments/table-segments.component';
+import { TableContactsComponent } from './table-contacts/table-contacts.component';
 
 const tables = [
   TableOrdersComponent,
@@ -33,6 +37,9 @@ const tables = [
   TableTypeServiceComponent,
   TableUserComponent,
   TableTypeUserSectorComponent,
+  TablePhoneCallsComponent,
+  TableSegmentsComponent,
+  TableContactsComponent,
 ]
 
 @NgModule({
@@ -44,6 +51,7 @@ const tables = [
     MatTableModule,
     MatPaginatorModule,
     MatIconButton,
+    MatTooltipModule,
     MatMenuModule,
     MatButtonModule,
     MatProgressSpinnerModule,

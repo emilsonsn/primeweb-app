@@ -1,0 +1,110 @@
+<div class="table-container">
+  <div class="overflow-auto">
+    <table class="table table-responsive">
+      <thead>
+        @for(col of columns; track col) {
+        <th [class.hasorder]="col.order" [class.active-order]="pageControl.orderField === col.slug"
+          (click)="onClickOrderBy(col.slug, col.order)">
+          <div class="d-flex {{col.classes}}">
+            {{ col.title }}
+            <i class="material-icons" *ngIf="pageControl.orderField === col.slug">
+              {{ pageControl.order === 'DESC' ? 'arrow_downward' : 'arrow_upward' }}
+            </i>
+          </div>
+        </th>
+        }
+      </thead>
+      <tbody>
+        @if(loading) {
+          <tr>
+            <td [attr.colspan]="columns.length + 1">
+              <div id="mat-loading">
+                <mat-spinner></mat-spinner>
+              </div>
+            </td>
+          </tr>
+        }
+        @else {
+          @if(!phoneCalls?.length) {
+          <tr>
+            <td [attr.colspan]="columns.length + 1" class="text-center">
+              <div>Nenhum resultado encontrado</div>
+            </td>
+          </tr>
+          }
+          @else {
+            @for (phone of phoneCalls; track phone) {
+              <tr class="table-line-hover" style="outline: none;">
+                <td>
+                  <div>
+                    {{ phone.enterprise}}
+                  </div>
+                </td>
+                <td>
+                  <div>
+                    {{ phone.domain}}
+                  </div>
+                </td>
+                <td>
+                  <div>
+                    {{ phone.telephone}}
+                  </div>
+                </td>
+                <td>
+                  <div>
+                    {{ phone.responsible}}
+                  </div>
+                </td>
+                <td>
+                  <div>
+                    {{ phone.created_at}}
+                  </div>
+                </td>
+                <td>
+                  <div>
+                    {{ phone.return_date }}
+                  </div>
+                </td>
+                <td>
+                  <div [ngClass]="phone?.status?.toLowerCase()">
+                    {{ phone.status }}
+                  </div>
+                </td>
+                <td>
+                  <div class="d-flex justify-content-end">
+                    <div matTooltip="Ocorrência" matRipple class="buttonTemplate" (click)="onNewOcurrency.emit(phone)">
+                      <i class="fa-solid fa-bullhorn"></i>
+                    </div>
+
+                    <div matTooltip="Detalhes" matRipple class="buttonTemplate" (click)="onViewPhoneCall.emit(phone)">
+                      <i class="fa-solid fa-eye"></i>
+                    </div>
+
+                    <div matTooltip="Editar" matRipple class="buttonTemplate" (click)="onEditPhoneCall.emit(phone)">
+                      <i class="fa-solid fa-pen-to-square"></i>
+                    </div>
+
+                    <div matTooltip="Deletar" matRipple class="buttonTemplate delete" (click)="onDeletePhoneCall.emit(phone)">
+                      <i class="fa-solid fa-trash"></i>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            }
+          }
+        }
+
+      </tbody>
+    </table>
+  </div>
+
+  <mat-paginator
+    [length]="pageControl.itemCount"
+    [pageSize]="pageControl.take"
+    [showFirstLastButtons]="true"
+    [pageSizeOptions]="[10, 25, 50, 100]"
+    [hidePageSize]="false"
+    [pageIndex]="pageControl.page"
+    aria-label="Select page">
+  </mat-paginator>
+</div>

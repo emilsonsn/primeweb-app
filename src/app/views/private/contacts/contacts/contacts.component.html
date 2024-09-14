@@ -1,14 +1,102 @@
-<div class="mt-5 d-flex justify-content-end">
-  <button matRipple class="button yellow" (click)="openDialogProvider()">
-    <i class="fa-solid fa-circle-plus"></i> Novo fornecedor
-  </button>
+<div>
+  <app-component-header>
+
+    <div id="buttons">
+      <button matRipple class="button primary" (click)="testPhoneCallDialog()">
+        <i class="fa-solid fa-plus"></i> Contato
+      </button>
+    </div>
+
+    <div id="filters">
+      <form [formGroup]="formFilters">
+        <div class="row">
+          <div class="col-md-4 mb-md-0 mb-2">
+            <span class="filterField mb-1">Empresa</span>
+            <mat-form-field>
+              <input matInput formControlName="enterprise">
+            </mat-form-field>
+          </div>
+
+          <div class="col-md-4 mb-md-0 mb-2">
+            <span class="filterField mb-1">E-mail</span>
+            <mat-form-field>
+              <input matInput formControlName="email">
+            </mat-form-field>
+          </div>
+
+          <div class="col-md-4 mb-md-0 mb-2">
+            <span class="filterField mb-1">Status</span>
+            <mat-form-field>
+              <mat-select formControlName="status" placeholder="Status" >
+                @for (status of statusSelection; track status) {
+                  <mat-option [value]="status">{{ status | status }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="col-md-4 mb-md-0 mb-2">
+            <span class="filterField mb-1">Nome</span>
+            <mat-form-field>
+              <input matInput formControlName="name">
+            </mat-form-field>
+          </div>
+
+          <div class="col-md-4 mb-md-0 mb-2">
+            <span class="filterField mb-1">Telefone</span>
+            <mat-form-field>
+              <input matInput formControlName="telephone">
+            </mat-form-field>
+          </div>
+
+          <div class="col-md-4 mb-md-0 mb-2">
+            <span class="filterField mb-1">Responsável</span>
+            <mat-form-field>
+              <mat-select formControlName="responsible" placeholder="Responsável" >
+                @for (status of statusSelection; track status) {
+                  <mat-option [value]="status">{{ status | status }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="col-md-4 mb-md-0 mb-2">
+            <span class="filterField mb-1">Domínio</span>
+            <mat-form-field>
+              <input matInput formControlName="domain">
+            </mat-form-field>
+          </div>
+
+          <div class="col-md-4 mb-md-0 mb-2">
+            <span class="filterField mb-1">Origem</span>
+            <mat-form-field>
+              <mat-select formControlName="origin" placeholder="Origem" >
+                @for (status of statusSelection; track status) {
+                  <mat-option [value]="status">{{ status | status }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+        </div>
+      </form>
+
+      <button matRipple class="button primary mt-2" (click)="updateFilters()">
+        <i class="fa-solid fa-magnifying-glass"></i> Pesquisar
+      </button>
+    </div>
+
+  </app-component-header>
 </div>
 
-
 <div id="componentTable" class="col-12 mt-4">
-  <app-table-provider
+  <app-table-phone-calls
+    (onViewPhoneCall)="testDetailsContactDialog($event)"
+    (onEditPhoneCall)="openEditPhoneCallDialog($event)"
+    (onNewOcurrency)="openNewOcurrencyDialog($event)"
+    (onDeletePhoneCall)="openDeletePhoneCallDialog($event)"
     [loading]="loading"
-    (onProviderClick)="openDialogProvider($event)"
-    (onDeleteProviderClick)="onDeleteProvider($event)">
-  </app-table-provider>
+    [filters]="filters"
+  >
+  </app-table-phone-calls>
 </div>

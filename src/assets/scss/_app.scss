@@ -1,6 +1,7 @@
 @import 'ngx-toastr/toastr';
 @import "variables";
 @import "globals";
+@import "@danielmoncada/angular-datetime-picker/assets/style/picker.min.css";
 
 img {
   -webkit-user-drag: none; /* Para navegadores baseados em WebKit (Chrome, Safari) */

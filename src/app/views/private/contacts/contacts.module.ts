@@ -6,7 +6,11 @@ import { ContactsComponent } from './contacts/contacts.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SharedModule } from '@shared/shared.module';
-import {MatRipple} from "@angular/material/core";
+import {MatOptionModule, MatRipple} from "@angular/material/core";
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 
 
 @NgModule({
@@ -19,7 +23,13 @@ import {MatRipple} from "@angular/material/core";
     SharedModule,
     MatDialogModule,
     MatButtonModule,
-    MatRipple
+    MatRipple,
+    MatInputModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatOptionModule
   ]
 })
 export class ContactsModule { }

@@ -6,5 +6,8 @@ export enum Status {
   Finished = 'Finished',
   Rejected = 'Rejected',
   Payment = 'Payment',
-  Reimbursement = 'Reimbursement'
+  Reimbursement = 'Reimbursement',
+  LEAD = 'LEAD',
+  CONVERTEDTOCONTACT = 'CONVERTEDTOCONTACT',
+  LOST = 'LOST'
 }

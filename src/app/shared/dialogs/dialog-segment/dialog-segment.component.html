@@ -1,0 +1,61 @@
+<mat-dialog-content>
+  <div class="d-flex align-items-center justify-content-between">
+    <span class="fw-bold fs-5">{{ title }}</span>
+
+    <div class="d-flex align-items-center gap-2">
+      <div matRipple class="close" (click)="onCancel()">
+        <i class="fa-solid fa-close"></i>
+      </div>
+    </div>
+  </div>
+
+  <mat-divider class="my-3"></mat-divider>
+
+  <form [formGroup]="form" class="row">
+
+    <div class="col-md-6 mb-3">
+      <span class="fw-bolder">Nome *</span>
+      <mat-form-field appearance="outline">
+        <input type="text" formControlName="name" matInput placeholder="Nome" />
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <span class="fw-bolder">Status *</span>
+      <mat-form-field>
+        <mat-select formControlName="status" placeholder="Selecione o status" >
+          @for (status of statusSelection; track status) {
+            <mat-option [value]="status">{{ status | status }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+
+  </form>
+
+</mat-dialog-content>
+<mat-dialog-actions>
+  <div class="w-100 me-2">
+    <div id="actionsDialog" class="flex-sm-row flex-column">
+      @if(loading) {
+        <div matRipple class="me-auto me-sm-0 mb-sm-0 mb-2 loading">
+          <mat-spinner></mat-spinner>
+        </div>
+      }
+
+      <div id="buttonsDialog" class="flex-sm-row flex-column">
+        <div class="col-auto">
+          <button matRipple id="cancel" class="button cancel" (click)="onCancel()">Cancelar</button>
+        </div>
+        @if(_data?.edit || isNewSegment) {
+          <div class="col-auto">
+            <button matRipple id="submit" class="button primary" (click)="!loading ? onConfirm() : null">{{
+              isNewSegment ? 'Criar' : 'Salvar'
+            }}</button>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</mat-dialog-actions>

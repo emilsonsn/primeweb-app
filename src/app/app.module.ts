@@ -19,6 +19,7 @@ import { AuthInterceptorService } from '@services/auth-interceptor.service';
 import { BrowserstateInterceptor } from './interceptors/browserstate.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -38,6 +39,8 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   ],
   imports: [
     BrowserModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     MatMomentDateModule,

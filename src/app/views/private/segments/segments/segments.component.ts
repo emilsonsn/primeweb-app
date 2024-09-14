@@ -1,11 +1,15 @@
 import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { Construction } from '@models/construction';
-import { ConstructionService } from '@services/construction.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { HeaderService } from '@services/header.service';
+import { RequestService } from '@services/request.service';
 import { DialogConfirmComponent } from '@shared/dialogs/dialog-confirm/dialog-confirm.component';
-import { DialogConstructionComponent } from '@shared/dialogs/dialog-construction/dialog-construction.component';
 import { ToastrService } from 'ngx-toastr';
-import { finalize } from 'rxjs';
+import { OrderService } from '@services/order.service';
+import { DialogOcurrencyComponent } from '@shared/dialogs/dialog-ocurrency/dialog-ocurrency.component';
+import { SegmentStatus } from '@models/segment';
+import { DialogSegmentComponent } from '@shared/dialogs/dialog-segment/dialog-segment.component';
 
 @Component({
   selector: 'app-segments',
@@ -13,102 +17,111 @@ import { finalize } from 'rxjs';
   styleUrl: './segments.component.scss'
 })
 export class SegmentsComponent {
+  public formFilters: FormGroup;
+  public filters;
+
   public loading: boolean = false;
 
+  protected statusSelection = Object.values(SegmentStatus);
+
   constructor(
+    private readonly _headerService: HeaderService,
+    private readonly _router: Router,
     private readonly _dialog: MatDialog,
-    private readonly _toastr: ToastrService,
-    private readonly _constructionService: ConstructionService,
+    private readonly _fb: FormBuilder,
+    private readonly _requestService: RequestService,
+    private readonly _orderService: OrderService,
+    private readonly _toastrService: ToastrService
   ) {}
 
-  openDialogConstruction(construction?: Construction) {
-    this._dialog
-      .open(DialogConstructionComponent, {
-        data: { construction },
+  ngOnInit() {
+    this.formFilters = this._fb.group({
+      name : [null],
+      status : [null]
+    })
+  }
+
+  // Modais
+  public openNewPhoneCallDialog() {
+    const dialogConfig: MatDialogConfig = {
+      width: '80%',
+      maxWidth: '850px',
+      maxHeight: '90%',
+      hasBackdrop: true,
+      closeOnNavigation: true,
+    };
+
+    this._dialog.open(DialogSegmentComponent, {
+      ...dialogConfig,
+    });
+  }
+  public openEditSegmentDialog(request) {
+    this._orderService.getOrderById(request.order_id).subscribe((order) => {
+      const dialogConfig: MatDialogConfig = {
         width: '80%',
         maxWidth: '850px',
         maxHeight: '90%',
+        hasBackdrop: true,
+        closeOnNavigation: true,
+      };
+
+      this._dialog.open(DialogSegmentComponent, {
+        data: { order: order, edit: true },
+        ...dialogConfig,
+      });
+    });
+  }
+
+  public openDeleteSegmentDialog(request) {
+    const dialogConfig: MatDialogConfig = {
+      width: '80%',
+      maxWidth: '550px',
+      maxHeight: '90%',
+      hasBackdrop: true,
+      closeOnNavigation: true,
+    };
+
+    this._dialog
+      .open(DialogConfirmComponent, {
+        data: { text: `Tem certeza? Essa ação não pode ser revertida!` },
+        ...dialogConfig,
       })
       .afterClosed()
-      .subscribe((res) => {
-        if (res) {
-          if (res.id) {
-            this._patchConstruction(res);
-            return;
-          }
-
-          this._postConstruction(res);
-        }
-      });
-  }
-
-  _patchConstruction(construction: Construction) {
-    this._initOrStopLoading();
-
-    this._constructionService
-      .patchConstruction(construction.id, construction)
-      .pipe(finalize(() => this._initOrStopLoading()))
       .subscribe({
         next: (res) => {
-          if (res.status) {
-            this._toastr.success(res.message);
+          if (res) {
+            this._requestService.deleteRequest(request.id).subscribe({
+              next: (resData) => {
+                this.loading = true;
+                this._toastrService.success(resData.message);
+                setTimeout(() => {
+                  this.loading = false;
+                }, 200);
+              },
+            });
           }
         },
-        error: (err) => {
-          this._toastr.error(err.error.error);
-        },
       });
   }
 
-  _postConstruction(construction: Construction) {
-    this._initOrStopLoading();
+  public testSegmentDialog() {
+    const dialogConfig: MatDialogConfig = {
+      width: '80%',
+      maxWidth: '850px',
+      maxHeight: '90%',
+      hasBackdrop: true,
+      closeOnNavigation: true,
+    };
 
-    this._constructionService
-      .postConstruction(construction)
-      .pipe(finalize(() => this._initOrStopLoading()))
-      .subscribe({
-        next: (res) => {
-          if (res.status) {
-            this._toastr.success(res.message);
-          }
-        },
-        error: (err) => {
-          this._toastr.error(err.error.error);
-        },
-      });
-  }
-
-  onDeleteConstruction(id: number) {
-    const text = 'Tem certeza? Essa ação não pode ser revertida!';
-    this._dialog
-      .open(DialogConfirmComponent, { data: { text } })
-      .afterClosed()
-      .subscribe((res: boolean) => {
-        if (res) {
-          this._deleteConstruction(id);
-        }
-      });
-  }
-
-  _deleteConstruction(id: number) {
-    this._initOrStopLoading();
-    this._constructionService
-      .deleteConstruction(id)
-      .pipe(finalize(() => this._initOrStopLoading()))
-      .subscribe({
-        next: (res) => {
-          this._toastr.success(res.message);
-        },
-        error: (err) => {
-          this._toastr.error(err.error.error);
-        },
-      });
+    this._dialog.open(DialogSegmentComponent, {
+      ...dialogConfig,
+    });
   }
 
   // Utils
-
-  private _initOrStopLoading(): void {
-    this.loading = !this.loading;
+  public updateFilters() {
+    console.log(this.formFilters.getRawValue())
+    this.filters = this.formFilters.getRawValue();
   }
 }
 

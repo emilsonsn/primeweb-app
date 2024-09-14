@@ -1,12 +1,17 @@
 import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { ISmallInformationCard } from '@models/cardInformation';
-import { Supplier } from '@models/supplier';
-import { SupplierService } from '@services/supplier.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { HeaderService } from '@services/header.service';
+import { RequestService } from '@services/request.service';
 import { DialogConfirmComponent } from '@shared/dialogs/dialog-confirm/dialog-confirm.component';
-import { DialogProviderComponent } from '@shared/dialogs/dialog-provider/dialog-provider.component';
 import { ToastrService } from 'ngx-toastr';
-import { finalize } from 'rxjs';
+import { OrderService } from '@services/order.service';
+import { DialogPhoneCallComponent } from '@shared/dialogs/dialog-phone-call/dialog-phone-call.component';
+import { DialogOcurrencyComponent } from '@shared/dialogs/dialog-ocurrency/dialog-ocurrency.component';
+import { ContactStatus } from '@models/contact';
+import { DialogContactComponent } from '@shared/dialogs/dialog-contact/dialog-contact.component';
+import { DialogContactDetailsComponent } from '@shared/dialogs/dialog-contact-details/dialog-contact-details.component';
 
 @Component({
   selector: 'app-contacts',
@@ -15,100 +20,161 @@ import { finalize } from 'rxjs';
 })
 export class ContactsComponent {
 
+  public formFilters: FormGroup;
+  public filters;
+
   public loading: boolean = false;
 
+  protected statusSelection = Object.values(ContactStatus);
+
   constructor(
+    private readonly _headerService: HeaderService,
+    private readonly _router: Router,
     private readonly _dialog: MatDialog,
-    private readonly _toastr: ToastrService,
-    private readonly _providerService: SupplierService
+    private readonly _fb: FormBuilder,
+    private readonly _requestService: RequestService,
+    private readonly _orderService: OrderService,
+    private readonly _toastrService: ToastrService
   ) {}
 
-  private _initOrStopLoading(): void {
-    this.loading = !this.loading;
+  ngOnInit() {
+    this.formFilters = this._fb.group({
+      enterprise : [null],
+      email : [null],
+      domain : [null],
+      telephone : [null],
+      name : [null],
+      status : [null],
+      responsible : [null],
+      origin : [null],
+
+
+    })
   }
 
-  openDialogProvider(provider?: Supplier) {
-    this._dialog
-      .open(DialogProviderComponent, {
-        data: { provider },
+  // Modais
+  public openNewPhoneCallDialog() {
+    const dialogConfig: MatDialogConfig = {
+      width: '80%',
+      maxWidth: '850px',
+      maxHeight: '90%',
+      hasBackdrop: true,
+      closeOnNavigation: true,
+    };
+
+    this._dialog.open(DialogContactComponent, {
+      ...dialogConfig,
+    });
+  }
+  public openEditPhoneCallDialog(request) {
+    this._orderService.getOrderById(request.order_id).subscribe((order) => {
+      const dialogConfig: MatDialogConfig = {
+        width: '80%',
+        maxHeight: '90%',
+        hasBackdrop: true,
+        closeOnNavigation: true,
+      };
+
+      this._dialog.open(DialogContactComponent, {
+        data: { order: order, edit: true },
+        ...dialogConfig,
+      });
+    });
+  }
+
+  public openDetailsPhoneCallDialog(request?) {
+    this._orderService.getOrderById(request.order_id).subscribe((order) => {
+      const dialogConfig: MatDialogConfig = {
         width: '80%',
         maxWidth: '850px',
         maxHeight: '90%',
+        hasBackdrop: true,
+        closeOnNavigation: true,
+      };
+
+      this._dialog.open(DialogContactComponent, {
+        data: { order: order, edit: false },
+        ...dialogConfig,
+      });
+    });
+  }
+
+  public openNewOcurrencyDialog(request) {
+    const dialogConfig: MatDialogConfig = {
+      width: '80%',
+      maxWidth: '850px',
+      maxHeight: '90%',
+      hasBackdrop: true,
+      closeOnNavigation: true,
+    };
+
+    this._dialog.open(DialogOcurrencyComponent, {
+      ...dialogConfig,
+    });
+  }
+
+  public openDeletePhoneCallDialog(request) {
+    const dialogConfig: MatDialogConfig = {
+      width: '80%',
+      maxWidth: '550px',
+      maxHeight: '90%',
+      hasBackdrop: true,
+      closeOnNavigation: true,
+    };
+
+    this._dialog
+      .open(DialogConfirmComponent, {
+        data: { text: `Tem certeza? Essa ação não pode ser revertida!` },
+        ...dialogConfig,
       })
       .afterClosed()
-      .subscribe((res) => {
-        if (res) {
-          if (res.id) {
-            this._patchProvider(res);
-            return;
-          }
-
-          this._postProvider(res);
-        }
-      });
-  }
-
-  _patchProvider(provider: Supplier) {
-    this._initOrStopLoading();
-
-    this._providerService
-      .patchSupplier(provider.id, provider)
-      .pipe(finalize(() => this._initOrStopLoading()))
       .subscribe({
         next: (res) => {
-          if (res.status) {
-            this._toastr.success(res.message);
+          if (res) {
+            this._requestService.deleteRequest(request.id).subscribe({
+              next: (resData) => {
+                this.loading = true;
+                this._toastrService.success(resData.message);
+                setTimeout(() => {
+                  this.loading = false;
+                }, 200);
+              },
+            });
           }
         },
-        error: (err) => {
-          this._toastr.error(err.error.error);
-        },
       });
   }
 
-  _postProvider(provider: Supplier) {
-    this._initOrStopLoading();
+  public testPhoneCallDialog() {
+    const dialogConfig: MatDialogConfig = {
+      width: '80%',
+      height: '90%',
+      hasBackdrop: true,
+      closeOnNavigation: true,
+    };
 
-    this._providerService
-      .postSupplier(provider)
-      .pipe(finalize(() => this._initOrStopLoading()))
-      .subscribe({
-        next: (res) => {
-          if (res.status) {
-            this._toastr.success(res.message);
-          }
-        },
-        error: (err) => {
-          this._toastr.error(err.error.error);
-        },
-      });
+    this._dialog.open(DialogContactComponent, {
+      ...dialogConfig,
+    });
   }
 
-  onDeleteProvider(id: number) {
-    const text = 'Tem certeza? Essa ação não pode ser revertida!';
-    this._dialog
-      .open(DialogConfirmComponent, { data: { text } })
-      .afterClosed()
-      .subscribe((res: boolean) => {
-        if (res) {
-          this._deleteProvider(id);
-        }
-      });
+  public testDetailsContactDialog(contact?) {
+    const dialogConfig: MatDialogConfig = {
+      width: '80%',
+      height: '90%',
+      hasBackdrop: true,
+      closeOnNavigation: true,
+    };
+
+    this._dialog.open(DialogContactDetailsComponent, {
+      ...dialogConfig,
+    });
   }
 
-  _deleteProvider(id: number) {
-    this._initOrStopLoading();
-    this._providerService
-      .deleteSupplier(id)
-      .pipe(finalize(() => this._initOrStopLoading()))
-      .subscribe({
-        next: (res) => {
-          this._toastr.success(res.message);
-        },
-        error: (err) => {
-          this._toastr.error(err.error.error);
-        },
-      });
+  // Utils
+  public updateFilters() {
+    console.log(this.formFilters.getRawValue())
+    this.filters = this.formFilters.getRawValue();
   }
 }
 
