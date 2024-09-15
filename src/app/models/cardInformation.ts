@@ -3,7 +3,8 @@ export interface ISmallInformationCard {
   icon_description?: string;
   title: number | string;
   category: string;
-  description: string;
+  value?: number;
+  description?: string;
   color?: string;
   background?: string;
 }

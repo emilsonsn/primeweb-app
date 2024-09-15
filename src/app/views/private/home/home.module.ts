@@ -9,6 +9,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {SharedModule} from "@shared/shared.module";
 import {MatDivider} from "@angular/material/divider";
+import { MatButtonModule } from '@angular/material/button';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 
 @NgModule({
@@ -25,6 +27,8 @@ import {MatDivider} from "@angular/material/divider";
     MatInputModule,
     SharedModule,
     MatDivider,
+    MatButtonModule,
+    MatButtonToggleModule
   ]
 })
 export class HomeModule {

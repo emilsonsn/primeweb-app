@@ -1,0 +1,57 @@
+@import "variables";
+
+.radio-inputs {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  border-radius: 0.5rem;
+  background-color: #EEE;
+  box-sizing: border-box;
+  box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.06);
+  padding: 0.25rem;
+  width: fit-content;
+  font-size: 0.8rem;
+  gap: 1rem;
+
+  .radio {
+    text-align: center;
+
+    input {
+      display: none;
+
+      &:checked + .name {
+        background-color: $septenary;
+        color: $white-100;
+        font-weight: 600;
+        padding-right: 0.5rem;
+        padding-left: 0.5rem;
+      }
+    }
+
+    .name {
+      display: flex;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0.5rem;
+      border: none;
+      padding: .5rem 0;
+      color: rgba(51, 65, 85, 1);
+      transition: all .15s ease-in-out;
+      gap: 0.4rem;
+
+      .value {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 50px;
+        color: $white-100;
+        background-color: $septendecenary;
+      }
+    }
+
+  }
+
+}

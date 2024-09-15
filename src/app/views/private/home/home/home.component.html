@@ -1,35 +1,99 @@
 <div class="row mt-4">
   @for (item of itemsShopping(); track item) {
-    <div class="col-lg-3 col-md-6">
+    <div class="col-xl-3 col-md-6 mb-xl-0 mb-2">
       <app-small-information-card [data]="item"></app-small-information-card>
     </div>
   }
 </div>
 
-<mat-divider class="mb-4"></mat-divider>
+<mat-divider class="my-3"></mat-divider>
 
-<div class="row">
-  <div class="col-lg-6 col-md-12 mb-4">
-    <div class="card w-100 p-3" style="height: 400px">
-      <app-table-orders
-        [home]="true"
-        [filters]="filters">
-      </app-table-orders>
+<div class="d-flex align-items-center gap-2 mb-2">
+  <button mat-button color="primary" style="background-color: #38a4f8; color: #FFF" (click)="togglePhoneTable()">Telefonemas</button>
+  <button mat-button color="primary" style="background-color: #38a4f8; color: #FFF" (click)="toggleContactTable()">Contatos</button>
+</div>
+
+<div class="row" [@phoneExpand]="showPhoneTable() ? 'expanded' : 'collapsed'" [@showPhones]="showPhoneTable() ? 'expanded' : 'collapsed'">
+
+  <div class="my-2">
+    <div class="radio-inputs">
+      <label class="radio">
+        <input type="radio" name="phoneCalls" checked="">
+        <span class="name">Telefonemas do dia
+          <div class="value">
+            50
+          </div>
+        </span>
+      </label>
+      <label class="radio">
+        <input type="radio" name="phoneCalls">
+        <span class="name">Telefonemas atrasados (7 dias)
+          <div class="value">
+            50
+          </div>
+        </span>
+      </label>
+
+      <label class="radio">
+        <input type="radio" name="phoneCalls">
+        <span class="name">Próximos telefonemas (7 dias)
+          <div class="value">
+            50
+          </div>
+        </span>
+      </label>
     </div>
   </div>
-  <div class="col-lg-6 col-md-12 mb-4">
-    <div class="card w-100 h-100 p-3" style="height: 400px!important">
-      <canvas id="barChart"></canvas>
+
+  <div class="mb-4">
+    <div class="card w-100 p-3" style="max-height: 400px">
+      <app-table-phone-calls class="h-100"
+        [filters]="filtersToPhoneCall">
+      </app-table-phone-calls>
     </div>
   </div>
 </div>
 
-<mat-divider class="mb-4"></mat-divider>
+<mat-divider class="my-3"></mat-divider>
 
-<div class="row mt-4">
-  @for (item of itemsRequests(); track item) {
-    <div class="col-lg-3 col-md-6">
-      <app-small-information-card [data]="item"></app-small-information-card>
+<div class="row" [@contactExpand]="showContactTable() ? 'expanded' : 'collapsed'" [@showContacts]="showContactTable() ? 'expanded' : 'collapsed'">
+
+  <div class="my-2">
+    <div class="radio-inputs">
+      <label class="radio">
+        <input type="radio" name="contacts" checked="">
+        <span class="name">Contatos do dia
+          <div class="value">
+            50
+          </div>
+        </span>
+      </label>
+      <label class="radio">
+        <input type="radio" name="contacts">
+        <span class="name">Contatos atrasados (7 dias)
+          <div class="value">
+            50
+          </div>
+        </span>
+      </label>
+
+      <label class="radio">
+        <input type="radio" name="contacts">
+        <span class="name">Próximos contatos (7 dias)
+          <div class="value">
+            50
+          </div>
+        </span>
+      </label>
     </div>
-  }
+  </div>
+
+  <div class="mb-4">
+    <div class="card w-100 p-3" style="max-height: 400px">
+      <app-table-contacts class="h-100"
+        [filters]="filtersToContact">
+      </app-table-contacts>
+    </div>
+  </div>
 </div>
+
