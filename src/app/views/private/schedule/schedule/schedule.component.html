@@ -53,7 +53,7 @@
 
     <!-- Personalizar a forma de exibição do evento no calendário -->
     <ng-template #eventContent let-arg>
-      <div class="eventTemplate" (click)="handlePropriedadeTest(arg.event.extendedProps.propriedadeTest)" [ngClass]="arg.event.extendedProps.type.toLowerCase()">
+      <div class="eventTemplate" (click)="handlePropriedadeTest(arg.event)" [ngClass]="arg.event.extendedProps.type.toLowerCase()">
         <b>{{arg.timeText}}</b>
         <i>{{arg.event.title}}</i>
       </div>

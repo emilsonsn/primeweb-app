@@ -47,6 +47,7 @@ import { DialogContactDetailsComponent } from './dialog-contact-details/dialog-c
 import {MatChipInputEvent, MatChipsModule} from '@angular/material/chips';
 import {MatAutocompleteModule, MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import { DialogContactOcurrencyComponent } from './dialog-contact-ocurrency/dialog-contact-ocurrency.component';
+import { DialogCalendarComponent } from './dialog-calendar/dialog-calendar.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import { DialogContactOcurrencyComponent } from './dialog-contact-ocurrency/dial
     DialogSegmentComponent,
     DialogContactComponent,
     DialogContactDetailsComponent,
-    DialogContactOcurrencyComponent
+    DialogContactOcurrencyComponent,
+    DialogCalendarComponent
   ],
   imports: [
     CommonModule,

@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {MatDialog} from '@angular/material/dialog';
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {Router} from '@angular/router';
 import {DialogUserComponent} from '@shared/dialogs/dialog-user/dialog-user.component';
 import {DialogConfirmComponent} from '@shared/dialogs/dialog-confirm/dialog-confirm.component';
@@ -19,6 +19,7 @@ import { FullCalendarComponent } from '@fullcalendar/angular';
 import dayjs from 'dayjs';
 
 import ptBrLocale from '@fullcalendar/core/locales/pt-br';
+import { DialogCalendarComponent } from '@shared/dialogs/dialog-calendar/dialog-calendar.component';
 
 @Component({
   selector: 'app-schedule',
@@ -145,7 +146,6 @@ export class ScheduleComponent {
   protected calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, interactionPlugin],
     initialView: 'dayGridMonth',
-    dateClick: (arg) => this.handleDateClick(arg),
     weekends: true,
     locale: ptBrLocale,
     headerToolbar: {
@@ -197,11 +197,22 @@ export class ScheduleComponent {
   );
 
   handlePropriedadeTest(arg) {
-    alert('Nome: ' + arg);
+    const dialogConfig: MatDialogConfig = {
+      width: '80%',
+      maxWidth: '850px',
+      maxHeight: '90%',
+      hasBackdrop: true,
+      closeOnNavigation: true,
+    };
+
+    this._dialog.open(DialogCalendarComponent, {
+      data : arg,
+      ...dialogConfig,
+    });
   }
 
   handleDateClick(arg) {
-    alert('date click! ' + arg.dateStr)
+    // alert('date click! ' + arg.dateStr)
   }
 
   protected infoApiCalendar() {

@@ -151,6 +151,14 @@ mat-form-field {
     }
   }
 
+  &.secondary {
+    background-color: $septenary;
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+
   &.cancel {
     color: $grey1;
     // border: 1px solid;
