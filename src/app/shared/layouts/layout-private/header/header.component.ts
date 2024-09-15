@@ -6,6 +6,7 @@ import {User} from "@models/user";
 import {AuthService} from "@services/auth.service";
 import { SessionService } from '@store/session.service';
 import { SessionQuery } from '@store/session.query';
+import { HeaderService } from '@services/header.service';
 
 @Component({
   selector: 'app-header',
@@ -39,23 +40,18 @@ export class HeaderComponent implements OnInit {
     private readonly _sidebarService: SidebarService,
     private readonly _authService: AuthService,
     private readonly _sessionService : SessionService,
-    private readonly _sessionQuery : SessionQuery
+    private readonly _sessionQuery : SessionQuery,
+    private readonly _headerService: HeaderService
   ) { }
 
   ngOnInit() {
-    this.updateActiveLabel();
-    this.router.events.subscribe(() => {
-      this.updateActiveLabel();
-    });
-
     this._sessionService.getUserFromBack().subscribe();
+
+    this._headerService.getTitle().subscribe(title => {
+      this.activeLabel = title;
+    });
   }
 
-  private updateActiveLabel() {
-    const currentUrl = this.router.url;
-    const activeItem = this.menuItem.find(item => item.route === currentUrl);
-    this.activeLabel = activeItem ? activeItem.label : '';
-  }
   public logout() {
     this._authService.logout();
   }

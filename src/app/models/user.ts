@@ -5,8 +5,7 @@ export interface User {
   phone : string;
   cpf : string;
   cpf_cnpj: string;
-  birth_date: Date;
-  company_position_id: string;
+  birth_date: Date | string;
   sector_id: string;
   whatsapp: number;
   status : UserStatus;
@@ -46,5 +45,8 @@ export enum Positions { //Gerente/Gestor/Adm/Tiago
   Admin = 'Admin',
   Financial = 'Financial',
   Supplies = 'Supplies',
-  Requester = 'Requester'
+  Requester = 'Requester',
+
+  SUPERVIRSOR = 'SUPERVISOR',
+  SELLER = 'SELLER'
 }

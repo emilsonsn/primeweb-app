@@ -1,1 +1,56 @@
-<p>users works!</p>
+<div>
+  <app-component-header>
+
+    <div id="buttons">
+      <button matRipple class="button primary" (click)="testUserDialog()">
+        <i class="fa-solid fa-plus"></i> Usuário
+      </button>
+    </div>
+
+    <div id="filters">
+      <form [formGroup]="formFilters">
+        <div class="row">
+          <div class="col-md-4 mb-md-0 mb-2">
+            <span class="filterField mb-1">Nome</span>
+            <mat-form-field>
+              <input matInput formControlName="name" placeholder="Nome">
+            </mat-form-field>
+          </div>
+
+          <div class="col-md-4 mb-md-0 mb-2">
+            <span class="filterField mb-1">E-mail</span>
+            <mat-form-field>
+              <input matInput formControlName="email" placeholder="E-mail">
+            </mat-form-field>
+          </div>
+
+          <div class="col-md-4 mb-md-0 mb-2">
+            <span class="filterField mb-1">Status</span>
+            <mat-form-field>
+              <mat-select formControlName="status" placeholder="Status" >
+                @for (status of statusSelection; track status) {
+                  <mat-option [value]="status">{{ status | status }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </form>
+
+      <button matRipple class="button primary mt-2" (click)="updateFilters()">
+        <i class="fa-solid fa-magnifying-glass"></i> Pesquisar
+      </button>
+    </div>
+
+  </app-component-header>
+</div>
+
+<div id="componentTable" class="col-12 mt-4">
+  <app-table-users
+    (onEditUser)="openDialogUser($event)"
+    (onDeleteUser)="onDeleteUser($event)"
+    [loading]="loading"
+    [filters]="filters"
+  >
+  </app-table-users>
+</div>

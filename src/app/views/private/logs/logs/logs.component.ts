@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ContactOrigin } from '@models/contact';
 import { Service } from '@models/service';
+import { HeaderService } from '@services/header.service';
 import { ServiceService } from '@services/service.service';
 import { DialogConfirmComponent } from '@shared/dialogs/dialog-confirm/dialog-confirm.component';
 import { DialogServiceComponent } from '@shared/dialogs/dialog-service/dialog-service.component';
@@ -27,8 +28,12 @@ export class LogsComponent {
     private readonly _dialog: MatDialog,
     private readonly _toastr: ToastrService,
     private readonly _serviceService: ServiceService,
-    private readonly _fb: FormBuilder
-  ) {}
+    private readonly _fb: FormBuilder,
+    private readonly _headerService: HeaderService
+  ) {
+    this._headerService.setTitle('Logs');
+    this._headerService.setUpperTitle('Logs - Primeweb')
+  }
 
   ngOnInit() {
     this.formFilters = this._fb.group({

@@ -38,4 +38,8 @@ export class HeaderService {
     this._search.next('');
   }
 
+  public setUpperTitle(title: string): void {
+    document.title = title;
+  }
+
 }

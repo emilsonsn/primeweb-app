@@ -32,7 +32,10 @@ export class SegmentsComponent {
     private readonly _requestService: RequestService,
     private readonly _orderService: OrderService,
     private readonly _toastrService: ToastrService
-  ) {}
+  ) {
+    this._headerService.setTitle('Segmentos');
+    this._headerService.setUpperTitle('Segmentos - Primeweb')
+  }
 
   ngOnInit() {
     this.formFilters = this._fb.group({
@@ -124,6 +127,3 @@ export class SegmentsComponent {
     this.filters = this.formFilters.getRawValue();
   }
 }
-
-
-

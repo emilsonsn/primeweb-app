@@ -7,6 +7,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { SharedModule } from '@shared/shared.module';
 import {MatRipple} from "@angular/material/core";
 import {MatDivider} from "@angular/material/divider";
+import { MatSelectModule } from '@angular/material/select';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { FullCalendarComponent, FullCalendarModule } from '@fullcalendar/angular';
 
 
 @NgModule({
@@ -20,7 +24,12 @@ import {MatDivider} from "@angular/material/divider";
     MatDialogModule,
     MatButtonModule,
     MatRipple,
-    MatDivider
+    MatDivider,
+    MatSelectModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    FullCalendarModule
   ]
 })
 export class ScheduleModule { }

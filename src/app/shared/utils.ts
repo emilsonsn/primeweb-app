@@ -19,7 +19,7 @@ export class Utils {
         })
       }
 	static isMobile() {
-		return window && window.matchMedia('(max-width: 1199px)').matches;
+		return window && window.matchMedia('(max-width: 1000px)').matches;
 	}
 
 	static mountPageControl(pageControl: PageControl): string {

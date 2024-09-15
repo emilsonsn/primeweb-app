@@ -29,7 +29,10 @@ export class PhoneCallsComponent {
     private readonly _requestService: RequestService,
     private readonly _orderService: OrderService,
     private readonly _toastrService: ToastrService
-  ) {}
+  ) {
+    this._headerService.setTitle('Telefonemas');
+    this._headerService.setUpperTitle('Telefonemas - Primeweb')
+  }
 
   ngOnInit() {
     this.formFilters = this._fb.group({

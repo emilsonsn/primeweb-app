@@ -1,1 +1,54 @@
-<p>profile works!</p>
+<div class="px-md-5 px-sm-3 px-1">
+  <div id="componentTable" class="col-12 mt-4 p-md-4 p-3">
+    <div class="d-flex flex-column">
+      <h5 class="perfil mb-2">Perfil de {{ user.name }}</h5>
+
+      <span class="property my-2">E-mail : {{ user.email }}</span>
+      <span class="property my-2">Cargo : Supervisor de Vendas</span>
+
+      <form [formGroup]="form" class="my-3">
+        <div class="d-flex align-items-center mb-3">
+          <span class="title">Nome: </span>
+          <mat-form-field>
+            <input matInput formControlName="name" placeholder="Nome" />
+          </mat-form-field>
+        </div>
+
+        <div class="d-flex align-items-center mb-3">
+          <span class="title">Telefone: </span>
+          <mat-form-field>
+            <input matInput formControlName="telephone" placeholder="Telefone" />
+          </mat-form-field>
+        </div>
+
+        <div class="px-md-5 mx-md-5 px-sm-3 mx-sm-3 px-0 mx-0">
+          <div class="px-md-5 mx-md-5 px-sm-3 mx-sm-3 px-0 mx-0 ">
+            <div class="d-flex align-items-center mb-3">
+              <span class="title">Senha: </span>
+              <mat-form-field>
+                <input matInput formControlName="password" placeholder="Senha" type="password" />
+              </mat-form-field>
+            </div>
+
+            <div class="d-flex align-items-center mb-3">
+              <span class="title">Confirmar senha: </span>
+              <mat-form-field>
+                <input matInput [(ngModel)]="confirm_password" [ngModelOptions]="{standalone : true}" placeholder="Confirmar senha" type="password" />
+              </mat-form-field>
+            </div>
+
+            <div class="d-flex align-items-center mb-3">
+              <button matRipple id="submit" class="button primary" (click)="onSubmit()">Salvar</button>
+            </div>
+
+          </div>
+        </div>
+      </form>
+
+      <span class="property my-2">Criado em: {{ user.createdAt | date: "dd/MM/YYYY HH:mm:ss" }}</span>
+      <span class="property my-2">Ultima alteração: {{ user.updatedAt | date: "dd/MM/YYYY HH:mm:ss"  }}</span>
+
+    </div>
+  </div>
+
+</div>

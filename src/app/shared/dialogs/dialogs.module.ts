@@ -19,7 +19,7 @@ import {PipesModule} from '@shared/pipes/pipes.module';
 import {DialogConfirmComponent} from './dialog-confirm/dialog-confirm.component';
 import {FiltersModule} from './filters/filters.module';
 import {DialogOrderComponent} from './dialog-order/dialog-order.component';
-import {DialogCollaboratorComponent} from './dialog-collaborator/dialog-collaborator.component';
+import {DialogUserComponent} from './dialog-user/dialog-user.component';
 import {CdkTextareaAutosize, TextFieldModule} from '@angular/cdk/text-field';
 import {MatRippleModule} from '@angular/material/core';
 import {DialogProviderComponent} from './dialog-provider/dialog-provider.component';
@@ -52,7 +52,7 @@ import { DialogContactOcurrencyComponent } from './dialog-contact-ocurrency/dial
   declarations: [
     DialogConfirmComponent,
     DialogOrderComponent,
-    DialogCollaboratorComponent,
+    DialogUserComponent,
     DialogProviderComponent,
     DialogServiceComponent,
     DialogConstructionComponent,

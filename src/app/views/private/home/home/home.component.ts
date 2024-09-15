@@ -5,6 +5,7 @@ import {DashboardService} from "@services/dashboard.service";
 import {ApiResponse} from "@models/application";
 import {OrderData} from "@models/dashboard";
 import {formatCurrency} from "@angular/common";
+import { HeaderService } from '@services/header.service';
 
 @Component({
   selector: 'app-home',
@@ -26,7 +27,13 @@ export class HomeComponent {
     }
   );
 
-  constructor(private readonly _dashboardService: DashboardService) {
+  constructor (
+    private readonly _dashboardService: DashboardService,
+    private readonly _headerService: HeaderService
+  ) {
+    this._headerService.setTitle('Home');
+    this._headerService.setUpperTitle('Home - Primeweb');
+
     _dashboardService.getDashboardCards().subscribe((c: ApiResponse<OrderData>) => {
       this.dashboardCards.set(c.data);
     });

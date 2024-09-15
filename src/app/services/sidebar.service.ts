@@ -52,7 +52,7 @@ export class SidebarService {
 
   // Utils
   public updateIsMobile = () => {
-    this.isMobile.set(window.matchMedia('(max-width: 1199px)').matches);
+    this.isMobile.set(window.matchMedia('(max-width: 1000px)').matches);
   }
 
 }

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { Order, PageControl } from '@models/application';
-import { User } from '@models/user';
+import { User, UserStatus } from '@models/user';
 import { UserService } from '@services/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
@@ -21,14 +21,32 @@ export class TableUserComponent {
   filters: any;
 
   @Output()
-  onUserClick: EventEmitter<User> = new EventEmitter<User>();
+  onUserEdit: EventEmitter<User> = new EventEmitter<User>();
 
   @Output()
-  onDeleteUserClick: EventEmitter<number> = new EventEmitter<number>();
+  onDeleteUser: EventEmitter<number> = new EventEmitter<number>();
 
-  public users: User[] = [];
+  public users: User[] = [{
+    name: 'teste',
+    email: 'teste',
+    phone: 'teste',
+    cpf: 'teste',
+    cpf_cnpj: 'teste',
+    birth_date: 'teste',
+    sector_id: 'teste',
+    whatsapp: 0,
+    status: UserStatus.ATIVO,
+    createdAt: '',
+    updatedAt: ''
+  }];
 
   public columns = [
+    {
+      slug: "id",
+      order: true,
+      title: "ID",
+      align: "start",
+    },
     {
       slug: "name",
       order: true,
@@ -36,39 +54,21 @@ export class TableUserComponent {
       align: "start",
     },
     {
-      slug: "cpf_cnpj",
+      slug: "email",
       order: true,
-      title: "CPF/CNPJ",
+      title: "E-mail",
       align: "justify-content-center",
     },
     {
-      slug: "birth_date",
+      slug: "status",
       order: true,
-      title: "Data de nascimento",
+      title: "Status",
       align: "justify-content-center",
     },
     {
       slug: "position",
       order: true,
       title: "Cargo",
-      align: "justify-content-center",
-    },
-    {
-      slug: "sector",
-      order: true,
-      title: "Setor",
-      align: "justify-content-center",
-    },
-    {
-      slug: "cellphone",
-      order: true,
-      title: "Whatsapp",
-      align: "justify-content-center",
-    },
-    {
-      slug: "email",
-      order: true,
-      title: "E-mail",
       align: "justify-content-center",
     },
     {

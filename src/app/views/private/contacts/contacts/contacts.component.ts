@@ -36,7 +36,10 @@ export class ContactsComponent {
     private readonly _requestService: RequestService,
     private readonly _orderService: OrderService,
     private readonly _toastrService: ToastrService
-  ) {}
+  ) {
+    this._headerService.setTitle('Contatos');
+    this._headerService.setUpperTitle('Contatos - Primeweb');
+  }
 
   ngOnInit() {
     this.formFilters = this._fb.group({

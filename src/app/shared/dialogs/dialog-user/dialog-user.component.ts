@@ -8,14 +8,14 @@ import dayjs from 'dayjs';
 import {Utils} from '@shared/utils';
 
 @Component({
-  selector: 'app-dialog-collaborator',
-  templateUrl: './dialog-collaborator.component.html',
-  styleUrl: './dialog-collaborator.component.scss'
+  selector: 'app-dialog-user',
+  templateUrl: './dialog-user.component.html',
+  styleUrl: './dialog-user.component.scss'
 })
-export class DialogCollaboratorComponent {
+export class DialogUserComponent {
 
   public isNewCollaborator: boolean = true;
-  public title: string = 'Novo colaborador';
+  public title: string = 'Novo Usuário';
   public form: FormGroup;
   public loading: boolean = false;
   public profileImageFile: File | null = null;
@@ -24,12 +24,14 @@ export class DialogCollaboratorComponent {
   public userPositionEnum;
   public userSectorsEnum;
 
+  protected confirm_password : string;
+
   public utils = Utils;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
     private readonly _data: { user: User },
-    private readonly _dialogRef: MatDialogRef<DialogCollaboratorComponent>,
+    private readonly _dialogRef: MatDialogRef<DialogUserComponent>,
     private readonly _fb: FormBuilder,
     private readonly _dialog: MatDialog,
     private readonly _userService: UserService
@@ -41,13 +43,10 @@ export class DialogCollaboratorComponent {
     this.form = this._fb.group({
       id: [null],
       name: [null, [Validators.required]],
-      cpf_cnpj: [null, [Validators.required]],
-      birth_date: [null, [Validators.required]],
       company_position_id: [null, [Validators.required]],
-      sector_id: [null, [Validators.required]],
       phone: [null, [Validators.required]],
-      whatsapp: [null, [Validators.required]],
       email: [null, [Validators.required]],
+      password : [null, Validators.required]
     })
 
     if (this._data?.user) {

@@ -1,13 +1,24 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {Router} from '@angular/router';
-import {DialogCollaboratorComponent} from '@shared/dialogs/dialog-collaborator/dialog-collaborator.component';
+import {DialogUserComponent} from '@shared/dialogs/dialog-user/dialog-user.component';
 import {DialogConfirmComponent} from '@shared/dialogs/dialog-confirm/dialog-confirm.component';
 import {ToastrService} from 'ngx-toastr';
 import {finalize} from 'rxjs';
 import {ISmallInformationCard} from '@models/cardInformation';
-import {User} from '@models/user';
+import {User, UserStatus} from '@models/user';
 import {UserService} from '@services/user.service';
+import { HeaderService } from '@services/header.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
+
+// Calendar
+import { CalendarOptions, EventInput } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import { FullCalendarComponent } from '@fullcalendar/angular';
+import dayjs from 'dayjs';
+
+import ptBrLocale from '@fullcalendar/core/locales/pt-br';
 
 @Component({
   selector: 'app-schedule',
@@ -16,51 +27,37 @@ import {UserService} from '@services/user.service';
 })
 export class ScheduleComponent {
   public loading: boolean = false;
+  protected formFilters: FormGroup;
+  protected filters;
 
-  protected itemsRequests: ISmallInformationCard[] = [
-    {
-      icon: 'fa-solid fa-circle-check',
-      background: '#4CA750',
-      title: '0',
-      category: 'Colaboradores',
-      description: 'Colaboradores ativos',
-    },
-    {
-      icon: 'fa-solid fa-ban',
-      background: '#dc3545',
-      title: '0',
-      category: 'Colaboradores',
-      description: 'Colaboradores bloqueados',
-    },
-    {
-      icon: 'fa-solid fa-users',
-      // background: '#dc3545',
-      title: '0',
-      category: 'Colaboradores',
-      description: 'Colaboradores totais',
-    },
-  ]
+  statusSelection = Object.values(UserStatus);
 
   constructor(
     private readonly _dialog: MatDialog,
     private readonly _toastr: ToastrService,
     private readonly _router: Router,
-    private readonly _userService: UserService
+    private readonly _userService: UserService,
+    private readonly _headerService: HeaderService,
+    private readonly _fb: FormBuilder
   ) {
+    this._headerService.setTitle('Agenda');
+    this._headerService.setUpperTitle('Agenda - Primeweb');
+
+    window.addEventListener('resize', () => {
+      this.calendarComponent.getApi().updateSize();
+    });
   }
 
   ngOnInit(): void {
-    this._getCards();
+    this.formFilters = this._fb.group({
+      responsible: [null],
+    });
   }
 
-  private _initOrStopLoading(): void {
-    this.loading = !this.loading;
-  }
-
-  openDialogCollaborator(user?: User) {
+  openDialogCollaborator(user?) {
     this._dialog
-      .open(DialogCollaboratorComponent, {
-        data: {user},
+      .open(DialogUserComponent, {
+        data: { user },
         width: '80%',
         maxWidth: '850px',
         maxHeight: '90%',
@@ -76,44 +73,6 @@ export class ScheduleComponent {
 
           this._postCollaborator(res);
         }
-      });
-  }
-
-  _getCards() {
-    this._initOrStopLoading();
-
-    this._userService
-      .getCards()
-      .pipe(finalize(() => this._initOrStopLoading()))
-      .subscribe({
-        next: (res) => {
-          this.itemsRequests = [
-            {
-              icon: 'fa-solid fa-circle-check',
-              background: '#4CA750',
-              title: `${res.data.active}`,
-              category: 'Colaboradores',
-              description: 'Colaboradores ativos',
-            },
-            {
-              icon: 'fa-solid fa-ban',
-              background: '#dc3545',
-              title: `${res.data.inactive}`,
-              category: 'Colaboradores',
-              description: 'Colaboradores bloqueados',
-            },
-            {
-              icon: 'fa-solid fa-users',
-              // background: '#dc3545',
-              title: `${res.data.total}`,
-              category: 'Colaboradores',
-              description: 'Colaboradores totais',
-            },
-          ]
-        },
-        error: (err) => {
-          this._toastr.error(err.error.error);
-        },
       });
   }
 
@@ -153,10 +112,10 @@ export class ScheduleComponent {
       });
   }
 
-  onDeleteCollaborator(id: number) {
+  onDeleteCollaborator(id) {
     const text = 'Tem certeza? Essa ação não pode ser revertida!';
     this._dialog
-      .open(DialogConfirmComponent, {data: {text}})
+      .open(DialogConfirmComponent, { data: { text } })
       .afterClosed()
       .subscribe((res: boolean) => {
         if (res) {
@@ -178,5 +137,84 @@ export class ScheduleComponent {
           this._toastr.error(err.error.error);
         },
       });
+  }
+
+  // Calendário
+  @ViewChild('calendar') calendarComponent: FullCalendarComponent;
+
+  protected calendarOptions: CalendarOptions = {
+    plugins: [dayGridPlugin, interactionPlugin],
+    initialView: 'dayGridMonth',
+    dateClick: (arg) => this.handleDateClick(arg),
+    weekends: true,
+    locale: ptBrLocale,
+    headerToolbar: {
+      left: 'title',
+      center: 'dayGridDay,dayGridWeek,dayGridMonth',
+      right: 'today prev,next',
+    },
+    // Propriedades para arrastar o evento
+    // editable: true,
+    // droppable: true
+  };
+
+  // eventsPromise: Promise<EventInput[]> = new Promise<EventInput[]>((resolve, reject) => {
+  //   this._userService
+  //    .getAllUsers()
+  //    .subscribe((res) => {
+  //       const events: EventInput[] = res.data.map((user: User) => {
+  //         return {
+  //           id: user.id,
+  //           title: user.name,
+  //           start: new Date(user.birth_date),
+  //           allDay: true,
+  //         };
+  //       });
+  //       resolve(events);
+  //     });
+  // });;
+
+  protected eventsPromise: Promise<EventInput[]> = new Promise<EventInput[]>(
+    (resolve, reject) => {
+      const events: EventInput[] = [
+        {
+          id: 'teste',
+          title: 'teste',
+          start: new Date(),
+          propriedadeTest : 'gabriel',
+          type: 'closed'
+        },
+        {
+          id: 'teste2',
+          title: 'teste2',
+          start: dayjs().add(5, 'day').toDate(),
+          propriedadeTest : 'gabriel',
+          type: 'lost'
+        },
+      ];
+      resolve(events);
+    }
+  );
+
+  handlePropriedadeTest(arg) {
+    alert('Nome: ' + arg);
+  }
+
+  handleDateClick(arg) {
+    alert('date click! ' + arg.dateStr)
+  }
+
+  protected infoApiCalendar() {
+    let calendarApi = this.calendarComponent.getApi();
+    // calendarApi.;
+  }
+
+  // Utils
+  public updateFilters() {
+    this.filters = this.formFilters.getRawValue();
+  }
+
+  private _initOrStopLoading(): void {
+    this.loading = !this.loading;
   }
 }
