@@ -2,7 +2,7 @@ import {Component, Inject} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
 import {UserService} from '@services/user.service';
-import {User} from '@models/user';
+import {User, UserRoles} from '@models/user';
 import dayjs from 'dayjs';
 import {Utils} from '@shared/utils';
 
@@ -13,7 +13,7 @@ import {Utils} from '@shared/utils';
 })
 export class DialogUserComponent {
 
-  public isNewCollaborator: boolean = true;
+  public isNewUser: boolean = true;
   public title: string = 'Novo Usuário';
   public form: FormGroup;
   public loading: boolean = false;
@@ -26,6 +26,8 @@ export class DialogUserComponent {
   protected confirm_password : string;
 
   public utils = Utils;
+
+  protected userRolesEnum = Object.values(UserRoles);
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -42,20 +44,17 @@ export class DialogUserComponent {
     this.form = this._fb.group({
       id: [null],
       name: [null, [Validators.required]],
-      company_position_id: [null, [Validators.required]],
       phone: [null, [Validators.required]],
       email: [null, [Validators.required]],
-      password : [null, Validators.required]
+      role: [null, [Validators.required]],
+      is_active : [true]
     })
 
     if (this._data?.user) {
-      this.isNewCollaborator = false;
-      this.title = 'Editar colaborador';
+      this.isNewUser = false;
+      this.title = 'Editar Usuário';
       this._fillForm(this._data.user);
     }
-
-    this.updateSectorsUser();
-    this.getPositionsUser();
   }
 
   onFileSelected(event: Event): void {
@@ -123,48 +122,13 @@ export class DialogUserComponent {
       const formData = new FormData();
       formData.append('id', form.get('id')?.value);
       formData.append('name', form.get('name')?.value);
-      formData.append('cpf_cnpj', form.get('cpf_cnpj')?.value);
-      formData.append('birth_date', dayjs(form.get('birth_date')?.value).format('YYYY-MM-DD'));
-      formData.append('company_position_id', form.get('company_position_id')?.value);
-      formData.append('sector_id', form.get('sector_id')?.value);
       formData.append('phone', form.get('phone')?.value);
-      formData.append('whatsapp', form.get('whatsapp')?.value);
       formData.append('email', form.get('email')?.value);
-
-      formData.append('photo', this.profileImageFile);
+      formData.append('is_active', form.get('is_active')?.value ? "1" : "0");
 
       this._dialogRef.close(formData)
     }
   }
 
   // Utils
-  public getPositionsUser() {
-    this._userService.getPositionsUser()
-      .subscribe(res => {
-        this.userPositionEnum = res.data;
-      })
-  }
-
-  public updateSectorsUser() {
-    this._userService.getSectorsUser()
-      .subscribe(res => {
-        this.userSectorsEnum = res.data;
-      })
-  }
-
-  validateCellphoneNumber(control: any) {
-    const phoneNumber = control.value;
-    if (phoneNumber && phoneNumber.replace(/\D/g, '').length !== 11) {
-      return false;
-    }
-    return true;
-  }
-
-  validatePhoneNumber(control: any) {
-    const phoneNumber = control.value;
-    if (phoneNumber && phoneNumber.replace(/\D/g, '').length !== 10) {
-      return false;
-    }
-    return true;
-  }
 }

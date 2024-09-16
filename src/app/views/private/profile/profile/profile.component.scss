@@ -1,6 +1,7 @@
 @import "variables";
 
 .perfil {
+  display: flex;
   color: $quindecenary;
   font-weight: 500;
 }
@@ -13,4 +14,8 @@
   width: 10rem;
   font-weight: 600;
   color: $quindecenary;
+}
+
+mat-spinner {
+  height: 2.5rem!important;
 }

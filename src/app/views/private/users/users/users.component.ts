@@ -12,6 +12,7 @@ import { DialogSegmentComponent } from '@shared/dialogs/dialog-segment/dialog-se
 import { UserService } from '@services/user.service';
 import { finalize } from 'rxjs';
 import { DialogUserComponent } from '@shared/dialogs/dialog-user/dialog-user.component';
+import { User } from '@models/user';
 
 @Component({
   selector: 'app-users',
@@ -62,20 +63,20 @@ export class UsersComponent {
         if (res) {
           const id = +res.get('id');
           if (id) {
-            this._patchCollaborator(res);
+            this._patchUser(res);
             return;
           }
 
-          this._postCollaborator(res);
+          this._postUser(res);
         }
       });
   }
 
-  _patchCollaborator(collaborator: FormData) {
+  _patchUser(user: FormData) {
     this._initOrStopLoading();
-    const id = +collaborator.get('id');
+    const id = +user.get('id');
     this._userService
-      .patchUser(id, collaborator)
+      .patchUser(id, user)
       .pipe(finalize(() => this._initOrStopLoading()))
       .subscribe({
         next: (res) => {
@@ -89,11 +90,11 @@ export class UsersComponent {
       });
   }
 
-  _postCollaborator(collaborator) {
+  _postUser(user) {
     this._initOrStopLoading();
 
     this._userService
-      .postUser(collaborator)
+      .postUser(user)
       .pipe(finalize(() => this._initOrStopLoading()))
       .subscribe({
         next: (res) => {
@@ -132,20 +133,6 @@ export class UsersComponent {
           this._toastr.error(err.error.error);
         },
       });
-  }
-
-  public testUserDialog() {
-    const dialogConfig: MatDialogConfig = {
-      width: '80%',
-      maxWidth: '850px',
-      maxHeight: '90%',
-      hasBackdrop: true,
-      closeOnNavigation: true,
-    };
-
-    this._dialog.open(DialogUserComponent, {
-      ...dialogConfig,
-    });
   }
 
   // Utils

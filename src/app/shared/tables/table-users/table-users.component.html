@@ -35,32 +35,36 @@
         @for (user of users; track user) {
         <tr class="table-line-hover" style="outline: none; cursor: pointer">
           <td>
-            <div class="text-center">
+            <div class="d-flex align-items-center h-100">
               {{ user?.id }}
             </div>
           </td>
           <td>
-            <div class="d-flex align-items-center gap-2" style="white-space: nowrap">
+            <div class="d-flex align-items-center h-100" style="white-space: nowrap">
               {{ user?.name }}
             </div>
           </td>
           <td>
-            <div class="text-center">
+            <div class="d-flex justify-content-center align-items-center h-100">
               {{ user?.email }}
             </div>
           </td>
           <td>
-            <div class="text-center">
-              {{ user?.is_active }}
+            <div class="d-flex justify-content-center align-items-center h-100">
+              <div class="status" [ngClass]="user?.is_active ? 'active' : 'inactive'">
+                {{ user?.is_active ? 'ATIVO' : 'INATIVO' }}
+              </div>
             </div>
           </td>
           <td>
-            <div class="text-center">
-              {{ user?.role }}
+            <div class="d-flex justify-content-center align-items-center h-100">
+              <div class="role" [ngClass]="user?.role.toLowerCase()">
+                {{ user?.role }}
+              </div>
             </div>
           </td>
           <td>
-            <div class="d-flex justify-content-center gap-2">
+            <div class="d-flex justify-content-center h-100 gap-2">
               <div matRipple class="buttonTemplate" (click)="onUserEdit.emit(user)">
                 <i class="fa-solid fa-pen-to-square"></i>
               </div>

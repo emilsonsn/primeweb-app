@@ -3,12 +3,27 @@ export interface User {
   name : string;
   email : string;
   is_active : boolean;
-  role : string;
+  role : UserRoles;
   email_verified_at? : string;
   phone? : string;
   updated_at? : string;
   created_at? : string;
 }
+
+export enum UserRoles {
+  Seller = 'Seller',
+  Consultart = 'Consultant',
+  Manager = 'Manager',
+  Admin = 'Admin'
+}
+
+export enum UserStatus {
+	ATIVO = 'ACTIVE',
+	INATIVO = 'INACTIVE',
+	BLOQUEADO = 'BLOCKED',
+}
+
+// Garbage v
 
 export interface UserPosition {
   id? : string,
@@ -24,12 +39,6 @@ export interface UserCards {
   total: number;
   active: number;
   inactive: number;
-}
-
-export enum UserStatus {
-	ATIVO = 'ACTIVE',
-	INATIVO = 'INACTIVE',
-	BLOQUEADO = 'BLOCKED',
 }
 
 

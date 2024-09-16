@@ -26,37 +26,32 @@
       </div>
 
       <div class="col-12 mb-3">
-        <mat-form-field>
-          <input matInput formControlName="password" placeholder="Senha" type="password" />
-        </mat-form-field>
-      </div>
-
-      <div class="col-12 mb-3">
-        <mat-form-field>
-          <input matInput [(ngModel)]="confirm_password" [ngModelOptions]="{standalone : true}" placeholder="Confirmar senha" type="password" />
-        </mat-form-field>
-      </div>
-
-      <div class="col-md-6 col-12 mb-3">
         <mat-form-field appearance="outline">
           <mat-label>Telefone</mat-label>
-          <input type="text" formControlName="phone" matInput mask="(00)0000-0000"
+          <input type="text" formControlName="phone" matInput mask="(00) 00000-0000||(00) 0000-0000"
             title="Digite um número de telefone válido (xx)xxxx-xxxx ou (xx)xxxxx-xxxx" />
-          <mat-error *ngIf="form.get('phone')?.value === '' || !validatePhoneNumber(form.get('phone'))">O telefone deve
-            estar no formato válido
-            (xx)xxxx-xxxx.</mat-error>
+          <mat-error *ngIf="!form.get('phone').valid">O telefone deve
+            estar no formato (xx) xxxxx-xxxx ou (xx) xxxx-xxxx.</mat-error>
         </mat-form-field>
       </div>
 
       <div class="col-md-6 col-12 mb-3">
         <mat-form-field appearance="outline">
           <mat-label>Cargo</mat-label>
-          <mat-select formControlName="company_position_id">
-            <mat-option *ngFor="let type of userPositionEnum" [value]="type.id">
-              {{ type.position | companyPosition}}
+          <mat-select formControlName="role">
+            <mat-option *ngFor="let type of userRolesEnum" [value]="type">
+              {{ type }}
             </mat-option>
           </mat-select>
         </mat-form-field>
+      </div>
+
+      <div class="col-md-6 col-12 mb-3">
+        <div class="d-flex align-items-center h-100">
+          <mat-slide-toggle formControlName="is_active">
+            <span style="font-weight: 500; font-size: 1rem; margin-left: 0.4rem;">Ativo</span>
+          </mat-slide-toggle>
+        </div>
       </div>
 
     </div>
@@ -77,7 +72,7 @@
           <button matRipple id="cancel" class="button cancel" (click)="onCancel()">Cancelar</button>
         </div>
         <div class="col-auto">
-          <button matRipple id="submit" class="button primary" (click)="onSubmit(form)">{{isNewCollaborator ? 'Criar' :
+          <button matRipple id="submit" class="button primary" (click)="onSubmit(form)">{{isNewUser ? 'Criar' :
             'Salvar'}}</button>
         </div>
       </div>

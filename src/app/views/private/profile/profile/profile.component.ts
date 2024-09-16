@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { User, UserStatus } from '@models/user';
+import { User, UserRoles, UserStatus } from '@models/user';
 import { HeaderService } from '@services/header.service';
+import { SessionService } from '@store/session.service';
 import { ToastrService } from 'ngx-toastr';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -13,44 +15,64 @@ export class ProfileComponent {
 
   protected form : FormGroup;
   protected loading : boolean = false;
+  protected loadingUser : boolean = false;
 
   protected confirm_password : string;
   protected previous_password :string;
 
-  protected user : User = {
-    name: '',
-    email: '',
-    is_active: false,
-    role: ''
-  }
+  protected user? : User;
 
   constructor(
     private readonly _headerService: HeaderService,
     private readonly _fb : FormBuilder,
-    private readonly _toastrService : ToastrService
+    private readonly _toastrService : ToastrService,
+    private readonly _sessionService: SessionService
   ) {
     this._headerService.setTitle('Perfil');
     this._headerService.setUpperTitle('Perfil - Primeweb')
   }
 
   ngOnInit() {
+    this.getUserFromBack();
+
     this.form = this._fb.group({
       name : [null, Validators.required],
       telephone : [null, Validators.required],
-      password : [null, Validators.required],
     });
   }
 
   protected onSubmit() {
     if(this.loading || !this.form.valid) return;
 
-    if(this.form.get('password').value != this.previous_password) {
-      if(this.form.get('password').value != this.confirm_password) {
-        this._toastrService.error('As senhas não conferem!');
-        return;
-      }
-    }
 
+  }
+
+  // Utils
+
+  public getUserFromBack() {
+    this._initOrStopLoadingUser();
+
+    this._sessionService.getUserFromBack()
+      .pipe(finalize(() => {
+        this._initOrStopLoadingUser();
+      }))
+      .subscribe(res => {
+        this.user = res;
+
+        this.form.patchValue({
+          name : this.user.name,
+          telephone : this.user.phone
+        });
+
+      });
+  }
+
+  public _initOrStopLoading() : void {
+    this.loading = !this.loading;
+  }
+
+  public _initOrStopLoadingUser() : void {
+    this.loadingUser = !this.loadingUser;
   }
 
 }

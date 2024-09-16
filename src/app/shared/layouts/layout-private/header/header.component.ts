@@ -45,7 +45,9 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this._sessionService.getUserFromBack().subscribe();
+    this._sessionService.getUserFromBack().subscribe(res => {
+      this.user = res;
+    });
 
     this._headerService.getTitle().subscribe(title => {
       this.activeLabel = title;
