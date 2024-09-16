@@ -99,8 +99,6 @@ export class DialogSegmentComponent {
       status : [null, Validators.required]
     });
 
-    this.loadPermissions();
-    this.loadPermissionGranatum();
 
     if (this._data) {
       this.isNewSegment = false;
@@ -124,24 +122,6 @@ export class DialogSegmentComponent {
       this.form.patchValue(this._data.order);
     }
 
-  }
-
-  public loadPermissions(){
-    this._sessionQuery.user$.subscribe(user => {
-      if(user && user?.company_position.position !== 'Requester') {
-        this.isAdmin = true;
-      }else{
-        this.form.get('purchase_status').disable();
-      }
-    })
-  }
-
-  public loadPermissionGranatum(){
-    this._sessionQuery.user$.subscribe(user => {
-      if(user && (user?.company_position.position === 'Financial' || user?.company_position.position === 'Admin')) {
-        this.hasGranatum = true;
-      }
-    })
   }
 
   public postOrder(order : RequestOrder) {

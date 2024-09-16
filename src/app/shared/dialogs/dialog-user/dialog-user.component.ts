@@ -3,7 +3,6 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
 import {UserService} from '@services/user.service';
 import {User} from '@models/user';
-import {DialogTypeUserSectorComponent} from '../dialog-type-user-sector/dialog-type-user-sector.component';
 import dayjs from 'dayjs';
 import {Utils} from '@shared/utils';
 
@@ -53,9 +52,6 @@ export class DialogUserComponent {
       this.isNewCollaborator = false;
       this.title = 'Editar colaborador';
       this._fillForm(this._data.user);
-      if (this._data.user.photo) {
-        this.profileImage = this._data.user.photo
-      }
     }
 
     this.updateSectorsUser();
@@ -139,27 +135,6 @@ export class DialogUserComponent {
 
       this._dialogRef.close(formData)
     }
-  }
-
-  public openDialogUserSector() {
-    const dialogConfig: MatDialogConfig = {
-      width: '80%',
-      maxWidth: '1000px',
-      maxHeight: '90%',
-      hasBackdrop: true,
-      closeOnNavigation: true,
-    };
-
-    this._dialog.open(DialogTypeUserSectorComponent,
-        {
-          ...dialogConfig
-        })
-      .afterClosed()
-      .subscribe((res) => {
-        if (!res) {
-          this.updateSectorsUser();
-        }
-      })
   }
 
   // Utils

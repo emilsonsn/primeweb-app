@@ -15,7 +15,6 @@ import dayjs from 'dayjs';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 import { dateValidator } from '@shared/validators/date';
-import { DialogOrderSolicitationComponent } from '../dialog-order-solicitation/dialog-order-solicitation.component';
 import { RequestService } from '@services/request.service';
 import { RequestStatus } from '@models/request';
 import { SessionQuery } from '@store/session.query';

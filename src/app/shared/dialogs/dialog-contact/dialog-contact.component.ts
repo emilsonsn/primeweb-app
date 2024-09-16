@@ -43,7 +43,6 @@ import dayjs from 'dayjs';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 import { dateValidator } from '@shared/validators/date';
-import { DialogOrderSolicitationComponent } from '../dialog-order-solicitation/dialog-order-solicitation.component';
 import { RequestService } from '@services/request.service';
 import { RequestStatus } from '@models/request';
 import { SessionQuery } from '@store/session.query';
@@ -128,9 +127,6 @@ export class DialogContactComponent {
       console.log(res);
     });
 
-    this.loadPermissions();
-    this.loadPermissionGranatum();
-
     if (this._data) {
       this.isNewOrder = false;
       this.title = 'Editar Pedido';
@@ -167,28 +163,6 @@ export class DialogContactComponent {
       this.telephones.push(this.createTelephone());
       this.emails.push(this.createEmail());
     }
-  }
-
-  public loadPermissions() {
-    this._sessionQuery.user$.subscribe((user) => {
-      if (user && user?.company_position.position !== 'Requester') {
-        this.isAdmin = true;
-      } else {
-        this.form.get('purchase_status').disable();
-      }
-    });
-  }
-
-  public loadPermissionGranatum() {
-    this._sessionQuery.user$.subscribe((user) => {
-      if (
-        user &&
-        (user?.company_position.position === 'Financial' ||
-          user?.company_position.position === 'Admin')
-      ) {
-        this.hasGranatum = true;
-      }
-    });
   }
 
   public postOrder(order: Contact) {

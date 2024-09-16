@@ -26,19 +26,7 @@ export class TableUserComponent {
   @Output()
   onDeleteUser: EventEmitter<number> = new EventEmitter<number>();
 
-  public users: User[] = [{
-    name: 'teste',
-    email: 'teste',
-    phone: 'teste',
-    cpf: 'teste',
-    cpf_cnpj: 'teste',
-    birth_date: 'teste',
-    sector_id: 'teste',
-    whatsapp: 0,
-    status: UserStatus.ATIVO,
-    createdAt: '',
-    updatedAt: ''
-  }];
+  public users: User[] = [];
 
   public columns = [
     {

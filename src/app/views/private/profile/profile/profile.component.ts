@@ -18,17 +18,10 @@ export class ProfileComponent {
   protected previous_password :string;
 
   protected user : User = {
-    name: 'Gabriel',
-    email: 'gm@gmail.com',
-    phone: '83996161228',
-    cpf: '33333333327',
-    cpf_cnpj: '24242424424255',
-    birth_date: '2017-09-21',
-    whatsapp: 0,
-    status: UserStatus.ATIVO,
-    createdAt: '2016-02-20',
-    updatedAt: '2016-02-25',
-    sector_id: ''
+    name: '',
+    email: '',
+    is_active: false,
+    role: ''
   }
 
   constructor(

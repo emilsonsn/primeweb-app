@@ -2,20 +2,12 @@ export interface User {
   id? : number;
   name : string;
   email : string;
-  phone : string;
-  cpf : string;
-  cpf_cnpj: string;
-  birth_date: Date | string;
-  sector_id: string;
-  whatsapp: number;
-  status : UserStatus;
-  createdAt : string;
-  updatedAt : string;
-  admin?: boolean;
-  photo?: string;
-
-  sector?: UserSector;
-  company_position?: UserPosition;
+  is_active : boolean;
+  role : string;
+  email_verified_at? : string;
+  phone? : string;
+  updated_at? : string;
+  created_at? : string;
 }
 
 export interface UserPosition {

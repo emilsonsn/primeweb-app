@@ -73,35 +73,6 @@ const routes: Routes = [
           page: 'users'
         }
       },
-
-
-      // Deletar depois v
-      {
-        path: 'tasks',
-        loadChildren: () => import('./tasks/tasks.module').then(m => m.TasksModule),
-        canActivate: [permissionGuard],
-        data: {
-          page: 'tasks'
-        }
-      },
-      {
-        path: 'client',
-        loadChildren: () => import('./client/client.module').then(m => m.ClientModule),
-        canActivate: [permissionGuard],
-        data: {
-          page: 'client'
-        }
-      },
-      {
-        path: 'orders',
-        loadChildren: () => import('./orders/orders.module').then(m => m.OrdersModule),
-        canActivate: [permissionGuard],
-        data: {
-          page: 'orders'
-        }
-      },
-      // Deletar depois ^
-
       {
         path: '**',
         redirectTo: 'home',

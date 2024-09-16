@@ -18,25 +18,14 @@ import {ClipboardModule} from '@angular/cdk/clipboard';
 import {PipesModule} from '@shared/pipes/pipes.module';
 import {DialogConfirmComponent} from './dialog-confirm/dialog-confirm.component';
 import {FiltersModule} from './filters/filters.module';
-import {DialogOrderComponent} from './dialog-order/dialog-order.component';
 import {DialogUserComponent} from './dialog-user/dialog-user.component';
 import {CdkTextareaAutosize, TextFieldModule} from '@angular/cdk/text-field';
 import {MatRippleModule} from '@angular/material/core';
-import {DialogProviderComponent} from './dialog-provider/dialog-provider.component';
 import {NgxMaskDirective, NgxMaskPipe} from 'ngx-mask';
 import {CurrencyMaskModule} from 'ng2-currency-mask';
-import {DialogServiceComponent} from './dialog-service/dialog-service.component';
-import {DialogConstructionComponent} from './dialog-construction/dialog-construction.component';
-import {DialogClientComponent} from './dialog-client/dialog-client.component';
-import {DialogRequestComponent} from './dialog-request/dialog-request.component';
-import {DialogTypeProviderComponent} from './dialog-type-provider/dialog-type-provider.component';
 import {TablesModule} from '@shared/tables/tables.module';
-import {DialogTypeServiceComponent} from './dialog-type-service/dialog-type-service.component';
-import {DialogTypeUserSectorComponent} from './dialog-type-user-sector/dialog-type-user-sector.component';
-import {DialogTaskComponent} from './dialog-task/dialog-task.component';
 import {MatIcon, MatIconModule} from "@angular/material/icon";
 import {NgxMatSelectSearchModule} from 'ngx-mat-select-search';
-import {DialogOrderSolicitationComponent} from './dialog-order-solicitation/dialog-order-solicitation.component';
 import { DialogPhoneCallComponent } from './dialog-phone-call/dialog-phone-call.component';
 import { DialogOcurrencyComponent } from './dialog-ocurrency/dialog-ocurrency.component';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
@@ -44,7 +33,7 @@ import { PhoneCallDetailsComponent } from './phone-call-details/phone-call-detai
 import { DialogSegmentComponent } from './dialog-segment/dialog-segment.component';
 import { DialogContactComponent } from './dialog-contact/dialog-contact.component';
 import { DialogContactDetailsComponent } from './dialog-contact-details/dialog-contact-details.component';
-import {MatChipInputEvent, MatChipsModule} from '@angular/material/chips';
+import { MatChipsModule } from '@angular/material/chips';
 import {MatAutocompleteModule, MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import { DialogContactOcurrencyComponent } from './dialog-contact-ocurrency/dialog-contact-ocurrency.component';
 import { DialogCalendarComponent } from './dialog-calendar/dialog-calendar.component';
@@ -52,18 +41,7 @@ import { DialogCalendarComponent } from './dialog-calendar/dialog-calendar.compo
 @NgModule({
   declarations: [
     DialogConfirmComponent,
-    DialogOrderComponent,
     DialogUserComponent,
-    DialogProviderComponent,
-    DialogServiceComponent,
-    DialogConstructionComponent,
-    DialogClientComponent,
-    DialogRequestComponent,
-    DialogTypeProviderComponent,
-    DialogTypeServiceComponent,
-    DialogTypeUserSectorComponent,
-    DialogTaskComponent,
-    DialogOrderSolicitationComponent,
     DialogPhoneCallComponent,
     DialogOcurrencyComponent,
     PhoneCallDetailsComponent,

@@ -6,7 +6,6 @@ import { Service } from '@models/service';
 import { HeaderService } from '@services/header.service';
 import { ServiceService } from '@services/service.service';
 import { DialogConfirmComponent } from '@shared/dialogs/dialog-confirm/dialog-confirm.component';
-import { DialogServiceComponent } from '@shared/dialogs/dialog-service/dialog-service.component';
 import dayjs from 'dayjs';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
@@ -46,26 +45,6 @@ export class LogsComponent {
     this.loading = !this.loading;
   }
 
-  openDialogService(service?: Service) {
-    this._dialog
-      .open(DialogServiceComponent, {
-        data: { service },
-        width: '80%',
-        maxWidth: '850px',
-        maxHeight: '90%',
-      })
-      .afterClosed()
-      .subscribe((res) => {
-        if (res) {
-          if (res.id) {
-            this._patchService(res);
-            return;
-          }
-
-          this._postService(res);
-        }
-      });
-  }
 
   _patchService(service: Service) {
     this._initOrStopLoading();

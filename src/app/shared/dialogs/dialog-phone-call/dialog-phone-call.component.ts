@@ -96,12 +96,8 @@ export class DialogPhoneCallComponent {
       email: [null, Validators.required],
       date: [null, Validators.required],
       description: [''],
-
-      // responsible: [null],  Não implementado no back
     });
 
-    this.loadPermissions();
-    this.loadPermissionGranatum();
 
     if (this._data) {
       this.isNewOrder = false;
@@ -127,23 +123,6 @@ export class DialogPhoneCallComponent {
 
   }
 
-  public loadPermissions(){
-    this._sessionQuery.user$.subscribe(user => {
-      if(user && user?.company_position.position !== 'Requester') {
-        this.isAdmin = true;
-      }else{
-        this.form.get('purchase_status').disable();
-      }
-    })
-  }
-
-  public loadPermissionGranatum(){
-    this._sessionQuery.user$.subscribe(user => {
-      if(user && (user?.company_position.position === 'Financial' || user?.company_position.position === 'Admin')) {
-        this.hasGranatum = true;
-      }
-    })
-  }
 
   public postOrder(order : RequestOrder) {
     if (!this.prepareFormData(order)){
