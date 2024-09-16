@@ -15,6 +15,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { TableSegmentsComponent } from './table-segments/table-segments.component';
 import { TableContactsComponent } from './table-contacts/table-contacts.component';
 import { TableLogsComponent } from './table-logs/table-logs.component';
+import { MatIconModule } from '@angular/material/icon';
 
 const tables = [
   TableUserComponent,
@@ -40,6 +41,7 @@ const tables = [
     MatRippleModule,
     PipesModule,
     AvatarModule,
+    MatIconModule,
   ],
   exports: [
     tables

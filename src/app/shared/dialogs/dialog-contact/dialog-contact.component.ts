@@ -215,7 +215,7 @@ export class DialogContactComponent {
 
   public prepareFormData(order: Contact) {
     console.log(order);
-    if (!order.telephones.length) {
+    if (!order.phones.length) {
       this._toastr.error('Item é um campo obrigatório');
       return;
     }
@@ -234,7 +234,7 @@ export class DialogContactComponent {
           dayjs(order.return_date).format('YYYY-MM-DD')
         );
       } else if (key == 'telephones') {
-        order.telephones.forEach((telephone) => {
+        order.phones.forEach((telephone) => {
           orderFormData.append('telephones[]', JSON.stringify(telephone));
         });
       } else if (key == 'emails') {

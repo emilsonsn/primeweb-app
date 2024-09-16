@@ -34,10 +34,10 @@
           }
           @else {
             @for (contact of contacts; track contact) {
-              <tr class="table-line-hover" style="outline: none;">
+              <tr class="table-line-hover" style="outline: none;" (click)="toggleContactExpanded(contact)">
                 <td>
                   <div>
-                    {{ contact.enterprise}}
+                    {{ contact.company}}
                   </div>
                 </td>
                 <td>
@@ -47,13 +47,13 @@
                 </td>
                 <td>
                   <div>
-                    {{ contact.name}}
+                    {{ contact.user_id}}
                   </div>
                 </td>
                 <td>
                   <div>
                     @for(segment of contact.segments; track segment) {
-                      {{ segment.name }}
+                    {{ segment.segment_id }}
                     }
                   </div>
                 </td>
@@ -63,13 +63,14 @@
                   </div>
                 </td>
                 <td>
-                  <div [ngClass]="contact?.status?.toLowerCase()">
-                    {{ contact.status }}
+                  <div>
+                    {{ contact.state }}
                   </div>
                 </td>
                 <td>
                   <div class="d-flex justify-content-end gap-2">
-                    <div matTooltip="Ocorrência" matRipple class="buttonTemplate" (click)="onNewOcurrencyContact.emit(contact)">
+                    <div matTooltip="Ocorrência" matRipple class="buttonTemplate"
+                      (click)="onNewOcurrencyContact.emit(contact)">
                       <i class="fa-solid fa-bullhorn"></i>
                     </div>
 
@@ -87,10 +88,20 @@
                   </div>
                 </td>
               </tr>
+              <tr>
+                <td colspan="7" class="p-0">
+                  <div [@detailExpand]="contact == expandedContact ? 'expanded' : 'collapsed'" style="overflow: hidden;">
+                    <div class="row">
+                      <div class="col-md-4">SEGMENTOS</div>
+                      <div class="col-md-4">TELEFONES</div>
+                      <div class="col-md-4">E-MAILS</div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
             }
           }
         }
-
       </tbody>
     </table>
   </div>

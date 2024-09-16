@@ -1,32 +1,44 @@
-import { Segment } from "./segment";
-import { User } from "./user";
+import { Segment } from './segment';
+import { User } from './user';
 
 export interface Contact {
-	id: number;
-  name : string;
-  enterprise : string;
-  domain : string;
-  segment : Segment;
-  telephones : Telephone[];
-  emails : Email[];
-  segments : Segment[];
-  responsible : string;
-  created_at : string;
-  return_date : string;
-  status : string;
-  origin : string;
-  cnpj : string;
-  consultant : User;
+  id?: number;
+  user_id: number;
+  company: string;
+  domain: string;
+  responsible: string;
+  origin: string;
+  return_date: string;
+  return_time: string;
+  cnpj: string;
+  cep: string;
+  street: string;
+  number: string;
+  neighborhood: string;
+  city: string;
+  state: string;
+  observations?: string;
+  created_at?: string;
+  updated_at?: string;
+  deleted_at?: string;
+  phones: Phone[]
+  emails: Email[];
+  segments: SegmentsContact[];
 }
 
-export interface Telephone {
-  id?: number;
-  name: string;
+export interface Phone {
+  phone : string;
+  contact_id : number;
 }
 
 export interface Email {
-  id?: number;
+  contact_id: number;
   email: string;
+}
+
+export interface SegmentsContact {
+  contact_id: number;
+  segment_id: number;
 }
 
 export enum ContactStatus {

@@ -9,7 +9,6 @@ import {PipesModule} from "./pipes/pipes.module";
 import {TablesModule} from "./tables/tables.module";
 import {LayoutsModule} from "@shared/layouts/layouts.module";
 
-
 @NgModule({
   declarations: [],
   imports: [

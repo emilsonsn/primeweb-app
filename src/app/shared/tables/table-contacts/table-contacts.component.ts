@@ -8,11 +8,20 @@ import { SessionQuery } from '@store/session.query';
 import { PhoneCall } from '@models/phone-call';
 import { TestService } from '@services/test.service';
 import { Contact } from '@models/contact';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { ContactService } from '@services/contact.service';
 
 @Component({
   selector: 'app-table-contacts',
   templateUrl: './table-contacts.component.html',
-  styleUrl: './table-contacts.component.scss'
+  styleUrl: './table-contacts.component.scss',
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed,void', style({height: '0px', minHeight: '0'}),),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ])
+  ],
 })
 export class TableContactsComponent {
   private subscription: Subscription;
@@ -83,25 +92,7 @@ export class TableContactsComponent {
     },
   ];
 
-  public contacts : Contact[] = [
-    {
-      id: 0,
-      enterprise: '',
-      domain: '',
-      name: "test",
-      telephones: [],
-      emails: [],
-      segments: [],
-      responsible: '',
-      created_at: '',
-      return_date: '',
-      status: '',
-      origin: '',
-      cnpj: '',
-      consultant: undefined,
-      segment: undefined
-    }
-  ];
+  public contacts : Contact[] = [];
 
   public pageControl: PageControl = {
     take: 10,
@@ -114,9 +105,11 @@ export class TableContactsComponent {
 
   isFinancial: boolean = false;
 
+  protected  expandedContact: Contact | null;
+
   constructor(
     private readonly _toastr: ToastrService,
-    private readonly _requestService : RequestService,
+    private readonly _contactService : ContactService,
     private readonly _sessionQuery : SessionQuery,
     private readonly _testService : TestService
   ) {}
@@ -163,8 +156,8 @@ export class TableContactsComponent {
   public search(): void {
     this._initOrStopLoading();
 
-    this._testService
-      .getRequests(this.pageControl, this.filters)
+    this._contactService
+      .getList(this.pageControl, this.filters)
       .pipe(finalize(() => {
         this._initOrStopLoading()
       }))
@@ -197,6 +190,15 @@ export class TableContactsComponent {
     this.pageControl.page = $event.pageIndex + 1;
     this.pageControl.take = $event.pageSize;
     this.search();
+  }
+
+  // Utils
+  public toggleContactExpanded(contact) {
+    if (this.expandedContact === contact) {
+      this.expandedContact = null;
+    } else {
+      this.expandedContact = contact;
+    }
   }
 
 }
