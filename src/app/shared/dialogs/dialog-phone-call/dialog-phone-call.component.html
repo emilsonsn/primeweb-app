@@ -16,35 +16,35 @@
     <div class="col-md-6 mb-3">
       <span class="fw-bolder">Empresa *</span>
       <mat-form-field appearance="outline">
-        <input type="text" formControlName="enterprise" matInput />
+        <input type="text" formControlName="company" matInput placeholder="Empresa" />
       </mat-form-field>
     </div>
 
     <div class="col-md-6 mb-3">
       <span class="fw-bolder">Domínio *</span>
       <mat-form-field appearance="outline">
-        <input type="text" formControlName="domain" matInput />
+        <input type="text" formControlName="domain" matInput placeholder="Domínio" />
       </mat-form-field>
     </div>
 
     <div class="col-md-6 mb-3">
       <span class="fw-bolder">Telefone *</span>
       <mat-form-field appearance="outline">
-        <input type="text" formControlName="telephone" matInput />
+        <input type="text" formControlName="phone" matInput mask="(00) 00000-0000||(00) 0000-0000" placeholder="(00) 00000-0000 ou (00) 0000-0000" />
       </mat-form-field>
     </div>
 
     <div class="col-md-6 mb-3">
       <span class="fw-bolder">E-mail *</span>
       <mat-form-field appearance="outline">
-        <input type="text" formControlName="email" matInput />
+        <input type="text" formControlName="email" matInput pattern="{{ utils.patternEmail }}" placeholder="E-mail" />
       </mat-form-field>
     </div>
 
     <div class="col-md-6 mb-3">
       <span class="fw-bolder">Data retorno *</span>
       <mat-form-field>
-        <input matInput formControlName="date" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" placeholder="Data e Hora" readonly>
+        <input matInput [(ngModel)]="date" [ngModelOptions]="{standalone: true}" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" placeholder="Data e Hora" readonly>
         <owl-date-time #dt1></owl-date-time>
         <i matSuffix [owlDateTimeTrigger]="dt1" class="fa-solid fa-calendar me-3"></i>
       </mat-form-field>
@@ -54,7 +54,7 @@
       <span class="fw-bolder">Descrição</span>
       <mat-form-field>
         <textarea matInput
-          formControlName="description"
+          formControlName="observations"
           cdkTextareaAutosize
           #autosize="cdkTextareaAutosize"
           cdkAutosizeMinRows="1"
@@ -80,13 +80,11 @@
         <div class="col-auto">
           <button matRipple id="cancel" class="button cancel" (click)="onCancel()">Cancelar</button>
         </div>
-        @if(_data?.edit || isNewOrder) {
-          <div class="col-auto">
-            <button matRipple id="submit" class="button yellow" (click)="!loading ? onConfirm() : null">{{
-              isNewOrder ? 'Criar' : 'Salvar'
-            }}</button>
-          </div>
-        }
+        <div class="col-auto">
+          <button matRipple id="submit" class="button primary" (click)="!loading ? onConfirm() : null">{{
+            isNewPhoneCall ? 'Criar' : 'Salvar'
+          }}</button>
+        </div>
       </div>
     </div>
   </div>

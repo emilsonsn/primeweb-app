@@ -48,13 +48,11 @@
         <div class="col-auto">
           <button matRipple id="cancel" class="button cancel" (click)="onCancel()">Cancelar</button>
         </div>
-        @if(_data?.edit || isNewSegment) {
-          <div class="col-auto">
-            <button matRipple id="submit" class="button primary" (click)="!loading ? onConfirm() : null">{{
-              isNewSegment ? 'Criar' : 'Salvar'
-            }}</button>
-          </div>
-        }
+        <div class="col-auto">
+          <button matRipple id="submit" class="button primary" (click)="!loading ? onConfirm() : null">{{
+            isNewSegment ? 'Criar' : 'Salvar'
+          }}</button>
+        </div>
       </div>
     </div>
   </div>

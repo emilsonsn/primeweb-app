@@ -1,12 +1,16 @@
+import { User } from "./user";
+
 export interface Segment {
-	id: number;
-  name : string;
-  status: string;
-  created_by : string,
-  created_at: string;
+  id?: 1;
+  name: string;
+  status: SegmentStatus;
+  user_id?: 1;
+  user? : User;
+  updated_at?: string;
+  created_at?: string;
 }
 
 export enum SegmentStatus {
-  BLOCKED = 'BLOCKED',
-  RELEASED = 'RELEASED',
+  Active = 'Active',
+  Inactive = 'Inactive',
 }

@@ -6,6 +6,7 @@ import { RequestService } from '@services/request.service';
 import { SessionQuery } from '@store/session.query';
 import { TestService } from '@services/test.service';
 import { Segment } from '@models/segment';
+import { SegmentService } from '@services/segment.service';
 
 @Component({
   selector: 'app-table-segments',
@@ -64,17 +65,7 @@ export class TableSegmentsComponent {
     },
   ];
 
-  public segments : Segment[] = [
-    {
-      id: 0,
-      name: 'teste',
-      status: 'teste',
-      created_by: 'teste',
-      created_at: 'teste'
-    }
-  ];
-
-  public _testData : any;
+  public segments : Segment[] = [];
 
   public pageControl: PageControl = {
     take: 10,
@@ -89,7 +80,7 @@ export class TableSegmentsComponent {
 
   constructor(
     private readonly _toastr: ToastrService,
-    private readonly _requestService : RequestService,
+    private readonly _segmentService : SegmentService,
     private readonly _sessionQuery : SessionQuery,
     private readonly _testService : TestService
   ) {}
@@ -136,13 +127,13 @@ export class TableSegmentsComponent {
   public search(): void {
     this._initOrStopLoading();
 
-    this._testService
-      .getRequests(this.pageControl, this.filters)
+    this._segmentService
+      .getList(this.pageControl, this.filters)
       .pipe(finalize(() => {
         this._initOrStopLoading()
       }))
       .subscribe((res) => {
-        this._testData = res.data;
+        this.segments = res.data;
 
         this.pageControl.page = res.current_page - 1;
         this.pageControl.itemCount = res.total;

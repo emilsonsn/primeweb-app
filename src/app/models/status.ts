@@ -9,5 +9,7 @@ export enum Status {
   Reimbursement = 'Reimbursement',
   LEAD = 'LEAD',
   CONVERTEDTOCONTACT = 'CONVERTEDTOCONTACT',
-  LOST = 'LOST'
+  LOST = 'LOST',
+  Active = 'Active',
+  Inactive = 'Inactive',
 }

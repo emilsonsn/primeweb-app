@@ -9,7 +9,7 @@ import { Status } from '@models/status';
 })
 export class StatusPipe implements PipeTransform {
 
-  transform(value: string | Status | PhoneCallStatus) {
+  transform(value) {
     switch (value) {
       case Status.Pending:
         return 'Pendente';
@@ -31,6 +31,10 @@ export class StatusPipe implements PipeTransform {
         return 'Convertido para Contato';
       case Status.LOST:
         return 'Perdido';
+      case Status.Active:
+        return 'Ativo';
+      case Status.Inactive:
+        return 'Inativo';
 
       default:
         return 'Não encontrado';

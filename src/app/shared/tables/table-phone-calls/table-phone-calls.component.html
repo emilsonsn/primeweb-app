@@ -37,37 +37,37 @@
               <tr class="table-line-hover" style="outline: none;">
                 <td>
                   <div>
-                    {{ phone.enterprise}}
+                    {{ phone?.company}}
                   </div>
                 </td>
                 <td>
                   <div>
-                    {{ phone.domain}}
+                    {{ phone?.domain}}
                   </div>
                 </td>
                 <td>
                   <div>
-                    {{ phone.telephone}}
+                    {{ phone?.phone}}
                   </div>
                 </td>
                 <td>
                   <div>
-                    {{ phone.responsible}}
+                    {{ phone?.user_id}}
                   </div>
                 </td>
                 <td>
                   <div>
-                    {{ phone.created_at}}
+                    {{ phone?.created_at | date:"dd/MM/YYYY HH:mm:ss" }}
                   </div>
                 </td>
                 <td>
                   <div>
-                    {{ phone.return_date }}
+                    {{ (phone?.return_date | date:"dd/MM/YYYY") }} {{ (phone?.return_time) }}
                   </div>
                 </td>
                 <td>
                   <div [ngClass]="phone?.status?.toLowerCase()">
-                    {{ phone.status }}
+                    {{ phone?.status }}
                   </div>
                 </td>
                 <td>

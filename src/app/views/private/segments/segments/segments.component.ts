@@ -10,6 +10,7 @@ import { OrderService } from '@services/order.service';
 import { DialogOcurrencyComponent } from '@shared/dialogs/dialog-ocurrency/dialog-ocurrency.component';
 import { SegmentStatus } from '@models/segment';
 import { DialogSegmentComponent } from '@shared/dialogs/dialog-segment/dialog-segment.component';
+import { SegmentService } from '@services/segment.service';
 
 @Component({
   selector: 'app-segments',
@@ -29,8 +30,7 @@ export class SegmentsComponent {
     private readonly _router: Router,
     private readonly _dialog: MatDialog,
     private readonly _fb: FormBuilder,
-    private readonly _requestService: RequestService,
-    private readonly _orderService: OrderService,
+    private readonly _segmentService : SegmentService,
     private readonly _toastrService: ToastrService
   ) {
     this._headerService.setTitle('Segmentos');
@@ -45,7 +45,7 @@ export class SegmentsComponent {
   }
 
   // Modais
-  public openNewPhoneCallDialog() {
+  public openNewSegmentDialog() {
     const dialogConfig: MatDialogConfig = {
       width: '80%',
       maxWidth: '850px',
@@ -56,23 +56,41 @@ export class SegmentsComponent {
 
     this._dialog.open(DialogSegmentComponent, {
       ...dialogConfig,
-    });
-  }
-  public openEditSegmentDialog(request) {
-    this._orderService.getOrderById(request.order_id).subscribe((order) => {
-      const dialogConfig: MatDialogConfig = {
-        width: '80%',
-        maxWidth: '850px',
-        maxHeight: '90%',
-        hasBackdrop: true,
-        closeOnNavigation: true,
-      };
-
-      this._dialog.open(DialogSegmentComponent, {
-        data: { order: order, edit: true },
-        ...dialogConfig,
+    })
+    .afterClosed()
+      .subscribe((res) => {
+        if(res) {
+          this.loading = true;
+          setTimeout(() => {
+            this.loading = false;
+          }, 200);
+        }
       });
-    });
+
+  }
+
+  public openEditSegmentDialog(segment) {
+    const dialogConfig: MatDialogConfig = {
+      width: '80%',
+      maxWidth: '850px',
+      maxHeight: '90%',
+      hasBackdrop: true,
+      closeOnNavigation: true,
+    };
+
+    this._dialog.open(DialogSegmentComponent, {
+      data: { segment },
+      ...dialogConfig,
+    })
+    .afterClosed()
+      .subscribe((res) => {
+        if(res) {
+          this.loading = true;
+          setTimeout(() => {
+            this.loading = false;
+          }, 200);
+        }
+      });
   }
 
   public openDeleteSegmentDialog(request) {
@@ -93,7 +111,7 @@ export class SegmentsComponent {
       .subscribe({
         next: (res) => {
           if (res) {
-            this._requestService.deleteRequest(request.id).subscribe({
+            this._segmentService.delete(request.id).subscribe({
               next: (resData) => {
                 this.loading = true;
                 this._toastrService.success(resData.message);
@@ -107,23 +125,8 @@ export class SegmentsComponent {
       });
   }
 
-  public testSegmentDialog() {
-    const dialogConfig: MatDialogConfig = {
-      width: '80%',
-      maxWidth: '850px',
-      maxHeight: '90%',
-      hasBackdrop: true,
-      closeOnNavigation: true,
-    };
-
-    this._dialog.open(DialogSegmentComponent, {
-      ...dialogConfig,
-    });
-  }
-
   // Utils
   public updateFilters() {
-    console.log(this.formFilters.getRawValue())
     this.filters = this.formFilters.getRawValue();
   }
 }

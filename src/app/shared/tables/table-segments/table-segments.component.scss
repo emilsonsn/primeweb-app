@@ -3,3 +3,20 @@
 mat-spinner {
   height: 4.5rem !important;
 }
+
+.status {
+  display: flex;
+  justify-content: center;
+  width: fit-content;
+  border-radius: 25px;
+  padding: 0 1rem;
+  color: $white;
+
+  &.active {
+    background-color: $green;
+  }
+
+  &.inactive {
+    background-color: $red;
+  }
+}

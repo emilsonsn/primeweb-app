@@ -5,8 +5,9 @@ import { finalize, Subscription } from 'rxjs';
 import { Request } from '@models/request';
 import { RequestService } from '@services/request.service';
 import { SessionQuery } from '@store/session.query';
-import { PhoneCall } from '@models/phone-call';
+import { PhoneCall, PhoneCallStatus } from '@models/phone-call';
 import { TestService } from '@services/test.service';
+import { PhoneCallService } from '@services/phone-call.service';
 
 @Component({
   selector: 'app-table-phone-calls',
@@ -40,7 +41,7 @@ export class TablePhoneCallsComponent {
 
   public columns = [
     {
-      slug: "enterprise",
+      slug: "company",
       order: false,
       title: "Empresa",
       classes: "",
@@ -52,25 +53,25 @@ export class TablePhoneCallsComponent {
       classes: "",
     },
     {
-      slug: "telephone",
+      slug: "phone",
       order: false,
       title: "Telefone",
       classes: "",
     },
     {
-      slug: "responsible",
+      slug: "user_id",
       order: false,
       title: "Responsável",
       classes: "",
     },
     {
-      slug: "createdAt",
+      slug: "created_at",
       order: false,
       title: "Data de Criação",
       classes: "",
     },
     {
-      slug: "returnDate",
+      slug: "return_date",
       order: false,
       title: "Data Retorno",
       classes: "",
@@ -89,21 +90,7 @@ export class TablePhoneCallsComponent {
     },
   ];
 
-  public phoneCalls : PhoneCall[] = [
-    {
-      id: 1,
-      name: "nome",
-      enterprise: 'teste',
-      domain: 'teste',
-      telephone: 'teste',
-      responsible: 'teste',
-      created_at: 'teste',
-      return_date: 'teste',
-      status: 'teste'
-    }
-  ];
-
-  public _testData : any;
+  public phoneCalls : PhoneCall[] = [];
 
   public pageControl: PageControl = {
     take: 10,
@@ -118,7 +105,7 @@ export class TablePhoneCallsComponent {
 
   constructor(
     private readonly _toastr: ToastrService,
-    private readonly _requestService : RequestService,
+    private readonly _phoneCallService : PhoneCallService,
     private readonly _sessionQuery : SessionQuery,
     private readonly _testService : TestService
   ) {}
@@ -165,13 +152,13 @@ export class TablePhoneCallsComponent {
   public search(): void {
     this._initOrStopLoading();
 
-    this._testService
-      .getRequests(this.pageControl, this.filters)
+    this._phoneCallService
+      .getList(this.pageControl, this.filters)
       .pipe(finalize(() => {
         this._initOrStopLoading()
       }))
       .subscribe((res) => {
-        this._testData = res.data;
+        this.phoneCalls = res.data;
 
         this.pageControl.page = res.current_page - 1;
         this.pageControl.itemCount = res.total;

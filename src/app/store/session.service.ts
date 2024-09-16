@@ -64,6 +64,7 @@ export class SessionService {
 
 	public handleLoginResponse(response: any): void {
     this._storage.set('name', response.name);
+    this._storage.set('user_id', response.user.id);
     this._storage.set('access_token', response.access_token);
     if(response.type === 'MASTER') {
       this._sessionStore.update({ isMaster: true });

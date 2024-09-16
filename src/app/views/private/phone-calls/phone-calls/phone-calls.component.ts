@@ -9,6 +9,8 @@ import { ToastrService } from 'ngx-toastr';
 import { OrderService } from '@services/order.service';
 import { DialogPhoneCallComponent } from '@shared/dialogs/dialog-phone-call/dialog-phone-call.component';
 import { DialogOcurrencyComponent } from '@shared/dialogs/dialog-ocurrency/dialog-ocurrency.component';
+import { PhoneCallService } from '@services/phone-call.service';
+import { PhoneCall } from '@models/phone-call';
 
 @Component({
   selector: 'app-phone-calls',
@@ -26,9 +28,8 @@ export class PhoneCallsComponent {
     private readonly _router: Router,
     private readonly _dialog: MatDialog,
     private readonly _fb: FormBuilder,
-    private readonly _requestService: RequestService,
-    private readonly _orderService: OrderService,
-    private readonly _toastrService: ToastrService
+    private readonly _toastrService: ToastrService,
+    private readonly _phoneCallService : PhoneCallService
   ) {
     this._headerService.setTitle('Telefonemas');
     this._headerService.setUpperTitle('Telefonemas - Primeweb')
@@ -36,9 +37,9 @@ export class PhoneCallsComponent {
 
   ngOnInit() {
     this.formFilters = this._fb.group({
-      enterprise : [null],
+      company : [null],
       domain : [null],
-      telephone : [null]
+      phone : [null]
     })
   }
 
@@ -54,40 +55,43 @@ export class PhoneCallsComponent {
 
     this._dialog.open(DialogPhoneCallComponent, {
       ...dialogConfig,
-    });
-  }
-  public openEditPhoneCallDialog(request) {
-    this._orderService.getOrderById(request.order_id).subscribe((order) => {
-      const dialogConfig: MatDialogConfig = {
-        width: '80%',
-        maxWidth: '850px',
-        maxHeight: '90%',
-        hasBackdrop: true,
-        closeOnNavigation: true,
-      };
-
-      this._dialog.open(DialogPhoneCallComponent, {
-        data: { order: order, edit: true },
-        ...dialogConfig,
+    }).afterClosed()
+      .subscribe((res) => {
+        if(res) {
+          this.loading = true;
+          setTimeout(() => {
+            this.loading = false;
+          }, 200);
+        }
       });
-    });
+  }
+
+  public openEditPhoneCallDialog(phoneCall) {
+    const dialogConfig: MatDialogConfig = {
+      width: '80%',
+      maxWidth: '850px',
+      maxHeight: '90%',
+      hasBackdrop: true,
+      closeOnNavigation: true,
+    };
+
+    this._dialog.open(DialogPhoneCallComponent, {
+      data: { phoneCall },
+      ...dialogConfig,
+    })
+      .afterClosed()
+      .subscribe((res) => {
+        if(res) {
+          this.loading = true;
+          setTimeout(() => {
+            this.loading = false;
+          }, 200);
+        }
+      });
   }
 
   public openDetailsPhoneCallDialog(request?) {
-    this._orderService.getOrderById(request.order_id).subscribe((order) => {
-      const dialogConfig: MatDialogConfig = {
-        width: '80%',
-        maxWidth: '850px',
-        maxHeight: '90%',
-        hasBackdrop: true,
-        closeOnNavigation: true,
-      };
 
-      this._dialog.open(DialogPhoneCallComponent, {
-        data: { order: order, edit: false },
-        ...dialogConfig,
-      });
-    });
   }
 
   public openNewOcurrencyDialog(request) {
@@ -104,7 +108,7 @@ export class PhoneCallsComponent {
     });
   }
 
-  public openDeletePhoneCallDialog(request) {
+  public openDeletePhoneCallDialog(phoneCall : PhoneCall) {
     const dialogConfig: MatDialogConfig = {
       width: '80%',
       maxWidth: '550px',
@@ -122,7 +126,7 @@ export class PhoneCallsComponent {
       .subscribe({
         next: (res) => {
           if (res) {
-            this._requestService.deleteRequest(request.id).subscribe({
+            this._phoneCallService.delete(phoneCall.id).subscribe({
               next: (resData) => {
                 this.loading = true;
                 this._toastrService.success(resData.message);

@@ -37,22 +37,22 @@
               <tr class="table-line-hover" style="outline: none;">
                 <td>
                   <div>
-                    {{ segment.name}}
+                    {{ segment?.name}}
                   </div>
                 </td>
                 <td>
-                  <div [ngClass]="segment?.status?.toLowerCase()">
-                    {{ segment.status }}
-                  </div>
-                </td>
-                <td>
-                  <div>
-                    {{ segment.created_by}}
+                  <div class="status" [ngClass]="segment?.status?.toLowerCase()">
+                    {{ segment?.status | status}}
                   </div>
                 </td>
                 <td>
                   <div>
-                    {{ segment.created_at}}
+                    {{ segment?.user?.name}}
+                  </div>
+                </td>
+                <td>
+                  <div>
+                    {{ segment?.created_at | date: "dd/MM/YYYY HH:mm:ss"}}
                   </div>
                 </td>
                 <td>
