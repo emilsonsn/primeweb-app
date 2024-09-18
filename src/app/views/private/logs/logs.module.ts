@@ -11,6 +11,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 
 @NgModule({
@@ -28,6 +30,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     FormsModule,
     MatFormFieldModule,
     MatSelectModule,
+    MatButtonModule,
+    MatIconModule,
     MatOptionModule,
     MatDatepickerModule
   ]

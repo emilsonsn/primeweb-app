@@ -3,6 +3,8 @@ import {afterNextRender, Component, inject, Inject, Injector, signal, ViewChild}
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import {ApiResponse, PaymentForm} from '@models/application';
+import { Construction } from '@models/construction';
+import { Supplier, SupplierType } from '@models/supplier';
 import {Banco, OrderResponsible, RequestOrder, RequestOrderStatus, RequestOrderType} from '@models/requestOrder';
 import { User } from '@models/user';
 import { ConstructionService } from '@services/construction.service';
@@ -12,16 +14,18 @@ import { UserService } from '@services/user.service';
 import dayjs from 'dayjs';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
+import { dateValidator } from '@shared/validators/date';
 import { RequestService } from '@services/request.service';
+import { RequestStatus } from '@models/request';
 import { SessionQuery } from '@store/session.query';
 import { PhoneCallStatus } from '@models/phone-call';
 
 @Component({
-  selector: 'app-dialog-ocurrency',
-  templateUrl: './dialog-ocurrency.component.html',
-  styleUrl: './dialog-ocurrency.component.scss'
+  selector: 'app-dialog-occurrence-contact',
+  templateUrl: './dialog-occurrence-contact.component.html',
+  styleUrl: './dialog-occurrence-contact.component.scss'
 })
-export class DialogOcurrencyComponent {
+export class DialogOccurrenceContactComponent {
 
   public loading : boolean = false;
   public title : string = 'Nova Ocorrência';
@@ -35,7 +39,7 @@ export class DialogOcurrencyComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA)
     protected readonly _data,
-    private readonly _dialogRef: MatDialogRef<DialogOcurrencyComponent>,
+    private readonly _dialogRef: MatDialogRef<DialogOccurrenceContactComponent>,
     private readonly _fb : FormBuilder,
     private readonly _toastr : ToastrService,
     private readonly _orderService : OrderService,
@@ -186,5 +190,4 @@ export class DialogOcurrencyComponent {
       },
     );
   }
-
 }

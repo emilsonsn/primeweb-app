@@ -35,6 +35,8 @@ export class DialogPhoneCallComponent {
 
   public users: User[];
 
+  protected canEditUserId : boolean = false;
+
   constructor(
     @Inject(MAT_DIALOG_DATA)
     protected readonly _data,
@@ -43,6 +45,7 @@ export class DialogPhoneCallComponent {
     private readonly _toastr : ToastrService,
     private readonly _phoneCallService : PhoneCallService,
     private readonly _userService : UserService,
+    private readonly _sessionQuery : SessionQuery
   ) {}
 
   ngOnInit(): void {
@@ -57,6 +60,7 @@ export class DialogPhoneCallComponent {
       observations: [''],
     });
 
+    this.isToHabilitadeFieldUserId();
     this.getUsers();
 
     if (this._data) {
@@ -188,6 +192,12 @@ export class DialogPhoneCallComponent {
         injector: this._injector,
       },
     );
+  }
+
+  public isToHabilitadeFieldUserId() {
+    this._sessionQuery.user$.subscribe(user => {
+      if(user?.role != 'Seller') this.canEditUserId = true;
+    })
   }
 
 }

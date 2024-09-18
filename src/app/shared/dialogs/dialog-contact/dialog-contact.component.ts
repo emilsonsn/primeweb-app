@@ -38,6 +38,7 @@ import { SegmentService } from '@services/segment.service';
 import { Segment } from '@models/segment';
 import { UtilsService } from '@services/utils.service';
 import { Estados } from '@models/utils';
+import { SessionQuery } from '@store/session.query';
 
 @Component({
   selector: 'app-dialog-contact',
@@ -50,6 +51,7 @@ export class DialogContactComponent {
   public title: string = 'Novo Contato';
   protected isNewContact: boolean = true;
   protected isToEdit: boolean = false;
+  protected canEditUserId : boolean = false;
 
   protected form: FormGroup;
 
@@ -83,6 +85,7 @@ export class DialogContactComponent {
     private readonly _userService: UserService,
     private readonly _dialog: MatDialog,
     private readonly _segmentService: SegmentService,
+    private readonly _sessionQuery : SessionQuery,
     private readonly _utilsService : UtilsService
   ) {}
 
@@ -110,6 +113,8 @@ export class DialogContactComponent {
       phones: this._fb.array([]),
       emails: this._fb.array([]),
     });
+
+    this.isToHabilitateFieldUserId();
 
     this.cityFilterCtrl.valueChanges
     .pipe()
@@ -488,6 +493,11 @@ export class DialogContactComponent {
   }
 
   // Utils
+  public isToHabilitateFieldUserId() {
+    this._sessionQuery.user$.subscribe(user => {
+      if(user?.role != 'Seller') this.canEditUserId = true;
+    })
+  }
 
   // CEP
   public states : string[] = Object.values(Estados);

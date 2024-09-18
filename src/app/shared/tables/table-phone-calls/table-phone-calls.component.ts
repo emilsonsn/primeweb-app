@@ -37,7 +37,7 @@ export class TablePhoneCallsComponent {
   public onDeletePhoneCall = new EventEmitter<PhoneCall>();
 
   @Output()
-  public onNewOcurrency = new EventEmitter<PhoneCall>();
+  public onNewOccurrence = new EventEmitter<PhoneCall>();
 
   public columns = [
     {

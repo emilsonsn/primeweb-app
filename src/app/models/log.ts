@@ -1,6 +1,11 @@
+import { User } from "./user";
+
 export interface Log {
   id : number;
-  message : string;
-  user : string;
-  created_at : string;
+  action : string;
+  ip : string;
+  user_id : number;
+  user : User;
+  updated_at? : string;
+  created_at? : string;
 }

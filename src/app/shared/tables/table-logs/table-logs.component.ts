@@ -9,6 +9,7 @@ import { PhoneCall } from '@models/phone-call';
 import { TestService } from '@services/test.service';
 import { Segment } from '@models/segment';
 import { Log } from '@models/log';
+import { LogService } from '@services/log.service';
 
 @Component({
   selector: 'app-table-logs',
@@ -54,6 +55,12 @@ export class TableLogsComponent {
       classes: "",
     },
     {
+      slug: "ip",
+      order: false,
+      title: "IP",
+      classes: "",
+    },
+    {
       slug: "created_at",
       order: false,
       title: "Criado em",
@@ -61,16 +68,7 @@ export class TableLogsComponent {
     }
   ];
 
-  public logs : Log[] = [
-    {
-      id: 0,
-      user: 'teste',
-      message: 'teste',
-      created_at: 'teste'
-    }
-  ];
-
-  public _testData : any;
+  public logs : Log[] = [];
 
   public pageControl: PageControl = {
     take: 10,
@@ -85,9 +83,8 @@ export class TableLogsComponent {
 
   constructor(
     private readonly _toastr: ToastrService,
-    private readonly _requestService : RequestService,
     private readonly _sessionQuery : SessionQuery,
-    private readonly _testService : TestService
+    private readonly _logService : LogService
   ) {}
 
   ngOnInit(): void {
@@ -133,13 +130,13 @@ export class TableLogsComponent {
   public search(): void {
     this._initOrStopLoading();
 
-    this._testService
-      .getRequests(this.pageControl, this.filters)
+    this._logService
+      .getList(this.pageControl, this.filters)
       .pipe(finalize(() => {
         this._initOrStopLoading()
       }))
       .subscribe((res) => {
-        this._testData = res.data;
+        this.logs = res.data;
 
         this.pageControl.page = res.current_page - 1;
         this.pageControl.itemCount = res.total;

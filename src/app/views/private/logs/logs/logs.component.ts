@@ -5,6 +5,7 @@ import { ContactOrigin } from '@models/contact';
 import { Service } from '@models/service';
 import { HeaderService } from '@services/header.service';
 import { ServiceService } from '@services/service.service';
+import { UserService } from '@services/user.service';
 import { DialogConfirmComponent } from '@shared/dialogs/dialog-confirm/dialog-confirm.component';
 import dayjs from 'dayjs';
 import { ToastrService } from 'ngx-toastr';
@@ -21,12 +22,12 @@ export class LogsComponent {
   public formFilters: FormGroup;
   public filters;
 
-  userSelection = Object.values(ContactOrigin);
+  protected userSelection;
 
   constructor(
     private readonly _dialog: MatDialog,
     private readonly _toastr: ToastrService,
-    private readonly _serviceService: ServiceService,
+    private readonly _userService: UserService,
     private readonly _fb: FormBuilder,
     private readonly _headerService: HeaderService
   ) {
@@ -35,87 +36,43 @@ export class LogsComponent {
   }
 
   ngOnInit() {
+    this.getUsers();
+
     this.formFilters = this._fb.group({
-      user : [null],
-      date : [null]
+      user_id : [''],
+      date : ['']
     })
+  }
+
+  // Getters
+  public getUsers() {
+    this._userService.getUsers()
+      .subscribe(res => {
+        this.userSelection = res.data;
+      })
+  }
+
+
+  // Utils
+  public updateFilters() {
+    this.filters = {
+      ...this.formFilters.getRawValue(),
+      date : this.formFilters.get('date').value ? dayjs(this.formFilters.get('date').value).format("YYYY-MM-DD") : ''
+    };
+  }
+
+  public clearDate() {
+    this.formFilters.get('date').patchValue('');
+    this.updateFilters();
+  }
+
+  public clearUser() {
+    this.formFilters.get('user_id').patchValue('');
+    this.updateFilters();
   }
 
   private _initOrStopLoading(): void {
     this.loading = !this.loading;
-  }
-
-
-  _patchService(service: Service) {
-    this._initOrStopLoading();
-
-    this._serviceService
-      .patchService(service.id, service)
-      .pipe(finalize(() => this._initOrStopLoading()))
-      .subscribe({
-        next: (res) => {
-          if (res.status) {
-            this._toastr.success(res.message);
-          }
-        },
-        error: (err) => {
-          this._toastr.error(err.error.error);
-        },
-      });
-  }
-
-  _postService(service: Service) {
-    this._initOrStopLoading();
-
-    this._serviceService
-      .postService(service)
-      .pipe(finalize(() => this._initOrStopLoading()))
-      .subscribe({
-        next: (res) => {
-          if (res.status) {
-            this._toastr.success(res.message);
-          }
-        },
-        error: (err) => {
-          this._toastr.error(err.error.error);
-        },
-      });
-  }
-
-  onDeleteService(id: number) {
-    const text = 'Tem certeza? Essa ação não pode ser revertida!';
-    this._dialog
-      .open(DialogConfirmComponent, { data: { text } })
-      .afterClosed()
-      .subscribe((res: boolean) => {
-        if (res) {
-          this._deleteService(id);
-        }
-      });
-  }
-
-  _deleteService(id: number) {
-    this._initOrStopLoading();
-    this._serviceService
-      .deleteService(id)
-      .pipe(finalize(() => this._initOrStopLoading()))
-      .subscribe({
-        next: (res) => {
-          this._toastr.success(res.message);
-        },
-        error: (err) => {
-          this._toastr.error(err.error.error);
-        },
-      });
-  }
-
-  // Utils
-  public updateFilters() {
-    console.log(this.formFilters.getRawValue())
-    this.filters = {
-      ...this.formFilters.getRawValue(),
-      date : dayjs(this.formFilters.get('date').value).format("YYYY-MM-DD")
-    };
   }
 
 }

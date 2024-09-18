@@ -45,7 +45,7 @@ export class TableContactsComponent {
   public onDeleteContact = new EventEmitter<Contact>();
 
   @Output()
-  public onNewOcurrencyContact = new EventEmitter<Contact>();
+  public onNewOccurrenceContact = new EventEmitter<Contact>();
 
   public columns = [
     {

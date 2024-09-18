@@ -26,7 +26,7 @@ import {CurrencyMaskModule} from 'ng2-currency-mask';
 import {TablesModule} from '@shared/tables/tables.module';
 import {MatIcon, MatIconModule} from "@angular/material/icon";
 import { DialogPhoneCallComponent } from './dialog-phone-call/dialog-phone-call.component';
-import { DialogOcurrencyComponent } from './dialog-ocurrency/dialog-ocurrency.component';
+import { DialogOccurrenceComponent } from './dialog-occurrence/dialog-occurrence.component';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
 import { PhoneCallDetailsComponent } from './phone-call-details/phone-call-details.component';
 import { DialogSegmentComponent } from './dialog-segment/dialog-segment.component';
@@ -34,7 +34,7 @@ import { DialogContactComponent } from './dialog-contact/dialog-contact.componen
 import { DialogContactDetailsComponent } from './dialog-contact-details/dialog-contact-details.component';
 import { MatChipsModule } from '@angular/material/chips';
 import {MatAutocompleteModule, MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
-import { DialogContactOcurrencyComponent } from './dialog-contact-ocurrency/dialog-contact-ocurrency.component';
+import { DialogOccurrenceContactComponent } from './dialog-occurrence-contact/dialog-occurrence-contact.component';
 import { DialogCalendarComponent } from './dialog-calendar/dialog-calendar.component';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
@@ -43,12 +43,12 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     DialogConfirmComponent,
     DialogUserComponent,
     DialogPhoneCallComponent,
-    DialogOcurrencyComponent,
+    DialogOccurrenceComponent,
     PhoneCallDetailsComponent,
     DialogSegmentComponent,
     DialogContactComponent,
     DialogContactDetailsComponent,
-    DialogContactOcurrencyComponent,
+    DialogOccurrenceContactComponent,
     DialogCalendarComponent
   ],
   imports: [

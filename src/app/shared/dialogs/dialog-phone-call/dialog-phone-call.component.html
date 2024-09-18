@@ -64,16 +64,18 @@
       </mat-form-field>
     </div>
 
-    <div class="mb-3 col-md-12">
-      <span class="fw-bolder">Responsável</span>
-      <mat-form-field appearance="outline">
-        <mat-select formControlName="user_id" placeholder="Responsável">
-          <mat-option *ngFor="let user of users" [value]="user.id">
-            {{ user.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
+    @if(canEditUserId) {
+      <div class="mb-3 col-md-12">
+        <span class="fw-bolder">Responsável</span>
+        <mat-form-field appearance="outline">
+          <mat-select formControlName="user_id" placeholder="Responsável">
+            <mat-option *ngFor="let user of users" [value]="user.id">
+              {{ user.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    }
 
   </form>
 

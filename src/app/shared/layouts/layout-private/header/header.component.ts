@@ -7,6 +7,8 @@ import {AuthService} from "@services/auth.service";
 import { SessionService } from '@store/session.service';
 import { SessionQuery } from '@store/session.query';
 import { HeaderService } from '@services/header.service';
+import { NotificationService } from '@services/notification.service';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -26,14 +28,7 @@ export class HeaderComponent implements OnInit {
 
   public isMenuOpened = signal(false);
 
-  public notifications = [
-    {
-      title: 'Nova Notificação'
-    },
-    {
-      title: 'Teste Notificação'
-    }
-  ];
+  public notifications = [];
 
   constructor(
     protected router: Router,
@@ -41,7 +36,8 @@ export class HeaderComponent implements OnInit {
     private readonly _authService: AuthService,
     private readonly _sessionService : SessionService,
     private readonly _sessionQuery : SessionQuery,
-    private readonly _headerService: HeaderService
+    private readonly _headerService: HeaderService,
+    private readonly _notificationService : NotificationService
   ) { }
 
   ngOnInit() {
@@ -52,6 +48,38 @@ export class HeaderComponent implements OnInit {
     this._headerService.getTitle().subscribe(title => {
       this.activeLabel = title;
     });
+
+    this.getNotifications();
+  }
+
+  public getNotifications() {
+    this._notificationService.getList()
+      .pipe(finalize(() => {
+
+      }))
+      .subscribe({
+        next: (res) => {
+          this.notifications = res.data;
+        },
+        error: (err) => {
+
+        }
+      })
+  }
+
+  public seeNotification(notifications) {
+    this._notificationService.seeNotification(notifications)
+      .pipe(finalize(() => {
+
+      }))
+      .subscribe({
+        next: (res) => {
+
+        },
+        error : (err) => {
+
+        }
+      })
   }
 
   public logout() {
@@ -66,7 +94,6 @@ export class HeaderComponent implements OnInit {
   public get isSidebarOpen() {
     return this._sidebarService.showSidebar();
   }
-
 
   public onToggleSidebar() {
     event.stopPropagation();

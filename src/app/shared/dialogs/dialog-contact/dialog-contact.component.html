@@ -90,21 +90,23 @@
         </mat-form-field>
       </div>
 
-      <div class="mb-3">
-        <span class="fw-bolder">Consultor *</span>
-        <mat-form-field>
-          <mat-select formControlName="user_id" placeholder="Consultor">
-            <mat-option>
-              <ngx-mat-select-search [formControl]="userFilterCtrl" placeholderLabel="Procure pelo usuário"
-                i18n-placeholderLabel noEntriesFoundLabel="Usuário não encontrado" i18n-noEntriesFoundLabel>
-              </ngx-mat-select-search>
-            </mat-option>
-            <mat-option *ngFor="let user of filteredUsers | async" [value]="user.id">
-              {{ user.name }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
+      @if(canEditUserId) {
+        <div class="mb-3">
+          <span class="fw-bolder">Consultor *</span>
+          <mat-form-field>
+            <mat-select formControlName="user_id" placeholder="Consultor">
+              <mat-option>
+                <ngx-mat-select-search [formControl]="userFilterCtrl" placeholderLabel="Procure pelo usuário"
+                  i18n-placeholderLabel noEntriesFoundLabel="Usuário não encontrado" i18n-noEntriesFoundLabel>
+                </ngx-mat-select-search>
+              </mat-option>
+              <mat-option *ngFor="let user of filteredUsers | async" [value]="user.id">
+                {{ user.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      }
 
       <!-- Telefones -->
       <div class="col-md-6 mb-3">

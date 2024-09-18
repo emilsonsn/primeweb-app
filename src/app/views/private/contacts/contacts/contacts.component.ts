@@ -8,11 +8,11 @@ import { DialogConfirmComponent } from '@shared/dialogs/dialog-confirm/dialog-co
 import { ToastrService } from 'ngx-toastr';
 import { OrderService } from '@services/order.service';
 import { DialogPhoneCallComponent } from '@shared/dialogs/dialog-phone-call/dialog-phone-call.component';
-import { DialogOcurrencyComponent } from '@shared/dialogs/dialog-ocurrency/dialog-ocurrency.component';
+import { DialogOccurrenceComponent } from '@shared/dialogs/dialog-occurrence/dialog-occurrence.component';
 import { ContactStatus } from '@models/contact';
 import { DialogContactComponent } from '@shared/dialogs/dialog-contact/dialog-contact.component';
 import { DialogContactDetailsComponent } from '@shared/dialogs/dialog-contact-details/dialog-contact-details.component';
-import { DialogContactOcurrencyComponent } from '@shared/dialogs/dialog-contact-ocurrency/dialog-contact-ocurrency.component';
+import { DialogOccurrenceContactComponent } from '@shared/dialogs/dialog-occurrence-contact/dialog-occurrence-contact.component';
 import { ContactService } from '@services/contact.service';
 
 @Component({
@@ -116,7 +116,7 @@ export class ContactsComponent {
     });
   }
 
-  public openNewOcurrencyContactDialog(request) {
+  public openNewOccurrenceContactDialog(request) {
     const dialogConfig: MatDialogConfig = {
       width: '80%',
       maxWidth: '850px',
@@ -125,7 +125,7 @@ export class ContactsComponent {
       closeOnNavigation: true,
     };
 
-    this._dialog.open(DialogContactOcurrencyComponent, {
+    this._dialog.open(DialogOccurrenceContactComponent, {
       ...dialogConfig,
     });
   }

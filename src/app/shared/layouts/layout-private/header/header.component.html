@@ -68,10 +68,14 @@
         <span class="fw-bold">Notificações ({{notifications.length}})</span>
       </div>
       @for(notification of notifications; track notification) {
-        <div matRipple class="menu-item">
+        <div matRipple class="menu-item" (click)="seeNotification(notification)">
           <i class="fa-solid fa-circle-exclamation"></i> <span>{{ notification.title }}</span>
         </div>
       }
+      <mat-divider></mat-divider>
+      <div matRipple class="menu-item" (click)="seeNotification(notifications)">
+        Visualizar Todas
+      </div>
     </div>
   </div>
 </mat-menu>

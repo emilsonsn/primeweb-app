@@ -8,9 +8,10 @@
           <div class="col-md-4 mb-md-0 mb-2">
             <span class="filterField mb-1">Usuário</span>
             <mat-form-field>
-              <mat-select formControlName="user" placeholder="Usuário" >
+              <mat-select formControlName="user_id" placeholder="Usuário" >
+                <mat-option (click)="clearUser()">Limpar filtro</mat-option>
                 @for (user of userSelection; track user) {
-                  <mat-option [value]="user">{{ user }}</mat-option>
+                  <mat-option [value]="user?.id">{{ user?.name }}</mat-option>
                 }
               </mat-select>
             </mat-form-field>
@@ -20,7 +21,15 @@
             <span class="filterField mb-1">Data</span>
             <mat-form-field class="example-full-width">
               <input matInput [matDatepicker]="picker" placeholder="DD/MM/YYYY" formControlName="date" readonly />
-              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+              <div matSuffix class="d-flex">
+                @if(formFilters.get('date').value) {
+                  <button mat-icon-button type="button" (click)="clearDate()">
+                    <mat-icon>{{ 'close' }}</mat-icon>
+                  </button>
+                }
+
+                <mat-datepicker-toggle [for]="picker"></mat-datepicker-toggle>
+              </div>
               <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
           </div>

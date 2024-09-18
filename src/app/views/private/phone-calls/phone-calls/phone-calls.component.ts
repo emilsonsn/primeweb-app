@@ -8,7 +8,7 @@ import { DialogConfirmComponent } from '@shared/dialogs/dialog-confirm/dialog-co
 import { ToastrService } from 'ngx-toastr';
 import { OrderService } from '@services/order.service';
 import { DialogPhoneCallComponent } from '@shared/dialogs/dialog-phone-call/dialog-phone-call.component';
-import { DialogOcurrencyComponent } from '@shared/dialogs/dialog-ocurrency/dialog-ocurrency.component';
+import { DialogOccurrenceComponent } from '@shared/dialogs/dialog-occurrence/dialog-occurrence.component';
 import { PhoneCallService } from '@services/phone-call.service';
 import { PhoneCall } from '@models/phone-call';
 
@@ -94,7 +94,7 @@ export class PhoneCallsComponent {
 
   }
 
-  public openNewOcurrencyDialog(request) {
+  public openNewOccurrenceDialog(request) {
     const dialogConfig: MatDialogConfig = {
       width: '80%',
       maxWidth: '850px',
@@ -103,7 +103,7 @@ export class PhoneCallsComponent {
       closeOnNavigation: true,
     };
 
-    this._dialog.open(DialogOcurrencyComponent, {
+    this._dialog.open(DialogOccurrenceComponent, {
       ...dialogConfig,
     });
   }
