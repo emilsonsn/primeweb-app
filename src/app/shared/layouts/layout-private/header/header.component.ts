@@ -67,6 +67,7 @@ export class HeaderComponent implements OnInit {
     return this._sidebarService.showSidebar();
   }
 
+
   public onToggleSidebar() {
     event.stopPropagation();
     this._sidebarService.showSidebar.set(true);

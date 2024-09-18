@@ -47,7 +47,7 @@
         <i class="fa-solid fa-circle-user"></i> <span>Perfil</span>
       </div>
 
-      <div matRipple class="menu-item" (click)="navigateTousers()">
+      <div *ngIf="user.role == 'Admin'" matRipple class="menu-item" (click)="navigateTousers()">
         <i class="fa-solid fa-users"></i> <span>Usuários</span>
       </div>
     </div>
