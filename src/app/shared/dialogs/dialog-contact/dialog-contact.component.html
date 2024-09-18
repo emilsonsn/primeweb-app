@@ -14,124 +14,108 @@
   <form [formGroup]="form">
 
     <div class="row">
-      <div class="col-md-6">
 
-        <div class="mb-3">
-          <span class="fw-bolder">Empresa *</span>
-          <mat-form-field appearance="outline">
-            <input type="text" formControlName="enterprise" matInput />
-          </mat-form-field>
-        </div>
-
-        <div class="mb-3">
-          <span class="fw-bolder">Domínio *</span>
-          <mat-form-field appearance="outline">
-            <input type="text" formControlName="domain" matInput />
-          </mat-form-field>
-        </div>
-
-        <div class="mb-3">
-          <span class="fw-bolder">Nome do Responsável (contato) *</span>
-          <mat-form-field appearance="outline">
-            <input type="text" formControlName="responsible" matInput />
-          </mat-form-field>
-        </div>
-
-        <div class="mb-3">
-          <span class="fw-bolder">Segmento *</span>
-          <mat-form-field class="example-chip-list">
-            <mat-chip-grid #chipGrid aria-label="Segment Selection">
-              <mat-chip-row *ngFor="let segment of segments(); trackBy: trackBySegmentId" (removed)="remove(segment)">
-                {{ segment.Name }}
-                <button matChipRemove [attr.aria-label]="'remove ' + segment.Name">
-                  <mat-icon>cancel</mat-icon>
-                </button>
-              </mat-chip-row>
-            </mat-chip-grid>
-
-            <input placeholder="Segmentos" #segmentInput [(ngModel)]="currentSegment().Name"
-              [ngModelOptions]="{standalone: true}" [matChipInputFor]="chipGrid" [matAutocomplete]="auto"
-              [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (ngModelChange)="filterSegments()"
-              (matChipInputTokenEnd)="add($event)" />
-
-            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-              <mat-option *ngFor="let segment of filteredSegments(); trackBy: trackBySegmentId" [value]="segment">
-                {{ segment.Name }}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-        </div>
-
-        <div class="mb-3">
-          <span class="fw-bolder">Origem *</span>
-          <mat-form-field appearance="outline">
-            <mat-select formControlName="origin" placeholder="Origem">
-              <mat-option *ngFor="let origin of originSelect" [value]="origin">
-                {{ origin }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        @if (isAdmin) {
-        <div class="mb-3">
-          <span class="fw-bolder">Banco *</span>
-          <mat-form-field appearance="outline">
-            <mat-select formControlName="bank_id" placeholder="Banco">
-              <mat-option *ngFor="let banco of bancos()" [value]="banco.id">
-                {{ banco.descricao }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <div class="mb-3">
-          <span class="fw-bolder">Categoria *</span>
-          <mat-form-field appearance="outline">
-            <mat-select formControlName="category_id" placeholder="Categoria">
-              <mat-option *ngFor="let category of categories()" [value]="category.id">
-                {{ category.descricao }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        }
-
-        <div class="mb-3">
-          <span class="fw-bolder">Data de Retorno *</span>
-          <mat-form-field appearance="outline">
-            <input type="text" formControlName="return_date" matInput />
-          </mat-form-field>
-        </div>
-
-        <div class="mb-3">
-          <span class="fw-bolder">CNPJ *</span>
-          <mat-form-field appearance="outline">
-            <input type="text" formControlName="cnpj" matInput />
-          </mat-form-field>
-        </div>
-
-        <div class="mb-3">
-          <span class="fw-bolder">Consultor *</span>
-          <mat-form-field>
-            <mat-select formControlName="consultant" placeholder="Consultor">
-              @for (paymentMethod of requestOrderPaymentSelection; track paymentMethod) {
-              <mat-option [value]="paymentMethod">{{ paymentMethod | paymentForm }}</mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
-        </div>
+      <div class="mb-3">
+        <span class="fw-bolder">Empresa *</span>
+        <mat-form-field appearance="outline">
+          <input type="text" formControlName="company" matInput placeholder="Empresa" />
+        </mat-form-field>
       </div>
 
-      <div class="col-md-6">
-        <!-- Itens -->
+      <div class="mb-3">
+        <span class="fw-bolder">Domínio *</span>
+        <mat-form-field appearance="outline">
+          <input type="text" formControlName="domain" matInput placeholder="Domínio" mask="A*.A*" />
+        </mat-form-field>
+      </div>
+
+      <div class="mb-3">
+        <span class="fw-bolder">Nome do Responsável (contato) *</span>
+        <mat-form-field appearance="outline">
+          <input type="text" formControlName="responsible" matInput placeholder="Contato" />
+        </mat-form-field>
+      </div>
+
+      <div class="mb-3">
+        <span class="fw-bolder">Segmento *</span>
+        <mat-form-field class="example-chip-list">
+          <mat-chip-grid #chipGrid aria-label="Segment Selection">
+            <mat-chip-row *ngFor="let segment of segments(); trackBy: trackBySegmentId" (removed)="remove(segment)">
+              {{ segment.name }}
+              <button matChipRemove [attr.aria-label]="'remove ' + segment.name">
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip-row>
+          </mat-chip-grid>
+
+          <input placeholder="Segmentos" #segmentInput [(ngModel)]="currentSegment().name"
+            [ngModelOptions]="{standalone: true}" [matChipInputFor]="chipGrid" [matAutocomplete]="auto"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (ngModelChange)="filterSegments()"
+            (matChipInputTokenEnd)="add($event)" />
+
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+            <mat-option *ngFor="let segment of filteredSegments(); trackBy: trackBySegmentId" [value]="segment">
+              {{ segment.name }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+
+      <div class="mb-3">
+        <span class="fw-bolder">Origem *</span>
+        <mat-form-field appearance="outline">
+          <mat-select formControlName="origin" placeholder="Origem">
+            <mat-option *ngFor="let origin of originSelect" [value]="origin">
+              {{ origin }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="mb-3">
+        <span class="fw-bolder">Data de Retorno *</span>
+        <mat-form-field>
+          <input matInput [(ngModel)]="date" [ngModelOptions]="{standalone: true}" [owlDateTime]="dt1"
+            [owlDateTimeTrigger]="dt1" placeholder="Data e Hora" readonly>
+          <owl-date-time #dt1></owl-date-time>
+          <i matSuffix [owlDateTimeTrigger]="dt1" class="fa-solid fa-calendar me-3"></i>
+        </mat-form-field>
+      </div>
+
+      <div class="mb-3">
+        <span class="fw-bolder">CNPJ *</span>
+        <mat-form-field appearance="outline">
+          <input type="text" formControlName="cnpj" matInput mask="00.000.000/0000-00"
+            placeholder="00.000.000/0000-00" />
+        </mat-form-field>
+      </div>
+
+      <div class="mb-3">
+        <span class="fw-bolder">Consultor *</span>
+        <mat-form-field>
+          <mat-select formControlName="user_id" placeholder="Consultor">
+            <mat-option>
+              <ngx-mat-select-search [formControl]="userFilterCtrl" placeholderLabel="Procure pelo usuário"
+                i18n-placeholderLabel noEntriesFoundLabel="Usuário não encontrado" i18n-noEntriesFoundLabel>
+              </ngx-mat-select-search>
+            </mat-option>
+            <mat-option *ngFor="let user of filteredUsers | async" [value]="user.id">
+              {{ user.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <!-- Telefones -->
+      <div class="col-md-6 mb-3">
         <span class="fw-bolder">Telefones *</span>
-        <div class="d-flex flex-column gap-3" formArrayName="telephones">
-          @for(telephone of telephones.controls; track telephone) {
+        <div class="d-flex flex-column gap-3" formArrayName="phones">
+          @for(telephone of phones.controls; track telephone) {
           <div class="d-flex flex-sm-row flex-column gap-1" [formGroupName]="$index">
             <div class="d-flex flex-sm-row flex-column  gap-2 w-100">
               <mat-form-field appearance="outline">
-                <input matInput type="text" formControlName="number" placeholder="Número">
+                <input matInput type="text" formControlName="phone" placeholder="Número"
+                  mask="(00) 00000-0000||(00) 0000-0000">
               </mat-form-field>
             </div>
             <div class="d-flex align-items-center">
@@ -151,16 +135,19 @@
             </div>
           </div>
         </div>
-        <!---->
-        <mat-divider class="my-3"></mat-divider>
-        <!---->
+      </div>
+
+      <!-- Emails -->
+      <div class="col-md-6 mb-3">
+
         <span class="fw-bolder">E-mail *</span>
         <div class="d-flex flex-column gap-3" formArrayName="emails">
           @for(email of emails.controls; track email) {
           <div class="d-flex flex-sm-row flex-column gap-1" [formGroupName]="$index">
             <div class="d-flex flex-sm-row flex-column gap-2 w-100">
               <mat-form-field appearance="outline">
-                <input matInput type="text" formControlName="email" placeholder="E-mail">
+                <input matInput type="text" formControlName="email" placeholder="E-mail" mask="A*@A*.A*"
+                  [validation]="true" [dropSpecialCharacters]="false">
               </mat-form-field>
             </div>
             <div class="d-flex align-items-center">
@@ -182,11 +169,71 @@
         </div>
       </div>
 
+      <div class="col-12 mb-3">
+        <span class="fw-bolder">Endereço</span>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>CEP</mat-label>
+          <input matInput type="text" mask="00000-000" formControlName="cep" >
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-5 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Rua</mat-label>
+          <input matInput type="text" formControlName="street">
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-3 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Número</mat-label>
+          <input matInput type="text" formControlName="number">
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Bairro</mat-label>
+          <input matInput type="text" formControlName="neighborhood">
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-4 col-12 mb-3">
+        <mat-form-field>
+          <mat-select formControlName="state" placeholder="Estado" >
+            @for (state of states; track state) {
+              <mat-option [value]="state">{{ state }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4 col-12 mb-3">
+        <mat-form-field>
+          <mat-select formControlName="city" placeholder="Cidade">
+            <mat-option>
+              <ngx-mat-select-search [formControl]="cityFilterCtrl"
+                placeholderLabel="Procure a cidade"
+                i18n-placeholderLabel
+                noEntriesFoundLabel="Cidade não encontrada"
+                i18n-noEntriesFoundLabel>
+              </ngx-mat-select-search>
+            </mat-option>
+            <mat-option *ngFor="let city of filteredCitys | async" [value]="city">
+              {{ city }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
     </div>
+
+
     <div class="my-3">
       <span class="fw-bolder">Descrição</span>
       <mat-form-field>
-        <textarea matInput formControlName="description" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
+        <textarea matInput formControlName="observations" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
           cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5" [placeholder]="'Descrição'">
         </textarea>
       </mat-form-field>
@@ -207,13 +254,11 @@
         <div class="col-auto">
           <button matRipple id="cancel" class="button cancel" (click)="onCancel()">Cancelar</button>
         </div>
-        @if(_data?.edit || isNewOrder) {
         <div class="col-auto">
           <button matRipple id="submit" class="button primary" (click)="!loading ? onConfirm() : null">{{
-            "Criar"
+            isNewContact ? "Criar" : "Salvar"
             }}</button>
         </div>
-        }
       </div>
     </div>
   </div>

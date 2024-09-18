@@ -25,7 +25,6 @@ import {NgxMaskDirective, NgxMaskPipe} from 'ngx-mask';
 import {CurrencyMaskModule} from 'ng2-currency-mask';
 import {TablesModule} from '@shared/tables/tables.module';
 import {MatIcon, MatIconModule} from "@angular/material/icon";
-import {NgxMatSelectSearchModule} from 'ngx-mat-select-search';
 import { DialogPhoneCallComponent } from './dialog-phone-call/dialog-phone-call.component';
 import { DialogOcurrencyComponent } from './dialog-ocurrency/dialog-ocurrency.component';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
@@ -37,6 +36,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import {MatAutocompleteModule, MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import { DialogContactOcurrencyComponent } from './dialog-contact-ocurrency/dialog-contact-ocurrency.component';
 import { DialogCalendarComponent } from './dialog-calendar/dialog-calendar.component';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 @NgModule({
   declarations: [
@@ -83,8 +83,7 @@ import { DialogCalendarComponent } from './dialog-calendar/dialog-calendar.compo
     OwlNativeDateTimeModule,
     NgxMaskDirective,
     NgxMaskPipe,
-    NgxMatSelectSearchModule,
-    MatIcon
+    NgxMatSelectSearchModule
   ]
 })
 export class DialogsModule {

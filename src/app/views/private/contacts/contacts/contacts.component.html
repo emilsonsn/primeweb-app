@@ -2,7 +2,7 @@
   <app-component-header>
 
     <div id="buttons">
-      <button matRipple class="button primary" (click)="testPhoneCallDialog()">
+      <button matRipple class="button primary" (click)="newContactDialog()">
         <i class="fa-solid fa-plus"></i> Contato
       </button>
     </div>
@@ -91,7 +91,7 @@
 
 <div id="componentTable" class="col-12 mt-4">
   <app-table-contacts
-    (onViewContact)="testDetailsContactDialog($event)"
+    (onViewContact)="openDetailsContactDialog($event)"
     (onEditContact)="openEditContactDialog($event)"
     (onNewOcurrencyContact)="openNewOcurrencyContactDialog($event)"
     (onDeleteContact)="openDeleteContactDialog($event)"

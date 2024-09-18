@@ -139,7 +139,9 @@ export class DialogPhoneCallComponent {
       this.patchPhoneCall(
         this._data.phoneCall.id,
         {
-          ...this.form.getRawValue()
+          ...this.form.getRawValue(),
+          return_date: dayjs(this.date).format('YYYY-MM-DD'),
+          return_time: dayjs(this.date).format('HH:mm')
         }
       );
     }

@@ -92,9 +92,36 @@
                 <td colspan="7" class="p-0">
                   <div [@detailExpand]="contact == expandedContact ? 'expanded' : 'collapsed'" style="overflow: hidden;">
                     <div class="row">
-                      <div class="col-md-4">SEGMENTOS</div>
-                      <div class="col-md-4">TELEFONES</div>
-                      <div class="col-md-4">E-MAILS</div>
+                      <div class="col-md-4">
+                        <div class="p-md-3 p-2">
+                          <span class="mb-2" style="font-weight: 500; font-size: 1rem;">Segmentos</span>
+                          <div class="d-flex flex-wrap gap-2">
+                            @for(segment of contact.segments; track segment) {
+                              <div class="segment">{{ segment.segment_id }}</div>
+                            }
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="p-md-3 p-2">
+                          <span class="mb-2" style="font-weight: 500; font-size: 1rem;">Telefones</span>
+                          <div class="d-flex flex-wrap gap-2">
+                            @for(phone of contact.phones; track phone) {
+                              <div class="segment">{{ phone.phone }}</div>
+                            }
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="p-md-3 p-2">
+                          <span class="mb-2" style="font-weight: 500; font-size: 1rem;">E-mails</span>
+                          <div class="d-flex flex-wrap gap-2">
+                            @for(email of contact.emails; track email) {
+                              <div class="segment">{{ email.email }}</div>
+                            }
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </td>

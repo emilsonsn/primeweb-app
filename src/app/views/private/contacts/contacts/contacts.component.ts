@@ -13,6 +13,7 @@ import { ContactStatus } from '@models/contact';
 import { DialogContactComponent } from '@shared/dialogs/dialog-contact/dialog-contact.component';
 import { DialogContactDetailsComponent } from '@shared/dialogs/dialog-contact-details/dialog-contact-details.component';
 import { DialogContactOcurrencyComponent } from '@shared/dialogs/dialog-contact-ocurrency/dialog-contact-ocurrency.component';
+import { ContactService } from '@services/contact.service';
 
 @Component({
   selector: 'app-contacts',
@@ -33,7 +34,7 @@ export class ContactsComponent {
     private readonly _router: Router,
     private readonly _dialog: MatDialog,
     private readonly _fb: FormBuilder,
-    private readonly _requestService: RequestService,
+    private readonly _contactService : ContactService,
     private readonly _orderService: OrderService,
     private readonly _toastrService: ToastrService
   ) {
@@ -55,32 +56,46 @@ export class ContactsComponent {
   }
 
   // Modais
-  public openNewPhoneCallDialog() {
+  public newContactDialog() {
     const dialogConfig: MatDialogConfig = {
       width: '80%',
-      maxWidth: '850px',
-      maxHeight: '90%',
+      height: '90%',
       hasBackdrop: true,
       closeOnNavigation: true,
     };
 
     this._dialog.open(DialogContactComponent, {
       ...dialogConfig,
+    }).afterClosed()
+    .subscribe((res) => {
+      if(res) {
+        this.loading = true;
+        setTimeout(() => {
+          this.loading = false;
+        }, 200);
+      }
     });
   }
-  public openEditContactDialog(request) {
-    this._orderService.getOrderById(request.order_id).subscribe((order) => {
-      const dialogConfig: MatDialogConfig = {
-        width: '80%',
-        maxHeight: '90%',
-        hasBackdrop: true,
-        closeOnNavigation: true,
-      };
 
-      this._dialog.open(DialogContactComponent, {
-        data: { order: order, edit: true },
-        ...dialogConfig,
-      });
+  public openEditContactDialog(contact) {
+    const dialogConfig: MatDialogConfig = {
+      width: '80%',
+      height: '90%',
+      hasBackdrop: true,
+      closeOnNavigation: true,
+    };
+
+    this._dialog.open(DialogContactComponent, {
+      data: { contact },
+      ...dialogConfig,
+    }).afterClosed()
+    .subscribe((res) => {
+      if(res) {
+        this.loading = true;
+        setTimeout(() => {
+          this.loading = false;
+        }, 200);
+      }
     });
   }
 
@@ -133,7 +148,7 @@ export class ContactsComponent {
       .subscribe({
         next: (res) => {
           if (res) {
-            this._requestService.deleteRequest(request.id).subscribe({
+            this._contactService.delete(request.id).subscribe({
               next: (resData) => {
                 this.loading = true;
                 this._toastrService.success(resData.message);
@@ -145,32 +160,6 @@ export class ContactsComponent {
           }
         },
       });
-  }
-
-  public testPhoneCallDialog() {
-    const dialogConfig: MatDialogConfig = {
-      width: '80%',
-      height: '90%',
-      hasBackdrop: true,
-      closeOnNavigation: true,
-    };
-
-    this._dialog.open(DialogContactComponent, {
-      ...dialogConfig,
-    });
-  }
-
-  public testDetailsContactDialog(contact?) {
-    const dialogConfig: MatDialogConfig = {
-      width: '80%',
-      height: '90%',
-      hasBackdrop: true,
-      closeOnNavigation: true,
-    };
-
-    this._dialog.open(DialogContactDetailsComponent, {
-      ...dialogConfig,
-    });
   }
 
   // Utils
