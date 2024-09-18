@@ -27,21 +27,21 @@
       </mat-form-field>
     </div>
 
-    <div class="col-md-6 mb-3">
+    <div class="col-md-4 mb-3">
       <span class="fw-bolder">Telefone *</span>
       <mat-form-field appearance="outline">
         <input type="text" formControlName="phone" matInput mask="(00) 00000-0000||(00) 0000-0000" placeholder="(00) 00000-0000 ou (00) 0000-0000" />
       </mat-form-field>
     </div>
 
-    <div class="col-md-6 mb-3">
+    <div class="col-md-4 mb-3">
       <span class="fw-bolder">E-mail *</span>
       <mat-form-field appearance="outline">
         <input type="text" formControlName="email" matInput pattern="{{ utils.patternEmail }}" placeholder="E-mail" />
       </mat-form-field>
     </div>
 
-    <div class="col-md-6 mb-3">
+    <div class="col-md-4 mb-3">
       <span class="fw-bolder">Data retorno *</span>
       <mat-form-field>
         <input matInput [(ngModel)]="date" [ngModelOptions]="{standalone: true}" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" placeholder="Data e Hora" readonly>
@@ -61,6 +61,17 @@
           cdkAutosizeMaxRows="5"
           [placeholder]="'Descrição'">
         </textarea>
+      </mat-form-field>
+    </div>
+
+    <div class="mb-3 col-md-12">
+      <span class="fw-bolder">Responsável</span>
+      <mat-form-field appearance="outline">
+        <mat-select formControlName="user_id" placeholder="Responsável">
+          <mat-option *ngFor="let user of users" [value]="user.id">
+            {{ user.name }}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
     </div>
 

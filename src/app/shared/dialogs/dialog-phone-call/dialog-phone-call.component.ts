@@ -9,6 +9,8 @@ import { SessionQuery } from '@store/session.query';
 import { PhoneCallService } from '@services/phone-call.service';
 import { PhoneCall } from '@models/phone-call';
 import { Utils } from '@shared/utils';
+import { UserService } from '@services/user.service';
+import { User } from '@models/user';
 
 @Component({
   selector: 'app-dialog-phone-call',
@@ -31,6 +33,8 @@ export class DialogPhoneCallComponent {
 
   protected date;
 
+  public users: User[];
+
   constructor(
     @Inject(MAT_DIALOG_DATA)
     protected readonly _data,
@@ -38,12 +42,12 @@ export class DialogPhoneCallComponent {
     private readonly _fb : FormBuilder,
     private readonly _toastr : ToastrService,
     private readonly _phoneCallService : PhoneCallService,
-    private readonly _sessionQuery : SessionQuery,
-    private readonly _dialog: MatDialog,
+    private readonly _userService : UserService,
   ) {}
 
   ngOnInit(): void {
     this.form = this._fb.group({
+      user_id: [null],
       company: [null, Validators.required],
       domain: [null, Validators.required],
       phone: [null, Validators.required],
@@ -52,6 +56,8 @@ export class DialogPhoneCallComponent {
       return_time: [null],
       observations: [''],
     });
+
+    this.getUsers();
 
     if (this._data) {
       this.isNewPhoneCall = false;
@@ -65,6 +71,15 @@ export class DialogPhoneCallComponent {
       const returnDate = this.form.get('return_date').value + `T${this.form.get('return_time').value}`;
       this.date = new Date(returnDate);
     }
+  }
+
+  public getUsers () {
+    this._userService.getUsers()
+    .subscribe({
+      next: (res) => {
+        this.users = res.data;
+      }
+    });
   }
 
   public postPhoneCall(phoneCall : PhoneCall) {
