@@ -40,7 +40,7 @@
           <mat-label>Cargo</mat-label>
           <mat-select formControlName="role">
             <mat-option *ngFor="let type of userRolesEnum" [value]="type">
-              {{ type }}
+              {{ type | role }}
             </mat-option>
           </mat-select>
         </mat-form-field>

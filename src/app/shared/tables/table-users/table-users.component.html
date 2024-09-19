@@ -59,7 +59,7 @@
           <td>
             <div class="d-flex justify-content-center align-items-center h-100">
               <div class="role" [ngClass]="user?.role.toLowerCase()">
-                {{ user?.role }}
+                {{ user?.role | role }}
               </div>
             </div>
           </td>

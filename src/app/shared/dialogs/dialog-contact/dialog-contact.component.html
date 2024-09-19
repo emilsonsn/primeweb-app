@@ -15,28 +15,28 @@
 
     <div class="row">
 
-      <div class="mb-3">
+      <div class="col mb-3">
         <span class="fw-bolder">Empresa *</span>
         <mat-form-field appearance="outline">
           <input type="text" formControlName="company" matInput placeholder="Empresa" />
         </mat-form-field>
       </div>
 
-      <div class="mb-3">
+      <div class="col mb-3">
         <span class="fw-bolder">Domínio *</span>
         <mat-form-field appearance="outline">
           <input type="text" formControlName="domain" matInput placeholder="Domínio" mask="A*.A*" />
         </mat-form-field>
       </div>
 
-      <div class="mb-3">
+      <div class="col mb-3">
         <span class="fw-bolder">Nome do Responsável (contato) *</span>
         <mat-form-field appearance="outline">
           <input type="text" formControlName="responsible" matInput placeholder="Contato" />
         </mat-form-field>
       </div>
 
-      <div class="mb-3">
+      <div class="col-md-4 mb-3">
         <span class="fw-bolder">Segmento *</span>
         <mat-form-field class="example-chip-list">
           <mat-chip-grid #chipGrid aria-label="Segment Selection">
@@ -61,18 +61,18 @@
         </mat-form-field>
       </div>
 
-      <div class="mb-3">
+      <div class="col-md-4 mb-3">
         <span class="fw-bolder">Origem *</span>
         <mat-form-field appearance="outline">
           <mat-select formControlName="origin" placeholder="Origem">
             <mat-option *ngFor="let origin of originSelect" [value]="origin">
-              {{ origin }}
+              {{ origin | origin}}
             </mat-option>
           </mat-select>
         </mat-form-field>
       </div>
 
-      <div class="mb-3">
+      <div class="col-md-4 mb-3">
         <span class="fw-bolder">Data de Retorno *</span>
         <mat-form-field>
           <input matInput [(ngModel)]="date" [ngModelOptions]="{standalone: true}" [owlDateTime]="dt1"
@@ -82,7 +82,7 @@
         </mat-form-field>
       </div>
 
-      <div class="mb-3">
+      <div class="col-md-4 mb-3">
         <span class="fw-bolder">CNPJ *</span>
         <mat-form-field appearance="outline">
           <input type="text" formControlName="cnpj" matInput mask="00.000.000/0000-00"
@@ -91,7 +91,7 @@
       </div>
 
       @if(canEditUserId) {
-        <div class="mb-3">
+        <div class="col-md-4 mb-3">
           <span class="fw-bolder">Consultor *</span>
           <mat-form-field>
             <mat-select formControlName="user_id" placeholder="Consultor">
@@ -107,7 +107,7 @@
           </mat-form-field>
         </div>
       }
-
+      <div class="col-12"></div>
       <!-- Telefones -->
       <div class="col-md-6 mb-3">
         <span class="fw-bolder">Telefones *</span>

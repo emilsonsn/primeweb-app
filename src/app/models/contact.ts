@@ -43,16 +43,6 @@ export interface SegmentsContact {
   segment : Segment;
 }
 
-export enum ContactStatusEnum {
-  LEAD = 'LEAD',
-  CONVERTEDTOCONTACT = 'CONVERTEDTOCONTACT',
-  LOST = 'LOST',
-  CLOSED = 'CLOSED',
-  NEGOTIATION = 'NEGOTIATION',
-  VISIT_SCHEDULING = 'VISIT_SCHEDULING',
-  REISIT_SCHEDULING = 'REVISIT_SCHEDULING',
-}
-
 export enum ContactOriginEnum {
   INDICATION = 'INDICATION',
   EMAIL_MARKETING = 'EMAIL_MARKETING',

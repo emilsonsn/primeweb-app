@@ -12,7 +12,7 @@ export interface User {
 
 export enum UserRoles {
   Seller = 'Seller',
-  Consultart = 'Consultant',
+  Consultant = 'Consultant',
   Manager = 'Manager',
   Admin = 'Admin'
 }

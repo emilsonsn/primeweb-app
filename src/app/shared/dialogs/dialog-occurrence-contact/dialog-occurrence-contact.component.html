@@ -27,7 +27,7 @@
       <mat-form-field>
         <mat-select formControlName="status" placeholder="Status" >
           @for (status of statusSelection; track status) {
-            <mat-option [value]="status">{{ status | status }}</mat-option>
+            <mat-option [value]="status">{{ status | occurrence }}</mat-option>
           }
         </mat-select>
       </mat-form-field>
