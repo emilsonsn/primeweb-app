@@ -8,6 +8,7 @@
             <span class="filterField mb-1">Responsável</span>
             <mat-form-field>
               <mat-select formControlName="responsible" placeholder="Responsável" >
+                <mat-option (click)="clearResponsible()">Limpar filtro</mat-option>
                 @for (responsible of statusSelection; track responsible) {
                   <mat-option [value]="responsible">{{ responsible }}</mat-option>
                 }
@@ -17,9 +18,15 @@
         </div>
       </form>
 
-      <button matRipple class="button primary mt-2" (click)="updateFilters()">
-        <i class="fa-solid fa-magnifying-glass"></i> Pesquisar
-      </button>
+      <div class="d-flex gap-2 mt-2">
+        <button matRipple class="button red" (click)="clearFormFilters()">
+          <i class="fa-solid fa-trash"></i>
+        </button>
+        <button matRipple class="button primary" (click)="updateFilters()">
+          <i class="fa-solid fa-magnifying-glass"></i> Pesquisar
+        </button>
+      </div>
+
     </div>
 
   </app-component-header>

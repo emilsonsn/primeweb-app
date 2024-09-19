@@ -9,11 +9,12 @@ import { ToastrService } from 'ngx-toastr';
 import { OrderService } from '@services/order.service';
 import { DialogPhoneCallComponent } from '@shared/dialogs/dialog-phone-call/dialog-phone-call.component';
 import { DialogOccurrenceComponent } from '@shared/dialogs/dialog-occurrence/dialog-occurrence.component';
-import { ContactStatus } from '@models/contact';
+import { ContactOriginEnum, ContactStatusEnum } from '@models/contact';
 import { DialogContactComponent } from '@shared/dialogs/dialog-contact/dialog-contact.component';
 import { DialogContactDetailsComponent } from '@shared/dialogs/dialog-contact-details/dialog-contact-details.component';
 import { DialogOccurrenceContactComponent } from '@shared/dialogs/dialog-occurrence-contact/dialog-occurrence-contact.component';
 import { ContactService } from '@services/contact.service';
+import { UserService } from '@services/user.service';
 
 @Component({
   selector: 'app-contacts',
@@ -27,7 +28,9 @@ export class ContactsComponent {
 
   public loading: boolean = false;
 
-  protected statusSelection = Object.values(ContactStatus);
+  protected statusSelection = Object.values(ContactStatusEnum);
+  protected originSelection = Object.values(ContactOriginEnum);
+  protected usersSelection;
 
   constructor(
     private readonly _headerService: HeaderService,
@@ -36,7 +39,8 @@ export class ContactsComponent {
     private readonly _fb: FormBuilder,
     private readonly _contactService : ContactService,
     private readonly _orderService: OrderService,
-    private readonly _toastrService: ToastrService
+    private readonly _toastrService: ToastrService,
+    private readonly _userService : UserService
   ) {
     this._headerService.setTitle('Contatos');
     this._headerService.setUpperTitle('Contatos - Primeweb');
@@ -44,14 +48,14 @@ export class ContactsComponent {
 
   ngOnInit() {
     this.formFilters = this._fb.group({
-      enterprise : [null],
-      email : [null],
-      domain : [null],
-      telephone : [null],
-      name : [null],
-      status : [null],
-      responsible : [null],
-      origin : [null],
+      company : [''],
+      email : [''],
+      domain : [''],
+      phone : [''],
+      name : [''],
+      status : [''],
+      responsible : [''],
+      origin : [''],
     })
   }
 
@@ -164,8 +168,46 @@ export class ContactsComponent {
 
   // Utils
   public updateFilters() {
-    console.log(this.formFilters.getRawValue())
     this.filters = this.formFilters.getRawValue();
   }
+
+  public clearStatus() {
+    this.formFilters.get('status').patchValue('');
+    this.updateFilters();
+  }
+
+  public clearResponsible() {
+    this.formFilters.get('responsible').patchValue('');
+    this.updateFilters();
+  }
+
+  public clearOrigin() {
+    this.formFilters.get('origin').patchValue('');
+    this.updateFilters();
+  }
+
+  public clearFormFilters() {
+    this.formFilters.patchValue({
+      company : '',
+      email : '',
+      domain : '',
+      phone : '',
+      name : '',
+      status : '',
+      responsible : '',
+      origin : '',
+    })
+    this.updateFilters();
+  }
+
+  public getUsers () {
+    this._userService.getUsers()
+    .subscribe({
+      next: (res) => {
+        this.usersSelection = res.data;
+      }
+    });
+  }
+
 }
 

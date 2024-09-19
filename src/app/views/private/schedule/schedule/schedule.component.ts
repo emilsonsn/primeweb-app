@@ -51,7 +51,7 @@ export class ScheduleComponent {
 
   ngOnInit(): void {
     this.formFilters = this._fb.group({
-      responsible: [null],
+      responsible: [''],
     });
   }
 
@@ -225,7 +225,20 @@ export class ScheduleComponent {
     this.filters = this.formFilters.getRawValue();
   }
 
+  public clearResponsible() {
+    this.formFilters.get('responsible').patchValue('');
+    this.updateFilters();
+  }
+
+  public clearFormFilters() {
+    this.formFilters.patchValue({
+      responsible : ''
+    })
+    this.updateFilters();
+  }
+
   private _initOrStopLoading(): void {
     this.loading = !this.loading;
   }
+
 }

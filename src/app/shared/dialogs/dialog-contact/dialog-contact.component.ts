@@ -25,7 +25,7 @@ import {
 import dayjs from 'dayjs';
 import { ToastrService } from 'ngx-toastr';
 import { finalize, map, ReplaySubject } from 'rxjs';
-import { Contact, ContactOrigin } from '@models/contact';
+import { Contact, ContactOriginEnum } from '@models/contact';
 import { TestService } from '@services/test.service';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -56,7 +56,7 @@ export class DialogContactComponent {
   protected form: FormGroup;
 
   // Getters
-  protected originSelect = Object.values(ContactOrigin);
+  protected originSelect = Object.values(ContactOriginEnum);
 
   // Search de Users
   protected userSelect: User[] = [];

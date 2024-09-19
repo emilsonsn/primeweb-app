@@ -168,6 +168,14 @@ mat-form-field {
     }
   }
 
+  &.red {
+    background-color: $nonary;
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+
 }
 
 .carton {

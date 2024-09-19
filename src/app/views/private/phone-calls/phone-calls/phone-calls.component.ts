@@ -37,9 +37,9 @@ export class PhoneCallsComponent {
 
   ngOnInit() {
     this.formFilters = this._fb.group({
-      company : [null],
-      domain : [null],
-      phone : [null]
+      company : [''],
+      domain : [''],
+      phone : ['']
     })
   }
 
@@ -156,7 +156,16 @@ export class PhoneCallsComponent {
 
   // Utils
   public updateFilters() {
-    console.log(this.formFilters.getRawValue())
     this.filters = this.formFilters.getRawValue();
   }
+
+  public clearFormFilters() {
+    this.formFilters.patchValue({
+      company: '',
+      phone: '',
+      domain: ''
+    })
+    this.updateFilters();
+  }
+
 }

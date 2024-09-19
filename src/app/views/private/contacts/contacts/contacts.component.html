@@ -13,14 +13,14 @@
           <div class="col-md-4 mb-md-0 mb-2">
             <span class="filterField mb-1">Empresa</span>
             <mat-form-field>
-              <input matInput formControlName="enterprise">
+              <input matInput formControlName="company" placeholder="Empresa">
             </mat-form-field>
           </div>
 
           <div class="col-md-4 mb-md-0 mb-2">
             <span class="filterField mb-1">E-mail</span>
             <mat-form-field>
-              <input matInput formControlName="email">
+              <input matInput formControlName="email" mask="A*@A*.A*" placeholder="email@dominio.com">
             </mat-form-field>
           </div>
 
@@ -28,6 +28,7 @@
             <span class="filterField mb-1">Status</span>
             <mat-form-field>
               <mat-select formControlName="status" placeholder="Status" >
+                <mat-option (click)="clearStatus()">Limpar filtro</mat-option>
                 @for (status of statusSelection; track status) {
                   <mat-option [value]="status">{{ status | status }}</mat-option>
                 }
@@ -38,14 +39,14 @@
           <div class="col-md-4 mb-md-0 mb-2">
             <span class="filterField mb-1">Nome</span>
             <mat-form-field>
-              <input matInput formControlName="name">
+              <input matInput formControlName="name" placeholder="Nome">
             </mat-form-field>
           </div>
 
           <div class="col-md-4 mb-md-0 mb-2">
             <span class="filterField mb-1">Telefone</span>
             <mat-form-field>
-              <input matInput formControlName="telephone">
+              <input matInput formControlName="phone" mask="(00) 00000-0000||(00) 0000-0000" placeholder="(00) 00000-0000 ou (00) 0000-0000">
             </mat-form-field>
           </div>
 
@@ -53,8 +54,9 @@
             <span class="filterField mb-1">Responsável</span>
             <mat-form-field>
               <mat-select formControlName="responsible" placeholder="Responsável" >
-                @for (status of statusSelection; track status) {
-                  <mat-option [value]="status">{{ status | status }}</mat-option>
+                <mat-option (click)="clearResponsible()">Limpar filtro</mat-option>
+                @for (user of usersSelection; track user) {
+                  <mat-option [value]="user.id">{{ user.name }}</mat-option>
                 }
               </mat-select>
             </mat-form-field>
@@ -63,7 +65,7 @@
           <div class="col-md-4 mb-md-0 mb-2">
             <span class="filterField mb-1">Domínio</span>
             <mat-form-field>
-              <input matInput formControlName="domain">
+              <input matInput formControlName="domain" mask="A*.A*" placeholder="Domínio">
             </mat-form-field>
           </div>
 
@@ -71,8 +73,9 @@
             <span class="filterField mb-1">Origem</span>
             <mat-form-field>
               <mat-select formControlName="origin" placeholder="Origem" >
-                @for (status of statusSelection; track status) {
-                  <mat-option [value]="status">{{ status | status }}</mat-option>
+                <mat-option (click)="clearOrigin()">Limpar filtro</mat-option>
+                @for (origin of originSelection; track origin) {
+                  <mat-option [value]="origin">{{ origin | status }}</mat-option>
                 }
               </mat-select>
             </mat-form-field>
@@ -81,9 +84,14 @@
         </div>
       </form>
 
-      <button matRipple class="button primary mt-2" (click)="updateFilters()">
-        <i class="fa-solid fa-magnifying-glass"></i> Pesquisar
-      </button>
+      <div class="d-flex gap-2 mt-2">
+        <button matRipple class="button red" (click)="clearFormFilters()">
+          <i class="fa-solid fa-trash"></i>
+        </button>
+        <button matRipple class="button primary" (click)="updateFilters()">
+          <i class="fa-solid fa-magnifying-glass"></i> Pesquisar
+        </button>
+      </div>
     </div>
 
   </app-component-header>

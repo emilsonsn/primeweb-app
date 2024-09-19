@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ContactOrigin } from '@models/contact';
+import { ContactOriginEnum } from '@models/contact';
 import { Service } from '@models/service';
 import { HeaderService } from '@services/header.service';
 import { ServiceService } from '@services/service.service';
@@ -68,6 +68,14 @@ export class LogsComponent {
 
   public clearUser() {
     this.formFilters.get('user_id').patchValue('');
+    this.updateFilters();
+  }
+
+  public clearFormFilters() {
+    this.formFilters.patchValue({
+      user_id: '',
+      date: ''
+    })
     this.updateFilters();
   }
 

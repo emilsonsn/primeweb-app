@@ -36,8 +36,8 @@ export class SegmentsComponent {
 
   ngOnInit() {
     this.formFilters = this._fb.group({
-      name : [null],
-      status : [null]
+      name : [''],
+      status : ['']
     })
   }
 
@@ -126,4 +126,18 @@ export class SegmentsComponent {
   public updateFilters() {
     this.filters = this.formFilters.getRawValue();
   }
+
+  public clearStatus() {
+    this.formFilters.get('status').patchValue('');
+    this.updateFilters();
+  }
+
+  public clearFormFilters() {
+    this.formFilters.patchValue({
+      name : '',
+      status : ''
+    })
+    this.updateFilters();
+  }
+
 }

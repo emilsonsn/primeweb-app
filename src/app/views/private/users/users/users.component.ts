@@ -43,9 +43,9 @@ export class UsersComponent {
 
   ngOnInit() {
     this.formFilters = this._fb.group({
-      name : [null],
-      email : [null],
-      status : [null]
+      name : [''],
+      email : [''],
+      status : ['']
     });
   }
 
@@ -138,6 +138,20 @@ export class UsersComponent {
   // Utils
   public updateFilters() {
     this.filters = this.formFilters.getRawValue();
+  }
+
+  public clearStatus() {
+    this.formFilters.get('status').patchValue('');
+    this.updateFilters();
+  }
+
+  public clearFormFilters() {
+    this.formFilters.patchValue({
+      user: '',
+      email: '',
+      status: ''
+    })
+    this.updateFilters();
   }
 
   private _initOrStopLoading(): void {

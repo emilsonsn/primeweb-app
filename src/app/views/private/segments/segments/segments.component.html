@@ -13,7 +13,7 @@
           <div class="col-md-4 mb-md-0 mb-2">
             <span class="filterField mb-1">Nome</span>
             <mat-form-field>
-              <input matInput formControlName="name">
+              <input matInput formControlName="name" placeholder="Nome">
             </mat-form-field>
           </div>
 
@@ -21,6 +21,7 @@
             <span class="filterField mb-1">Status</span>
             <mat-form-field>
               <mat-select formControlName="status" placeholder="Status" >
+                <mat-option (click)="clearStatus()">Limpar filtro</mat-option>
                 @for (status of statusSelection; track status) {
                   <mat-option [value]="status">{{ status | status }}</mat-option>
                 }
@@ -30,9 +31,14 @@
         </div>
       </form>
 
-      <button matRipple class="button primary mt-2" (click)="updateFilters()">
-        <i class="fa-solid fa-magnifying-glass"></i> Pesquisar
-      </button>
+      <div class="d-flex gap-2 mt-2">
+        <button matRipple class="button red" (click)="clearFormFilters()">
+          <i class="fa-solid fa-trash"></i>
+        </button>
+        <button matRipple class="button primary" (click)="updateFilters()">
+          <i class="fa-solid fa-magnifying-glass"></i> Pesquisar
+        </button>
+      </div>
     </div>
 
   </app-component-header>
