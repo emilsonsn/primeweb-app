@@ -28,16 +28,7 @@ export class HeaderComponent implements OnInit {
 
   public isMenuOpened = signal(false);
 
-  public notifications = [
-    {
-      id: 1,
-      title: "oi"
-    },
-    {
-      id: 2,
-      title: "oi"
-    }
-  ];
+  public notifications = [];
 
   constructor(
     protected router: Router,

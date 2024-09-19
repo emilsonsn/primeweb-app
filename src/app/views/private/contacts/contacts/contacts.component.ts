@@ -65,6 +65,7 @@ export class ContactsComponent {
     const dialogConfig: MatDialogConfig = {
       width: '80%',
       height: '90%',
+      maxWidth: '1085px',
       hasBackdrop: true,
       closeOnNavigation: true,
     };
@@ -86,6 +87,7 @@ export class ContactsComponent {
     const dialogConfig: MatDialogConfig = {
       width: '80%',
       height: '90%',
+      maxWidth: '1085px',
       hasBackdrop: true,
       closeOnNavigation: true,
     };
