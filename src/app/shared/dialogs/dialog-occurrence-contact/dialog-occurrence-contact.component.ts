@@ -19,6 +19,8 @@ import { RequestService } from '@services/request.service';
 import { RequestStatus } from '@models/request';
 import { SessionQuery } from '@store/session.query';
 import { PhoneCallStatus } from '@models/phone-call';
+import { OccurrenceService } from '@services/occurrence.service';
+import { OccurrenceStatusEnum } from '@models/occurrence';
 
 @Component({
   selector: 'app-dialog-occurrence-contact',
@@ -34,7 +36,7 @@ export class DialogOccurrenceContactComponent {
 
   protected form : FormGroup;
 
-  protected statusSelection = Object.values(PhoneCallStatus);
+  protected statusSelection = Object.values(OccurrenceStatusEnum);
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -42,11 +44,7 @@ export class DialogOccurrenceContactComponent {
     private readonly _dialogRef: MatDialogRef<DialogOccurrenceContactComponent>,
     private readonly _fb : FormBuilder,
     private readonly _toastr : ToastrService,
-    private readonly _orderService : OrderService,
-    private readonly _solicitationService : RequestService,
-    private readonly _constructionService : ConstructionService,
-    private readonly _userService : UserService,
-    private readonly _supplierService : SupplierService,
+    private readonly _occurrenceService : OccurrenceService,
     private readonly _sessionQuery : SessionQuery,
     private readonly _dialog: MatDialog,
   ) { }
@@ -54,92 +52,29 @@ export class DialogOccurrenceContactComponent {
   ngOnInit(): void {
     this.form = this._fb.group({
       date: [null, Validators.required],
-      description: [''],
+      time: [null],
+      observations: [''],
+      link: [null, Validators.required],
       status: [null, Validators.required],
+      contact_id: [null]
     });
 
   }
 
-  // public loadPermissions(){
-  //   this._sessionQuery.user$.subscribe(user => {
-  //     if(user && user?.company_position.position !== 'Requester') {
-  //       this.isAdmin = true;
-  //     }else{
-  //       this.form.get('purchase_status').disable();
-  //     }
-  //   })
-  // }
-
-  public postOrder(order : RequestOrder) {
-    if (!this.prepareFormData(order)){
-      this.loading = false;
-      return;
-    }
-
-    this._orderService.postOrder(this.prepareFormData(order))
+  public post(occurrence) {
+    this._occurrenceService.post(occurrence)
       .pipe(finalize(() => {
         this._initOrStopLoading();
       }))
       .subscribe({
         next: (res) => {
-          this._toastr.success('Pedido enviado com sucesso!');
+          this._toastr.success('Ocorrência criada com sucesso!');
           this._dialogRef.close(true);
         },
         error : (err) => {
-          this._toastr.error(err.error.error);
+          this._toastr.error("Erro ao cadastrar ocorrência " + err.error.message);
         }
       });
-  }
-
-  public patchOrder(id : number, order : RequestOrder) {
-    if (!this.prepareFormData(order)){
-      this.loading = false;
-      return;
-    }
-
-    this._orderService.patchOrder(id, this.prepareFormData(order))
-      .pipe(finalize(() => {
-        this._initOrStopLoading();
-      }))
-      .subscribe({
-        next: (res) => {
-          this._toastr.success('Pedido atualizado com sucesso!');
-          this._dialogRef.close(true);
-        },
-        error : (err) => {
-          this._toastr.error(err.error.error);
-        }
-      });
-  }
-
-  public prepareFormData(order : RequestOrder) {
-    if(!order.items.length ){
-      this._toastr.error('Item é um campo obrigatório');
-      return;
-    }
-
-    const orderFormData = new FormData();
-
-    Object.keys(order).forEach((key) => {
-
-      if(key == 'order_files') {
-        (order.order_files).forEach(file => {
-          orderFormData.append('order_files[]', file);
-        });
-      }
-      else if(key == 'date') {
-        orderFormData.append('date', dayjs(order.date).format('YYYY-MM-DD'));
-      }
-      else if(key == 'items') {
-        (order.items).forEach(item => {
-          orderFormData.append('items[]', JSON.stringify(item));
-        });
-      }
-      else
-        orderFormData.append(key, order[key]);
-    });
-
-    return orderFormData;
   }
 
   public onConfirm(): void {
@@ -147,17 +82,14 @@ export class DialogOccurrenceContactComponent {
 
     this._initOrStopLoading();
 
-    console.log(this.form.getRawValue())
-
-    if(this.isNewOrder) {
-      this.postOrder(
-        {
-          ...this.form.getRawValue(),
-          date : dayjs(this.form.get('date').value).format('YYYY-MM-DD HH:mm:ss')
-        }
-      );
-    }
-    else {}
+    this.post(
+      {
+        ...this.form.getRawValue(),
+        date : dayjs(this.form.get('date').value).format('YYYY-MM-DD'),
+        time : dayjs(this.form.get('date').value).format('HH:mm'),
+        contact_id : this._data.id
+      }
+    );
 
   }
 

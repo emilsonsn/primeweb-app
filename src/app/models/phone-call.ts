@@ -1,6 +1,9 @@
+import { User } from "./user";
+
 export interface PhoneCall {
   id?: number;
   user_id: 1;
+  user : User;
   company: string;
   phone: string;
   domain: string;

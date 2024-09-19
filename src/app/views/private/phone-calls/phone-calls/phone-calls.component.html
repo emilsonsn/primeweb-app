@@ -46,7 +46,7 @@
 
 <div id="componentTable" class="col-12 mt-4">
   <app-table-phone-calls
-    (onViewPhoneCall)="testPhoneCallDialog()"
+    (onViewPhoneCall)="openDetailsPhoneCallDialog($event)"
     (onEditPhoneCall)="openEditPhoneCallDialog($event)"
     (onNewOccurrence)="openNewOccurrenceDialog($event)"
     (onDeletePhoneCall)="openDeletePhoneCallDialog($event)"

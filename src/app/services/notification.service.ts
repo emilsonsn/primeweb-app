@@ -23,8 +23,8 @@ export class NotificationService {
     return this._http.get<ApiResponsePageable<any>>(`${environment.api}/${this.sessionEndpoint}/search?${paginate}${filterParams}`);
   }
 
-  public seeNotification(notifications) {
-    return this._http.post<ApiResponse<any>>(`${environment.api}/${this.sessionEndpoint}/see`, notifications);
+  public seeNotification(ids) {
+    return this._http.post<ApiResponse<any>>(`${environment.api}/${this.sessionEndpoint}/see`, {ids});
   }
 
   public post(notification: any | FormData): Observable<ApiResponse<any>> {

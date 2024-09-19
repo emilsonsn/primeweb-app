@@ -90,11 +90,11 @@ export class PhoneCallsComponent {
       });
   }
 
-  public openDetailsPhoneCallDialog(request?) {
+  public openDetailsPhoneCallDialog(phoneCall) {
 
   }
 
-  public openNewOccurrenceDialog(request) {
+  public openNewOccurrenceDialog(phoneCall) {
     const dialogConfig: MatDialogConfig = {
       width: '80%',
       maxWidth: '850px',
@@ -104,6 +104,7 @@ export class PhoneCallsComponent {
     };
 
     this._dialog.open(DialogOccurrenceComponent, {
+      data : phoneCall,
       ...dialogConfig,
     });
   }
@@ -138,20 +139,6 @@ export class PhoneCallsComponent {
           }
         },
       });
-  }
-
-  public testPhoneCallDialog() {
-    const dialogConfig: MatDialogConfig = {
-      width: '80%',
-      maxWidth: '850px',
-      maxHeight: '90%',
-      hasBackdrop: true,
-      closeOnNavigation: true,
-    };
-
-    this._dialog.open(DialogPhoneCallComponent, {
-      ...dialogConfig,
-    });
   }
 
   // Utils

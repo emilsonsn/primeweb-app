@@ -4,6 +4,7 @@ import { User } from './user';
 export interface Contact {
   id?: number;
   user_id: number;
+  user : User;
   company: string;
   domain: string;
   responsible: string;
@@ -39,6 +40,7 @@ export interface Email {
 export interface SegmentsContact {
   contact_id: number;
   segment_id: number;
+  segment : Segment;
 }
 
 export enum ContactStatusEnum {

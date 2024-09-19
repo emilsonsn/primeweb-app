@@ -28,7 +28,16 @@ export class HeaderComponent implements OnInit {
 
   public isMenuOpened = signal(false);
 
-  public notifications = [];
+  public notifications = [
+    {
+      id: 1,
+      title: "oi"
+    },
+    {
+      id: 2,
+      title: "oi"
+    }
+  ];
 
   constructor(
     protected router: Router,
@@ -49,7 +58,7 @@ export class HeaderComponent implements OnInit {
       this.activeLabel = title;
     });
 
-    this.getNotifications();
+    // this.getNotifications();
   }
 
   public getNotifications() {
@@ -68,13 +77,17 @@ export class HeaderComponent implements OnInit {
   }
 
   public seeNotification(notifications) {
-    this._notificationService.seeNotification(notifications)
-      .pipe(finalize(() => {
+    let idsNotificationsToSee = [];
 
-      }))
+    for(let notification of notifications) {
+      idsNotificationsToSee.push(notification.id);
+    }
+
+    this._notificationService.seeNotification(idsNotificationsToSee)
+      .pipe(finalize(() => {}))
       .subscribe({
         next: (res) => {
-
+          this.getNotifications();
         },
         error : (err) => {
 

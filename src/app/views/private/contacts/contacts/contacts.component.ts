@@ -9,12 +9,13 @@ import { ToastrService } from 'ngx-toastr';
 import { OrderService } from '@services/order.service';
 import { DialogPhoneCallComponent } from '@shared/dialogs/dialog-phone-call/dialog-phone-call.component';
 import { DialogOccurrenceComponent } from '@shared/dialogs/dialog-occurrence/dialog-occurrence.component';
-import { ContactOriginEnum, ContactStatusEnum } from '@models/contact';
+import { ContactOriginEnum } from '@models/contact';
 import { DialogContactComponent } from '@shared/dialogs/dialog-contact/dialog-contact.component';
 import { DialogContactDetailsComponent } from '@shared/dialogs/dialog-contact-details/dialog-contact-details.component';
 import { DialogOccurrenceContactComponent } from '@shared/dialogs/dialog-occurrence-contact/dialog-occurrence-contact.component';
 import { ContactService } from '@services/contact.service';
 import { UserService } from '@services/user.service';
+import { OccurrenceStatusEnum } from '@models/occurrence';
 
 @Component({
   selector: 'app-contacts',
@@ -28,7 +29,7 @@ export class ContactsComponent {
 
   public loading: boolean = false;
 
-  protected statusSelection = Object.values(ContactStatusEnum);
+  protected statusSelection = Object.values(OccurrenceStatusEnum);
   protected originSelection = Object.values(ContactOriginEnum);
   protected usersSelection;
 
@@ -120,7 +121,7 @@ export class ContactsComponent {
     });
   }
 
-  public openNewOccurrenceContactDialog(request) {
+  public openNewOccurrenceContactDialog(contact) {
     const dialogConfig: MatDialogConfig = {
       width: '80%',
       maxWidth: '850px',
@@ -130,6 +131,7 @@ export class ContactsComponent {
     };
 
     this._dialog.open(DialogOccurrenceContactComponent, {
+      data: contact,
       ...dialogConfig,
     });
   }

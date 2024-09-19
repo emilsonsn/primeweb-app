@@ -37,34 +37,34 @@
               <tr class="table-line-hover" style="outline: none;" (click)="toggleContactExpanded(contact)">
                 <td>
                   <div>
-                    {{ contact.company}}
+                    {{ contact?.company}}
                   </div>
                 </td>
                 <td>
                   <div>
-                    {{ contact.domain}}
+                    {{ contact?.domain}}
                   </div>
                 </td>
                 <td>
                   <div>
-                    {{ contact.user_id}}
+                    {{ contact?.responsible}}
                   </div>
                 </td>
                 <td>
                   <div>
                     @for(segment of contact.segments; track segment) {
-                    {{ segment.segment_id }}
+                    {{ segment?.segment?.name }}
                     }
                   </div>
                 </td>
                 <td>
                   <div>
-                    {{ contact.responsible}}
+                    {{ contact?.user?.name}}
                   </div>
                 </td>
                 <td>
                   <div>
-                    {{ contact.state }}
+                    {{ contact?.state }}
                   </div>
                 </td>
                 <td>
@@ -96,8 +96,8 @@
                         <div class="p-md-3 p-2">
                           <span class="mb-2" style="font-weight: 500; font-size: 1rem;">Segmentos</span>
                           <div class="d-flex flex-wrap gap-2">
-                            @for(segment of contact.segments; track segment) {
-                              <div class="segment">{{ segment.segment_id }}</div>
+                            @for(segment of contact?.segments; track segment) {
+                              <div class="segment">{{ segment?.segment_id }}</div>
                             }
                           </div>
                         </div>
@@ -106,8 +106,8 @@
                         <div class="p-md-3 p-2">
                           <span class="mb-2" style="font-weight: 500; font-size: 1rem;">Telefones</span>
                           <div class="d-flex flex-wrap gap-2">
-                            @for(phone of contact.phones; track phone) {
-                              <div class="segment">{{ phone.phone }}</div>
+                            @for(phone of contact?.phones; track phone) {
+                              <div class="segment">{{ phone?.phone }}</div>
                             }
                           </div>
                         </div>
@@ -116,8 +116,8 @@
                         <div class="p-md-3 p-2">
                           <span class="mb-2" style="font-weight: 500; font-size: 1rem;">E-mails</span>
                           <div class="d-flex flex-wrap gap-2">
-                            @for(email of contact.emails; track email) {
-                              <div class="segment">{{ email.email }}</div>
+                            @for(email of contact?.emails; track email) {
+                              <div class="segment">{{ email?.email }}</div>
                             }
                           </div>
                         </div>

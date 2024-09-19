@@ -33,16 +33,23 @@
       </mat-form-field>
     </div>
 
+    <div class="mb-3">
+      <span class="fw-bolder">Link da Reunião</span>
+      <mat-form-field appearance="outline">
+        <input type="text" formControlName="link" matInput placeholder="https://www.domain.com" />
+      </mat-form-field>
+    </div>
+
     <div class="col-12 mb-3">
       <span class="fw-bolder">Observações</span>
       <mat-form-field>
         <textarea matInput
-          formControlName="description"
+          formControlName="observations"
           cdkTextareaAutosize
           #autosize="cdkTextareaAutosize"
           cdkAutosizeMinRows="1"
           cdkAutosizeMaxRows="5"
-          [placeholder]="'Observações'">
+          placeholder="Observações">
         </textarea>
       </mat-form-field>
     </div>
