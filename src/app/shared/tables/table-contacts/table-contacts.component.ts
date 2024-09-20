@@ -27,6 +27,9 @@ export class TableContactsComponent {
   private subscription: Subscription;
 
   @Input()
+  showActions : boolean = true;
+
+  @Input()
   filters;
 
   @Input()
@@ -118,6 +121,10 @@ export class TableContactsComponent {
     // this.subscription = this._sidebarService.accountIdAlterado$.subscribe(
     //   () => { this._onSearch() }
     // );
+
+    if(!this.showActions) {
+      this.columns.pop();
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {

@@ -28,7 +28,7 @@ import {MatIcon, MatIconModule} from "@angular/material/icon";
 import { DialogPhoneCallComponent } from './dialog-phone-call/dialog-phone-call.component';
 import { DialogOccurrenceComponent } from './dialog-occurrence/dialog-occurrence.component';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
-import { PhoneCallDetailsComponent } from './phone-call-details/phone-call-details.component';
+import { DialogPhoneCallDetailsComponent } from './dialog-phone-call-details/dialog-phone-call-details.component';
 import { DialogSegmentComponent } from './dialog-segment/dialog-segment.component';
 import { DialogContactComponent } from './dialog-contact/dialog-contact.component';
 import { DialogContactDetailsComponent } from './dialog-contact-details/dialog-contact-details.component';
@@ -44,7 +44,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     DialogUserComponent,
     DialogPhoneCallComponent,
     DialogOccurrenceComponent,
-    PhoneCallDetailsComponent,
+    DialogPhoneCallDetailsComponent,
     DialogSegmentComponent,
     DialogContactComponent,
     DialogContactDetailsComponent,

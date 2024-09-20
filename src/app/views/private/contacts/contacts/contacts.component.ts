@@ -106,20 +106,26 @@ export class ContactsComponent {
     });
   }
 
-  public openDetailsContactDialog(request?) {
-    this._orderService.getOrderById(request.order_id).subscribe((order) => {
-      const dialogConfig: MatDialogConfig = {
-        width: '80%',
-        maxWidth: '850px',
-        maxHeight: '90%',
-        hasBackdrop: true,
-        closeOnNavigation: true,
-      };
+  public openDetailsContactDialog(contact) {
+    const dialogConfig: MatDialogConfig = {
+      width: '80%',
+      maxWidth: '850px',
+      maxHeight: '90%',
+      hasBackdrop: true,
+      closeOnNavigation: true,
+    };
 
-      this._dialog.open(DialogContactComponent, {
-        data: { order: order, edit: false },
-        ...dialogConfig,
-      });
+    this._dialog.open(DialogContactDetailsComponent, {
+      data: contact,
+      ...dialogConfig,
+    }).afterClosed()
+    .subscribe((res) => {
+      if(res) {
+        this.loading = true;
+        setTimeout(() => {
+          this.loading = false;
+        }, 200);
+      }
     });
   }
 

@@ -1,3 +1,4 @@
+import { Occurrence } from './occurrence';
 import { User } from "./user";
 
 export interface PhoneCall {
@@ -5,6 +6,7 @@ export interface PhoneCall {
   user_id: 1;
   user : User;
   company: string;
+  occurrences : Occurrence[];
   phone: string;
   domain: string;
   email: string;

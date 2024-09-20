@@ -11,6 +11,7 @@ import { DialogPhoneCallComponent } from '@shared/dialogs/dialog-phone-call/dial
 import { DialogOccurrenceComponent } from '@shared/dialogs/dialog-occurrence/dialog-occurrence.component';
 import { PhoneCallService } from '@services/phone-call.service';
 import { PhoneCall } from '@models/phone-call';
+import { DialogPhoneCallDetailsComponent } from '@shared/dialogs/dialog-phone-call-details/dialog-phone-call-details.component';
 
 @Component({
   selector: 'app-phone-calls',
@@ -91,7 +92,26 @@ export class PhoneCallsComponent {
   }
 
   public openDetailsPhoneCallDialog(phoneCall) {
+    const dialogConfig: MatDialogConfig = {
+      width: '80%',
+      maxWidth: '850px',
+      maxHeight: '90%',
+      hasBackdrop: true,
+      closeOnNavigation: true,
+    };
 
+    this._dialog.open(DialogPhoneCallDetailsComponent, {
+      data : phoneCall,
+      ...dialogConfig,
+    }).afterClosed()
+    .subscribe((res) => {
+      if(res) {
+        this.loading = true;
+        setTimeout(() => {
+          this.loading = false;
+        }, 200);
+      }
+    });;
   }
 
   public openNewOccurrenceDialog(phoneCall) {

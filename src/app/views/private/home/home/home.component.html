@@ -17,38 +17,41 @@
 
   <div class="my-2">
     <div class="radio-inputs">
-      <label class="radio">
+      <label class="radio" (click)="filterPhoneCall('daily')">
         <input type="radio" name="phoneCalls" checked="">
         <span class="name">Telefonemas do dia
           <div class="value">
-            50
-          </div>
-        </span>
-      </label>
-      <label class="radio">
-        <input type="radio" name="phoneCalls">
-        <span class="name">Telefonemas atrasados (7 dias)
-          <div class="value">
-            50
+            {{ phoneCallsCount.daily }}
           </div>
         </span>
       </label>
 
-      <label class="radio">
+      <!-- <label class="radio">
+        <input type="radio" name="phoneCalls">
+        <span class="name">Telefonemas atrasados (7 dias)
+          <div class="value">
+            {{ phoneCallsCount.previousWeek }}
+          </div>
+        </span>
+      </label> -->
+
+      <label class="radio" (click)="filterPhoneCall('week')">
         <input type="radio" name="phoneCalls">
         <span class="name">Próximos telefonemas (7 dias)
           <div class="value">
-            50
+            {{ phoneCallsCount.nextWeek }}
           </div>
         </span>
       </label>
     </div>
   </div>
 
-  <div class="mb-4">
-    <div class="card w-100 p-3" style="max-height: 400px">
+  <div class="card mb-4">
+    <div class="w-100 p-3" style="max-height: 400px">
       <app-table-phone-calls class="h-100"
-        [filters]="filtersToPhoneCall">
+        [filters]="filtersToPhoneCall"
+        [showActions]="false"
+        >
       </app-table-phone-calls>
     </div>
   </div>
@@ -60,38 +63,40 @@
 
   <div class="my-2">
     <div class="radio-inputs">
-      <label class="radio">
+      <label class="radio" (click)="filterContact('daily')">
         <input type="radio" name="contacts" checked="">
         <span class="name">Contatos do dia
           <div class="value">
-            50
+            {{ contactCount.nextWeek }}
           </div>
         </span>
       </label>
-      <label class="radio">
+
+      <!-- <label class="radio">
         <input type="radio" name="contacts">
         <span class="name">Contatos atrasados (7 dias)
           <div class="value">
             50
           </div>
         </span>
-      </label>
+      </label> -->
 
-      <label class="radio">
+      <label class="radio" (click)="filterContact('week')">
         <input type="radio" name="contacts">
         <span class="name">Próximos contatos (7 dias)
           <div class="value">
-            50
+            {{ contactCount.nextWeek }}
           </div>
         </span>
       </label>
     </div>
   </div>
 
-  <div class="mb-4">
-    <div class="card w-100 p-3" style="max-height: 400px">
+  <div class="card mb-4">
+    <div class="w-100 p-3" style="max-height: 400px">
       <app-table-contacts class="h-100"
-        [filters]="filtersToContact">
+        [filters]="filtersToContact"
+        [showActions]="false">
       </app-table-contacts>
     </div>
   </div>

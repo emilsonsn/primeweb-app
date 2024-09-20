@@ -74,10 +74,12 @@
           </div>
         </div>
       }
-      <mat-divider></mat-divider>
-      <div matRipple class="menu-item" (click)="seeNotification(notifications)">
-        Visualizar Todas
-      </div>
+      @if(notifications?.length > 0) {
+        <mat-divider></mat-divider>
+        <div matRipple class="menu-item" (click)="seeNotification(notifications)">
+          Visualizar Todas
+        </div>
+      }
     </div>
   </div>
 </mat-menu>
