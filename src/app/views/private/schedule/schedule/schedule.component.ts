@@ -1,15 +1,13 @@
-import {Component, ViewChild} from '@angular/core';
-import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
-import {Router} from '@angular/router';
-import {DialogUserComponent} from '@shared/dialogs/dialog-user/dialog-user.component';
-import {DialogConfirmComponent} from '@shared/dialogs/dialog-confirm/dialog-confirm.component';
-import {ToastrService} from 'ngx-toastr';
-import {finalize} from 'rxjs';
-import {ISmallInformationCard} from '@models/cardInformation';
-import {User, UserStatus} from '@models/user';
-import {UserService} from '@services/user.service';
+import { Component, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { DialogConfirmComponent } from '@shared/dialogs/dialog-confirm/dialog-confirm.component';
+import { ToastrService } from 'ngx-toastr';
+import { finalize } from 'rxjs';
+import { User, UserStatus } from '@models/user';
 import { HeaderService } from '@services/header.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { OccurrenceService } from '@services/occurrence.service';
 
 // Calendar
 import { CalendarOptions, EventInput } from '@fullcalendar/core';
@@ -20,6 +18,7 @@ import dayjs from 'dayjs';
 
 import ptBrLocale from '@fullcalendar/core/locales/pt-br';
 import { DialogCalendarComponent } from '@shared/dialogs/dialog-calendar/dialog-calendar.component';
+import { UserService } from '@services/user.service';
 
 @Component({
   selector: 'app-schedule',
@@ -29,17 +28,18 @@ import { DialogCalendarComponent } from '@shared/dialogs/dialog-calendar/dialog-
 export class ScheduleComponent {
   public loading: boolean = false;
   protected formFilters: FormGroup;
-  protected filters;
 
-  statusSelection = Object.values(UserStatus);
+  protected statusSelection = Object.values(UserStatus);
+  protected usersSelection : User[];
 
   constructor(
     private readonly _dialog: MatDialog,
     private readonly _toastr: ToastrService,
     private readonly _router: Router,
-    private readonly _userService: UserService,
+    private readonly _occurrenceService: OccurrenceService,
     private readonly _headerService: HeaderService,
-    private readonly _fb: FormBuilder
+    private readonly _fb: FormBuilder,
+    private readonly _userService : UserService
   ) {
     this._headerService.setTitle('Agenda');
     this._headerService.setUpperTitle('Agenda - Primeweb');
@@ -53,95 +53,71 @@ export class ScheduleComponent {
     this.formFilters = this._fb.group({
       responsible: [''],
     });
+
+    this.getUsers();
+    this.loadOccurrences();
   }
 
-  openDialogCollaborator(user?) {
-    this._dialog
-      .open(DialogUserComponent, {
-        data: { user },
-        width: '80%',
-        maxWidth: '850px',
-        maxHeight: '90%',
-      })
-      .afterClosed()
-      .subscribe((res) => {
-        if (res) {
-          const id = +res.get('id');
-          if (id) {
-            this._patchCollaborator(res);
-            return;
-          }
+  public loadOccurrences(filters?: any): void {
+    this.eventsPromise = new Promise<EventInput[]>((resolve, reject) => {
+      this._initOrStopLoading();
 
-          this._postCollaborator(res);
-        }
-      });
+      this._occurrenceService
+        .getList(filters)
+        .pipe(
+          finalize(() => {
+            this._initOrStopLoading();
+          })
+        )
+        .subscribe({
+          next: (res) => {
+            const events: EventInput[] = res.data.map((occurrence: any) => {
+              return {
+                id: occurrence.id,
+                title: occurrence.time,
+                start: dayjs(occurrence.date).format('YYYY-MM-DD'),
+                end: dayjs(occurrence.date).format('YYYY-MM-DD'),
+                allDay: true,
+                extendedProps: {
+                  occurrence,
+                },
+              };
+            });
+
+            resolve(events);
+          },
+          error: (error) => {
+            this._toastr.error('Erro ao carregar as ocorrências', 'Erro');
+            reject(error);
+          },
+        });
+    });
   }
 
-  _patchCollaborator(collaborator: FormData) {
-    this._initOrStopLoading();
-    const id = +collaborator.get('id');
-    this._userService
-      .patchUser(id, collaborator)
-      .pipe(finalize(() => this._initOrStopLoading()))
-      .subscribe({
-        next: (res) => {
-          if (res.status) {
-            this._toastr.success(res.message);
-          }
-        },
-        error: (err) => {
-          this._toastr.error(err.error.error);
-        },
-      });
-  }
+  public openOccurrenceDialog(occurrence) {
+    const dialogConfig: MatDialogConfig = {
+      width: '80%',
+      maxWidth: '850px',
+      maxHeight: '90%',
+      hasBackdrop: true,
+      closeOnNavigation: true,
+    };
 
-  _postCollaborator(collaborator: User) {
-    this._initOrStopLoading();
-
-    this._userService
-      .postUser(collaborator)
-      .pipe(finalize(() => this._initOrStopLoading()))
-      .subscribe({
-        next: (res) => {
-          if (res.status) {
-            this._toastr.success(res.message);
-          }
-        },
-        error: (err) => {
-          this._toastr.error(err.error.error);
-        },
-      });
-  }
-
-  onDeleteCollaborator(id) {
-    const text = 'Tem certeza? Essa ação não pode ser revertida!';
-    this._dialog
-      .open(DialogConfirmComponent, { data: { text } })
-      .afterClosed()
-      .subscribe((res: boolean) => {
-        if (res) {
-          this._deleteCollaborator(id);
-        }
-      });
-  }
-
-  _deleteCollaborator(id: number) {
-    this._initOrStopLoading();
-    this._userService
-      .deleteUser(id)
-      .pipe(finalize(() => this._initOrStopLoading()))
-      .subscribe({
-        next: (res) => {
-          this._toastr.success(res.message);
-        },
-        error: (err) => {
-          this._toastr.error(err.error.error);
-        },
-      });
+    this._dialog.open(DialogCalendarComponent, {
+      data: occurrence,
+      ...dialogConfig,
+    })
+    .afterClosed().subscribe(res => {
+      if(res) {
+        this.loadOccurrences();
+      }
+    });
   }
 
   // Calendário
   @ViewChild('calendar') calendarComponent: FullCalendarComponent;
+
+  protected eventsPromise: Promise<EventInput[]>;
 
   protected calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, interactionPlugin],
@@ -158,71 +134,24 @@ export class ScheduleComponent {
     // droppable: true
   };
 
-  // eventsPromise: Promise<EventInput[]> = new Promise<EventInput[]>((resolve, reject) => {
-  //   this._userService
-  //    .getAllUsers()
-  //    .subscribe((res) => {
-  //       const events: EventInput[] = res.data.map((user: User) => {
-  //         return {
-  //           id: user.id,
-  //           title: user.name,
-  //           start: new Date(user.birth_date),
-  //           allDay: true,
-  //         };
-  //       });
-  //       resolve(events);
-  //     });
-  // });;
-
-  protected eventsPromise: Promise<EventInput[]> = new Promise<EventInput[]>(
-    (resolve, reject) => {
-      const events: EventInput[] = [
-        {
-          id: 'teste',
-          title: 'teste',
-          start: new Date(),
-          propriedadeTest : 'gabriel',
-          type: 'closed'
-        },
-        {
-          id: 'teste2',
-          title: 'teste2',
-          start: dayjs().add(5, 'day').toDate(),
-          propriedadeTest : 'gabriel',
-          type: 'lost'
-        },
-      ];
-      resolve(events);
-    }
-  );
-
-  handlePropriedadeTest(arg) {
-    const dialogConfig: MatDialogConfig = {
-      width: '80%',
-      maxWidth: '850px',
-      maxHeight: '90%',
-      hasBackdrop: true,
-      closeOnNavigation: true,
-    };
-
-    this._dialog.open(DialogCalendarComponent, {
-      data : arg,
-      ...dialogConfig,
-    });
-  }
-
-  handleDateClick(arg) {
-    // alert('date click! ' + arg.dateStr)
-  }
-
   protected infoApiCalendar() {
     let calendarApi = this.calendarComponent.getApi();
     // calendarApi.;
   }
 
+  // Getters
+  public getUsers () {
+    this._userService.getUsers()
+    .subscribe({
+      next: (res) => {
+        this.usersSelection = res.data;
+      }
+    });
+  }
+
   // Utils
   public updateFilters() {
-    this.filters = this.formFilters.getRawValue();
+    this.loadOccurrences(this.formFilters.getRawValue());
   }
 
   public clearResponsible() {
@@ -232,13 +161,12 @@ export class ScheduleComponent {
 
   public clearFormFilters() {
     this.formFilters.patchValue({
-      responsible : ''
-    })
+      responsible: '',
+    });
     this.updateFilters();
   }
 
   private _initOrStopLoading(): void {
     this.loading = !this.loading;
   }
-
 }

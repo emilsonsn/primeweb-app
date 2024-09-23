@@ -12,31 +12,64 @@
   <mat-divider class="my-3"></mat-divider>
 
   <div>
-    <div>
-
-      <div>
-        <span>gotalube.com.br</span>
+    <div class="row">
+      <div class="col-12 mb-2">
+        <div class="field">
+          <span>Contato: {{ this._data?.contact?.responsible }}</span>
+        </div>
       </div>
 
-      <div>
-        <span>Res. Érica</span>
+      <div class="col-md-10 mb-2">
+        <div class="row">
+
+          <div class="col-md-4">
+            <div class="field">
+              <span class="mb-2"><i class="fa-solid fa-envelope me-2"></i>Emails: </span>
+              <div class="d-flex flex-column gap-1">
+                @for(email of this._data?.contact?.emails; track email) {
+                  <div class="d-flex align-items-center gap-2">
+                    <i class="circle"></i><span>{{ email.email }}</span>
+                  </div>
+                }
+              </div>
+            </div>
+
+          </div>
+
+          <div class="col-md-4">
+            <div class="field">
+              <span class="mb-2"><i class="fa-solid fa-phone me-2"></i>Telefones:</span>
+                <div class="d-flex flex-column gap-1">
+                  @for(phone of this._data?.contact?.phones; track phone) {
+                    <div class="d-flex align-items-center gap-2">
+                      <i class="circle"></i><span>{{ phone.phone }}</span>
+                    </div>
+                  }
+                </div>
+            </div>
+          </div>
+
+        </div>
+
       </div>
 
-      <div>
-        <span>Origem: Consultor</span>
+      <div class="col-12"></div>
+
+      <div class="col-md-4 mb-2">
+        <div class="field">
+          <span>Primeweb: {{ this._data?.user?.name }}</span>
+        </div>
+
       </div>
 
-      <div>
-        <span>Primeweb: Thais Pereira</span>
+
+      <div class="col-md-4 mb-2">
+        <div class="field">
+          <span>Link: {{ this._data?.link }}</span>
+        </div>
+
       </div>
 
-      <div>
-        <span>Emails: roberto.primeweb&#64;gmail.com</span>
-      </div>
-
-      <div>
-        <span>Telefones:: (11)3851-8577</span>
-      </div>
 
     </div>
 
@@ -56,7 +89,7 @@
         <mat-form-field>
           <mat-select formControlName="status" placeholder="Status" >
             @for (status of statusSelection; track status) {
-              <mat-option [value]="status">{{ status | status }}</mat-option>
+              <mat-option [value]="status">{{ status | occurrence }}</mat-option>
             }
           </mat-select>
         </mat-form-field>
@@ -66,7 +99,7 @@
         <span class="fw-bolder">Observações</span>
         <mat-form-field>
           <textarea matInput
-            formControlName="description"
+            formControlName="observations"
             cdkTextareaAutosize
             #autosize="cdkTextareaAutosize"
             cdkAutosizeMinRows="1"

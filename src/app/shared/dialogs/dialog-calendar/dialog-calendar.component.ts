@@ -19,6 +19,8 @@ import { RequestService } from '@services/request.service';
 import { RequestStatus } from '@models/request';
 import { SessionQuery } from '@store/session.query';
 import { PhoneCallStatus } from '@models/phone-call';
+import { OccurrenceStatusEnum } from '@models/occurrence';
+import { OccurrenceService } from '@services/occurrence.service';
 
 @Component({
   selector: 'app-dialog-calendar',
@@ -34,7 +36,7 @@ export class DialogCalendarComponent {
 
   protected form : FormGroup;
 
-  protected statusSelection = Object.values(PhoneCallStatus);
+  protected statusSelection = Object.values(OccurrenceStatusEnum);
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -43,54 +45,49 @@ export class DialogCalendarComponent {
     private readonly _fb : FormBuilder,
     private readonly _toastr : ToastrService,
     private readonly _dialog: MatDialog,
+    private readonly _occurenceService : OccurrenceService
   ) { }
 
   ngOnInit(): void {
     this.form = this._fb.group({
       date: [null, Validators.required],
-      description: [''],
+      observations: [''],
       status: [null, Validators.required],
     });
 
     this.form.disable();
 
-    console.log(this._data)
+    this.title = `Ocorrência de ${this._data?.contact?.responsible || ''} | ID ${this._data?.id}`;
 
-    this.title = this._data._def.publicId;
-
-
-  }
-
-  // public loadPermissions(){
-  //   this._sessionQuery.user$.subscribe(user => {
-  //     if(user && user?.company_position.position !== 'Requester') {
-  //       this.isAdmin = true;
-  //     }else{
-  //       this.form.get('purchase_status').disable();
-  //     }
-  //   })
-  // }
-
-
-  public prepareFormData(order : RequestOrder) {
-    if(!order.items.length ){
-      this._toastr.error('Item é um campo obrigatório');
-      return;
-    }
-
-    const orderFormData = new FormData();
-
-    Object.keys(order).forEach((key) => {
-      orderFormData.append(key, order[key]);
-    });
-
-    return orderFormData;
+    this.form.patchValue({
+      date: `${this._data?.date}T${this._data?.time}`,
+      observations: this._data?.observations,
+      status: this._data?.status,
+    })
   }
 
   public onConfirm(): void {
     if(!this.form.valid || this.loading) return;
 
-    console.log(this.form.getRawValue())
+    this._initOrStopLoading();
+
+    this._occurenceService.patch(this._data?.id, {
+      ...this.form.getRawValue(),
+      date: dayjs(this.form.get('date').value).format('YYYY-MM-DD'),
+      time: dayjs(this.form.get('date').value).format('HH:mm')
+    })
+      .pipe(finalize(() => {
+        this._initOrStopLoading();
+      }))
+      .subscribe({
+        next: (res) => {
+          this._toastr.success('Ocorrência atualizada com sucesso!');
+          this._dialogRef.close(true);
+        },
+        error : (err) => {
+          this._toastr.error('Ocorreu um erro ao atualizar a ocorrência!');
+        }
+      })
 
   }
 

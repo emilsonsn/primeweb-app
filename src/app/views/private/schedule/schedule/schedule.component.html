@@ -9,8 +9,8 @@
             <mat-form-field>
               <mat-select formControlName="responsible" placeholder="Responsável" >
                 <mat-option (click)="clearResponsible()">Limpar filtro</mat-option>
-                @for (responsible of statusSelection; track responsible) {
-                  <mat-option [value]="responsible">{{ responsible }}</mat-option>
+                @for (responsible of usersSelection; track responsible) {
+                  <mat-option [value]="responsible.id">{{ responsible.name }}</mat-option>
                 }
               </mat-select>
             </mat-form-field>
@@ -60,9 +60,11 @@
 
     <!-- Personalizar a forma de exibição do evento no calendário -->
     <ng-template #eventContent let-arg>
-      <div class="eventTemplate" (click)="handlePropriedadeTest(arg.event)" [ngClass]="arg.event.extendedProps.type.toLowerCase()">
-        <b>{{arg.timeText}}</b>
-        <i>{{arg.event.title}}</i>
+      <div class="eventTemplate" (click)="openOccurrenceDialog(arg?.event?._def?.extendedProps?.occurrence)" [ngClass]="arg?.event?._def?.extendedProps?.occurrence?.status?.toLowerCase()">
+        <div>
+          <b class="me-2">{{arg?.event?._def?.extendedProps?.occurrence?.time }}</b><span>{{arg?.event?._def?.extendedProps?.occurrence?.contact?.responsible }}</span>
+        </div>
+        <i>{{arg?.event?._def?.extendedProps?.occurrence?.user?.name}}</i>
       </div>
     </ng-template>
 
