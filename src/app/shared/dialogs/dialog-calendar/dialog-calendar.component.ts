@@ -91,6 +91,19 @@ export class DialogCalendarComponent {
 
   }
 
+  public resendEmail(){
+    this._occurenceService.resendEmail(this._data.id)
+    .subscribe({
+      next: (res) => {
+        this._toastr.success(res.message);
+        this._dialogRef.close(true);
+      },
+      error : (err) => {
+        this._toastr.error(err.error.message);
+      }
+    })
+  }
+
   // Utils
   private _initOrStopLoading(): void {
     this.loading = !this.loading;

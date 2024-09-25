@@ -28,6 +28,10 @@ export class OccurrenceService {
     return this._http.post<ApiResponse<Occurrence>>(`${environment.api}/${this.sessionEndpoint}/create`, occurrence);
   }
 
+  public resendEmail(id: number): Observable<ApiResponse<Occurrence>> {
+    return this._http.post<ApiResponse<Occurrence>>(`${environment.api}/${this.sessionEndpoint}/resend-email/${id}`, {});
+  }
+  
   public patch(id: number, occurrence: Occurrence | FormData): Observable<ApiResponse<Occurrence>> {
     return this._http.post<ApiResponse<Occurrence>>(`${environment.api}/${this.sessionEndpoint}/${id}?_method=PATCH`, occurrence);
   }

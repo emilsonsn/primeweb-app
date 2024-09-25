@@ -126,7 +126,7 @@
 
         @if(form.disabled) {
           <div class="col-auto">
-            <button matRipple id="submit" class="button primary">Reenviar E-mail</button>
+            <button matRipple id="submit" (click)="resendEmail()" class="button primary">Reenviar E-mail</button>
           </div>
 
           <div class="col-auto">
