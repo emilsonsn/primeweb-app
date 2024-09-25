@@ -7,7 +7,7 @@
           <div class="col-md-4 mb-md-0 mb-2">
             <span class="filterField mb-1">Responsável</span>
             <mat-form-field>
-              <mat-select formControlName="responsible" placeholder="Responsável" >
+              <mat-select formControlName="user_id" placeholder="Responsável" >
                 <mat-option (click)="clearResponsible()">Limpar filtro</mat-option>
                 @for (responsible of usersSelection; track responsible) {
                   <mat-option [value]="responsible.id">{{ responsible.name }}</mat-option>

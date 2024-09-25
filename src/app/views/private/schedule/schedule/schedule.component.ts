@@ -51,7 +51,7 @@ export class ScheduleComponent {
 
   ngOnInit(): void {
     this.formFilters = this._fb.group({
-      responsible: [''],
+      user_id: [''],
     });
 
     this.getUsers();
@@ -67,8 +67,8 @@ export class ScheduleComponent {
 
       this._occurrenceService
         .getList({
-          // ...filters,
-          // status: statusSchedule
+          ...filters,
+          status: statusSchedule
         })
         .pipe(
           finalize(() => {
@@ -161,13 +161,13 @@ export class ScheduleComponent {
   }
 
   public clearResponsible() {
-    this.formFilters.get('responsible').patchValue('');
+    this.formFilters.get('user_id').patchValue('');
     this.updateFilters();
   }
 
   public clearFormFilters() {
     this.formFilters.patchValue({
-      responsible: '',
+      user_id: '',
     });
     this.updateFilters();
   }
