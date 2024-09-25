@@ -85,7 +85,7 @@ export class TableContactsComponent {
       slug: "status",
       order: false,
       title: "Status",
-      classes: "",
+      classes: "justify-content-center",
     },
     {
       slug: "actions",

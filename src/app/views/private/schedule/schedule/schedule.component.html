@@ -1,4 +1,4 @@
-<div>
+<div style="position: relative;">
   <app-component-header>
     <div id="filters">
       <form [formGroup]="formFilters">
@@ -53,20 +53,25 @@
 
   </div>
 
-</div>
+  <div id="calendarTemplate" class="col-12 mt-4">
+    <full-calendar #calendar [options]="calendarOptions" [events]="eventsPromise | async" [deepChangeDetection]="true" style="height: 100%;">
 
-<div id="calendarTemplate" class="col-12 mt-4">
-  <full-calendar #calendar [options]="calendarOptions" [events]="eventsPromise | async" [deepChangeDetection]="true" style="height: 100%;">
-
-    <!-- Personalizar a forma de exibição do evento no calendário -->
-    <ng-template #eventContent let-arg>
-      <div class="eventTemplate" (click)="openOccurrenceDialog(arg?.event?._def?.extendedProps?.occurrence)" [ngClass]="arg?.event?._def?.extendedProps?.occurrence?.status?.toLowerCase()">
-        <div>
-          <b class="me-2">{{arg?.event?._def?.extendedProps?.occurrence?.time }}</b><span>{{arg?.event?._def?.extendedProps?.occurrence?.contact?.responsible }}</span>
+      <!-- Personalizar a forma de exibição do evento no calendário -->
+      <ng-template #eventContent let-arg>
+        <div class="eventTemplate" (click)="openOccurrenceDialog(arg?.event?._def?.extendedProps?.occurrence)" [ngClass]="arg?.event?._def?.extendedProps?.occurrence?.status?.toLowerCase()">
+          <div>
+            <b class="me-2">{{arg?.event?._def?.extendedProps?.occurrence?.time }}</b><span>{{arg?.event?._def?.extendedProps?.occurrence?.contact?.responsible }}</span>
+          </div>
+          <i>{{arg?.event?._def?.extendedProps?.occurrence?.user?.name}}</i>
         </div>
-        <i>{{arg?.event?._def?.extendedProps?.occurrence?.user?.name}}</i>
-      </div>
-    </ng-template>
+      </ng-template>
 
-  </full-calendar>
+    </full-calendar>
+  </div>
+
+  @if(loading) {
+    <div class="wrapLoading">
+      <span class="loaderSchedule"></span>
+    </div>
+  }
 </div>

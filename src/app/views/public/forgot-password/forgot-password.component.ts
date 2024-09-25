@@ -3,6 +3,8 @@ import {AnimationOptions} from "ngx-lottie";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {UserService} from "@services/user.service";
+import { finalize } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-forgot-password',
@@ -17,7 +19,12 @@ export class ForgotPasswordComponent {
   countdown: number = 60;
   intervalId: any;
 
-  constructor(private fb: FormBuilder, private router: Router, private readonly _userService: UserService) {
+  constructor (
+    private fb: FormBuilder,
+    private router: Router,
+    private readonly _userService: UserService,
+    private readonly _toastr : ToastrService
+  ) {
     this.emailForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]]
     });
@@ -25,20 +32,23 @@ export class ForgotPasswordComponent {
 
   onSubmit() {
     if (this.emailForm.valid) {
-      this.showInput = false;
       this.disablePrimaryBtn = true;
 
-      this._userService.recoverPassword(this.emailForm.value.email).subscribe(
-        {
-          next: () => {
+      this._userService.recoverPassword(this.emailForm.value.email)
+        .pipe(finalize(() => {
+        }))
+        .subscribe({
+          next: (res) => {
+            this.showInput = false;
+
             this.startCountdown();
           },
-          error: () => {
+          error: (err) => {
+            this._toastr.error("Erro ao enviar e-mail de recuperação!")
             this.showInput = true;
             this.disablePrimaryBtn = false;
           }
-        }
-      );
+          });
     }
   }
 

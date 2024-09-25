@@ -32,7 +32,7 @@ export class OccurrencePipe implements PipeTransform {
         return 'Perdido';
 
       default:
-        return 'Não encontrado';
+        return '-';
     }
   }
 

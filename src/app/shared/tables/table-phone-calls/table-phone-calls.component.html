@@ -47,7 +47,7 @@
                 </td>
                 <td>
                   <div>
-                    {{ phone?.phone}}
+                    {{ phone?.phone | phoneMask}}
                   </div>
                 </td>
                 <td>
@@ -73,19 +73,19 @@
                 @if(showActions) {
                   <td>
                     <div class="d-flex justify-content-end gap-2">
-                      <div matTooltip="Ocorrência" matRipple class="buttonTemplate" (click)="onNewOccurrence.emit(phone)">
+                      <div matTooltip="Ocorrência" matRipple class="buttonTemplate" (click)="onNewOccurrence.emit(phone); $event.stopPropagation()">
                         <i class="fa-solid fa-bullhorn"></i>
                       </div>
 
-                      <div matTooltip="Detalhes" matRipple class="buttonTemplate" (click)="onViewPhoneCall.emit(phone)">
+                      <div matTooltip="Detalhes" matRipple class="buttonTemplate" (click)="onViewPhoneCall.emit(phone); $event.stopPropagation()">
                         <i class="fa-solid fa-eye"></i>
                       </div>
 
-                      <div matTooltip="Editar" matRipple class="buttonTemplate" (click)="onEditPhoneCall.emit(phone)">
+                      <div matTooltip="Editar" matRipple class="buttonTemplate" (click)="onEditPhoneCall.emit(phone); $event.stopPropagation()">
                         <i class="fa-solid fa-pen-to-square"></i>
                       </div>
 
-                      <div matTooltip="Deletar" matRipple class="buttonTemplate delete" (click)="onDeletePhoneCall.emit(phone)">
+                      <div matTooltip="Deletar" matRipple class="buttonTemplate delete" (click)="onDeletePhoneCall.emit(phone); $event.stopPropagation()">
                         <i class="fa-solid fa-trash"></i>
                       </div>
                     </div>

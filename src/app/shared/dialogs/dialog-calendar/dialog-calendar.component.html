@@ -42,7 +42,7 @@
                 <div class="d-flex flex-column gap-1">
                   @for(phone of this._data?.contact?.phones; track phone) {
                     <div class="d-flex align-items-center gap-2">
-                      <i class="circle"></i><span>{{ phone.phone }}</span>
+                      <i class="circle"></i><span>{{ phone.phone | phoneMask }}</span>
                     </div>
                   }
                 </div>

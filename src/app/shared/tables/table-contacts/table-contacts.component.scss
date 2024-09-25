@@ -26,3 +26,12 @@ mat-spinner {
   }
 
 }
+
+.status {
+  width: fit-content;
+  padding: 0.1rem 1rem;
+  border-radius: 12px;
+  color: $white;
+  background-color: $quindecenary;
+  white-space: nowrap;
+}

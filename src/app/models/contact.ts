@@ -1,3 +1,4 @@
+import { Occurrence } from './occurrence';
 import { Segment } from './segment';
 import { User } from './user';
 
@@ -25,6 +26,7 @@ export interface Contact {
   phones: Phone[]
   emails: Email[];
   segments: SegmentsContact[];
+  occurrences: Occurrence[];
 }
 
 export interface Phone {

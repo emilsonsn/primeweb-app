@@ -59,11 +59,17 @@ export class ScheduleComponent {
   }
 
   public loadOccurrences(filters?: any): void {
+
+    let statusSchedule = 'PresentationVisit,ConvertedContact,SchedulingVisit,ReschedulingVisit';
+
     this.eventsPromise = new Promise<EventInput[]>((resolve, reject) => {
       this._initOrStopLoading();
 
       this._occurrenceService
-        .getList(filters)
+        .getList({
+          // ...filters,
+          // status: statusSchedule
+        })
         .pipe(
           finalize(() => {
             this._initOrStopLoading();

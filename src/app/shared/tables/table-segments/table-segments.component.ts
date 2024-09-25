@@ -61,7 +61,7 @@ export class TableSegmentsComponent {
       slug: "actions",
       order: false,
       title: "Menu",
-      classes: "justify-content-end me-4 pe-3",
+      classes: "justify-content-end me-3 pe-2",
     },
   ];
 

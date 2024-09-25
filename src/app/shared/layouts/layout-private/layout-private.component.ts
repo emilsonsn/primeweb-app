@@ -20,7 +20,7 @@ export class LayoutPrivateComponent {
   public menuItem: IMenuItem[] = [
     {
       label: 'Home',
-      icon: 'fa-regular fa-house',
+      icon: 'fa-solid fa-house',
       route: '/painel/home',
       active: true
     },

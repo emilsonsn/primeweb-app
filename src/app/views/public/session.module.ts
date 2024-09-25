@@ -10,6 +10,7 @@ import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { PasswordRecoveryComponent } from './password-recovery/password-recovery.component';
+import { MatRippleModule } from '@angular/material/core';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { PasswordRecoveryComponent } from './password-recovery/password-recovery
     SessionRoutingModule,
     SharedModule,
     ReactiveFormsModule,
+    MatRippleModule,
     MatError,
     MatLabel,
     MatInput,
