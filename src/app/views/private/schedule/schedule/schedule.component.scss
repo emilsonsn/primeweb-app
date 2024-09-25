@@ -9,30 +9,24 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 9rem;
+    width: 12rem;
     height: 2rem;
     color: $white;
     font-size: 0.9rem;
+    white-space: nowrap;
 
-    &.lost {
-      background-color: $septendecenary;
-    }
-
-    &.canceled {
-      background-color: $septendecenary;
-    }
-
-    &.scheduling {
-      background-color: $septenary;
-    }
-
-    &.rescheduled {
-      background-color: $quaternary;
-    }
-    &.closed {
-      background-color: $quattuordenary;
-    }
   }
+}
+
+.presentationvisit {
+  background-color: $septenary;
+}
+
+.schedulingvisit {
+  background-color: $quaternary;
+}
+.reschedulingvisit {
+  background-color: $quattuordenary;
 }
 
 #calendarTemplate {
@@ -54,25 +48,6 @@
   // &:active {
   //   cursor: grabbing;
   // }
-
-  &.lost {
-    background-color: $septendecenary;
-  }
-
-  &.canceled {
-    background-color: $septendecenary;
-  }
-
-  &.scheduling {
-    background-color: $septenary;
-  }
-
-  &.rescheduled {
-    background-color: $quaternary;
-  }
-  &.closed {
-    background-color: $quattuordenary;
-  }
 
 }
 

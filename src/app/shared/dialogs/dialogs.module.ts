@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {Injectable, NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ComponentsModule} from '@shared/components/components.module';
 import {DirectivesModule} from '@shared/directives/directives.module';
@@ -27,7 +27,7 @@ import {TablesModule} from '@shared/tables/tables.module';
 import {MatIcon, MatIconModule} from "@angular/material/icon";
 import { DialogPhoneCallComponent } from './dialog-phone-call/dialog-phone-call.component';
 import { DialogOccurrenceComponent } from './dialog-occurrence/dialog-occurrence.component';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
+import { OWL_DATE_TIME_FORMATS, OwlDateTimeIntl, OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
 import { DialogPhoneCallDetailsComponent } from './dialog-phone-call-details/dialog-phone-call-details.component';
 import { DialogSegmentComponent } from './dialog-segment/dialog-segment.component';
 import { DialogContactComponent } from './dialog-contact/dialog-contact.component';
@@ -37,6 +37,48 @@ import {MatAutocompleteModule, MatAutocompleteSelectedEvent} from '@angular/mate
 import { DialogOccurrenceContactComponent } from './dialog-occurrence-contact/dialog-occurrence-contact.component';
 import { DialogCalendarComponent } from './dialog-calendar/dialog-calendar.component';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+
+@Injectable()
+export class DefaultIntl extends OwlDateTimeIntl {
+  upSecondLabel = 'Adicionar um segundo';
+  downSecondLabel = 'Diminuir um segundo';
+
+  upMinuteLabel = 'Adicionar um minuto';
+  downMinuteLabel = 'Diminuir um minuto';
+
+  upHourLabel = 'Adicionar uma hora';
+  downHourLabel = 'Diminuir uma hora';
+
+  prevMonthLabel = 'Mês passado';
+  nextMonthLabel = 'Próximo mês';
+
+  prevYearLabel = 'Ano passado';
+  nextYearLabel = 'Próximo ano';
+
+  prevMultiYearLabel = 'Anteriores 21 anos';
+  nextMultiYearLabel = 'Próximos 21 anos';
+
+  switchToMonthViewLabel = 'Mudar para visualização por mês';
+  switchToMultiYearViewLabel = 'Escolha um mês e um ano';
+
+  cancelBtnLabel = 'Cancelar';
+  setBtnLabel = 'Aplicar';
+
+  rangeFromLabel = 'De';
+  rangeToLabel = 'Até';
+
+  hour12AMLabel = 'AM';
+  hour12PMLabel = 'PM';
+}
+
+export const MY_NATIVE_FORMATS = {
+  fullPickerInput: {year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric'},
+  datePickerInput: {year: 'numeric', month: 'numeric', day: 'numeric'},
+  timePickerInput: {hour: 'numeric', minute: 'numeric', second: 'numeric'},
+  monthYearLabel: {year: 'numeric', month: 'short'},
+  dateA11yLabel: {year: 'numeric', month: 'long', day: 'numeric'},
+  monthYearA11yLabel: {year: 'numeric', month: 'long'},
+};
 
 @NgModule({
   declarations: [
@@ -84,6 +126,10 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     NgxMaskDirective,
     NgxMaskPipe,
     NgxMatSelectSearchModule
+  ],
+  providers: [
+    {provide: OwlDateTimeIntl, useClass: DefaultIntl},
+    {provide: OWL_DATE_TIME_FORMATS, useValue: MY_NATIVE_FORMATS},
   ]
 })
 export class DialogsModule {

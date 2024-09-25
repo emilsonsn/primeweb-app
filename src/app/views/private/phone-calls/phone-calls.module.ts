@@ -8,6 +8,7 @@ import { MatRippleModule } from '@angular/material/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 
 
 @NgModule({
@@ -22,7 +23,9 @@ import { MatInputModule } from '@angular/material/input';
     MatInputModule,
     MatFormFieldModule,
     ReactiveFormsModule,
-    MatRippleModule
+    MatRippleModule,
+    NgxMaskDirective,
+    NgxMaskPipe,
   ]
 })
 export class PhoneCallsModule { }

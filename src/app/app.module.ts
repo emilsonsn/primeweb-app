@@ -1,4 +1,4 @@
-import {DEFAULT_CURRENCY_CODE, LOCALE_ID, NgModule} from '@angular/core';
+import {DEFAULT_CURRENCY_CODE, Injectable, LOCALE_ID, NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import player from 'lottie-web';
 import { AppRoutingModule } from './app-routing.module';
@@ -19,7 +19,7 @@ import { AuthInterceptorService } from '@services/auth-interceptor.service';
 import { BrowserstateInterceptor } from './interceptors/browserstate.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
+import { OWL_DATE_TIME_FORMATS, OwlDateTimeIntl, OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
 import { FullCalendarModule } from '@fullcalendar/angular';
 
 registerLocaleData(localePt, 'pt-BR');

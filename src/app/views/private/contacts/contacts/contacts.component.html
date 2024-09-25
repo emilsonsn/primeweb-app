@@ -30,7 +30,7 @@
               <mat-select formControlName="status" placeholder="Status" >
                 <mat-option (click)="clearStatus()">Limpar filtro</mat-option>
                 @for (status of statusSelection; track status) {
-                  <mat-option [value]="status">{{ status | status }}</mat-option>
+                  <mat-option [value]="status">{{ status | occurrence }}</mat-option>
                 }
               </mat-select>
             </mat-form-field>
@@ -53,7 +53,7 @@
           <div class="col-md-4 mb-md-0 mb-2">
             <span class="filterField mb-1">Responsável</span>
             <mat-form-field>
-              <mat-select formControlName="responsible" placeholder="Responsável" >
+              <mat-select formControlName="user_id" placeholder="Responsável" >
                 <mat-option (click)="clearResponsible()">Limpar filtro</mat-option>
                 @for (user of usersSelection; track user) {
                   <mat-option [value]="user.id">{{ user.name }}</mat-option>
@@ -75,7 +75,7 @@
               <mat-select formControlName="origin" placeholder="Origem" >
                 <mat-option (click)="clearOrigin()">Limpar filtro</mat-option>
                 @for (origin of originSelection; track origin) {
-                  <mat-option [value]="origin">{{ origin | status }}</mat-option>
+                  <mat-option [value]="origin">{{ origin | origin }}</mat-option>
                 }
               </mat-select>
             </mat-form-field>

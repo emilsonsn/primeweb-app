@@ -48,6 +48,8 @@ export class ContactsComponent {
   }
 
   ngOnInit() {
+    this.getUsers();
+
     this.formFilters = this._fb.group({
       company : [''],
       email : [''],
@@ -55,7 +57,7 @@ export class ContactsComponent {
       phone : [''],
       name : [''],
       status : [''],
-      responsible : [''],
+      user_id : [''],
       origin : [''],
     })
   }
