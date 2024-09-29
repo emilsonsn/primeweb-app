@@ -1,28 +1,24 @@
-<div class="card">
-
-  <div class="header">
-    <div class="icon">
+<div class="card card-stats">
+  <div class="card-header card-header-icon"
+       style="display: flex;flex: 1; flex-direction: column; justify-content: space-between">
+    <div class="card-icon" [ngStyle]="{'background': data?.background, 'color': data?.color}">
       <i class="{{data?.icon}}"></i>
     </div>
-
-    <div class="content">
-      <h4 class="title font-16">
-        {{ data?.title }}
-      </h4>
-      <div class="d-flex align-items-center gap-2">
-        <span class="value">
-          {{ data?.value }}
-        </span>
-
-        <i class="fa-solid fa-arrow-down arrow"></i>
+    <p class="card-category">
+      <span>
+        {{ data?.category }}
+      </span>
+    </p>
+    <h3 class="card-title">{{ data?.title }}</h3>
+  </div>
+  @if (data?.description) {
+    <div class="card-footer">
+      <div class="stats">
+        @if (data?.icon_description) {
+          <i class="{{data?.icon_description}}"></i>
+        }
+        <p>{{ data?.description }}</p>
       </div>
     </div>
-  </div>
-
-  <div class="description">
-    <span>
-      {{ data?.description }}
-    </span>
-  </div>
-
+  }
 </div>
