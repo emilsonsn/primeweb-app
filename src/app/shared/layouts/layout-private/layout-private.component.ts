@@ -41,12 +41,12 @@ export class LayoutPrivateComponent {
     },
     {
       label: 'Agenda',
-      icon: 'fa-regular fa-calendar',
+      icon: 'fa-solid fa-calendar',
       route: '/painel/schedule'
     },
     {
       label: 'Logs',
-      icon: 'fa-regular fa-clipboard',
+      icon: 'fa-solid fa-clipboard',
       route: '/painel/logs'
     }
   ]
