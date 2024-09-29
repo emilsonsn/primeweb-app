@@ -1,26 +1,13 @@
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import {afterNextRender, Component, inject, Inject, Injector, signal, ViewChild} from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import {ApiResponse, PaymentForm} from '@models/application';
-import { Construction } from '@models/construction';
-import { Supplier, SupplierType } from '@models/supplier';
-import {Banco, OrderResponsible, RequestOrder, RequestOrderStatus, RequestOrderType} from '@models/requestOrder';
-import { User } from '@models/user';
-import { ConstructionService } from '@services/construction.service';
-import { OrderService } from '@services/order.service';
-import { SupplierService } from '@services/supplier.service';
-import { UserService } from '@services/user.service';
 import dayjs from 'dayjs';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
-import { dateValidator } from '@shared/validators/date';
-import { RequestService } from '@services/request.service';
-import { RequestStatus } from '@models/request';
 import { SessionQuery } from '@store/session.query';
-import { PhoneCallStatus } from '@models/phone-call';
 import { OccurrenceService } from '@services/occurrence.service';
-import { OccurrenceStatusEnum } from '@models/occurrence';
+import { ContactOccurenceEnum } from '@models/contact';
 
 @Component({
   selector: 'app-dialog-occurrence-contact',
@@ -36,7 +23,7 @@ export class DialogOccurrenceContactComponent {
 
   protected form : FormGroup;
 
-  protected statusSelection = Object.values(OccurrenceStatusEnum);
+  protected statusSelection = Object.values(ContactOccurenceEnum);
 
   constructor(
     @Inject(MAT_DIALOG_DATA)

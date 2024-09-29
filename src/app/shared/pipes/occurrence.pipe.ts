@@ -15,7 +15,7 @@ export class OccurrencePipe implements PipeTransform {
       case OccurrenceStatusEnum.Lead:
         return 'Lead';
       case OccurrenceStatusEnum.PresentationVisit:
-        return 'Visita de Apresentação';
+        return 'Apresentação';
       case OccurrenceStatusEnum.ConvertedContact:
         return 'Contato Convertido';
       case OccurrenceStatusEnum.SchedulingVisit:

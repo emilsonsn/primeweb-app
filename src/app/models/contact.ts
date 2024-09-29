@@ -55,3 +55,14 @@ export enum ContactOriginEnum {
   CONTACT_FILTER = 'CONTACT_FILTER',
   OTHER = 'OTHER',
 }
+
+export enum ContactOccurenceEnum {
+  Lead = "Lead",
+  PresentationVisit = "PresentationVisit",
+  SchedulingVisit = "SchedulingVisit",
+  ReschedulingVisit = "ReschedulingVisit",
+  DelegationContact = "DelegationContact",
+  InNegotiation = "InNegotiation",
+  Closed = "Closed",
+  Lost = "Lost"
+}

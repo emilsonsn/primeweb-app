@@ -14,7 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 import { RequestService } from '@services/request.service';
 import { SessionQuery } from '@store/session.query';
-import { PhoneCallStatus } from '@models/phone-call';
+import { PhoneCallOccurrenceStatusEnum, PhoneCallStatus } from '@models/phone-call';
 import { OccurrenceService } from '@services/occurrence.service';
 import { OccurrenceStatusEnum } from '@models/occurrence';
 
@@ -32,7 +32,7 @@ export class DialogOccurrenceComponent {
 
   protected form : FormGroup;
 
-  protected statusSelection = Object.values(OccurrenceStatusEnum);
+  protected statusSelection = Object.values(PhoneCallOccurrenceStatusEnum);
 
   constructor(
     @Inject(MAT_DIALOG_DATA)

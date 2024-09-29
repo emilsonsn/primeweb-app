@@ -23,3 +23,9 @@ export enum PhoneCallStatus {
   CONVERTEDTOCONTACT = 'CONVERTEDTOCONTACT',
   LOST = 'LOST',
 }
+
+export enum PhoneCallOccurrenceStatusEnum {
+  Lead = "Lead",
+  ConvertedContact = "ConvertedContact",
+  Lost = "Lost"
+}
