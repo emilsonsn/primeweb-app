@@ -1,36 +1,42 @@
 <header>
   <div class="title">
     @if (!isSidebarOpen && isMobile) {
-    <div matRipple id="toggleSidebar" (click)="onToggleSidebar()">
-      <i class="fa-solid fa-bars"></i>
-    </div>
+      <div matRipple id="toggleSidebar" (click)="onToggleSidebar()">
+        <i class="fa-solid fa-bars"></i>
+      </div>
     }
     <h3>{{ activeLabel }}</h3>
   </div>
   <div id="items">
 
-    <div class="item">
+    <!--<div class="item">
       <div matRipple id="full-screen" (click)="toggleFullScreen()">
         <div class="d-flex">
           <i class="fa-solid fa-expand"></i>
         </div>
       </div>
-    </div>
+    </div>-->
 
     <div id="notificationsTrigger" class="item" [matMenuTriggerFor]="notificationsMenu">
       <div matRipple id="notifications" [matRippleCentered]="true" [matRippleRadius]="20">
         <i class="fa-regular fa-bell"></i>
-        <div id="count">{{ notifications.length < 99 ? notifications.length : "99" }}</div>
+        @if (notifications.length > 0) {
+          <div id="count">{{ notifications.length < 99 ? notifications.length : "99" }}</div>
+        }
       </div>
     </div>
 
-    <div id="perfilTrigger" class="item" [matMenuTriggerFor]="perfilMenu" (menuClosed)="toggleDropdown()" (menuOpened)="toggleDropdown()">
+    <div id="perfilTrigger" class="item" [matMenuTriggerFor]="perfilMenu" (menuClosed)="toggleDropdown()"
+         (menuOpened)="toggleDropdown()">
       <button mat-button>
         <div id="perfil">
           <i class="fa-solid fa-user"></i>
-          <span>{{user?.name}}</span>
-            @if (this.isMenuOpened()) { <i class="fa-solid fa-angle-up toggle"></i> }
-            @else { <i class="fa-solid fa-chevron-down toggle"></i> }
+          <span>{{ user?.name }}</span>
+          @if (this.isMenuOpened()) {
+            <i class="fa-solid fa-angle-up toggle"></i>
+          } @else {
+            <i class="fa-solid fa-chevron-down toggle"></i>
+          }
         </div>
       </button>
     </div>
@@ -65,16 +71,16 @@
   <div class="menu-content notifications">
     <div class="items">
       <div class="d-flex px-2">
-        <span class="fw-bold">Notificações ({{notifications.length}})</span>
+        <span class="fw-bold">Notificações ({{ notifications.length }})</span>
       </div>
-      @for(notification of notifications; track notification) {
+      @for (notification of notifications; track notification) {
         <div (click)="seeNotification([notification])">
           <div matRipple class="menu-item">
             <i class="fa-solid fa-circle-exclamation"></i> <span>{{ notification.title }}</span>
           </div>
         </div>
       }
-      @if(notifications?.length > 0) {
+      @if (notifications?.length > 0) {
         <mat-divider></mat-divider>
         <div matRipple class="menu-item" (click)="seeNotification(notifications)">
           Visualizar Todas
