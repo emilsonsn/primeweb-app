@@ -1,1 +1,75 @@
-<p>dialog-contact-details works!</p>
+<mat-dialog-content>
+  <div class="d-flex align-items-center justify-content-between">
+    <span class="fw-bold fs-5">{{ title }}</span>
+
+    <div class="d-flex align-items-center gap-2">
+      <div matRipple class="close" (click)="onCancel()">
+        <i class="fa-solid fa-close"></i>
+      </div>
+    </div>
+  </div>
+
+  <mat-divider class="my-3"></mat-divider>
+  <div class="table-container">
+    <div class="overflow-auto">
+      <table class="table table-responsive">
+        <thead>
+          @for (col of columns; track col) {
+            <th [class.hasorder]="col.order" [class.active-order]="pageControl.orderField === col.slug">
+              <div class="d-flex {{col.classes}}">
+                {{ col.title }}
+              </div>
+            </th>
+          }
+        </thead>
+        <tbody>
+          @if (!data.occurrences?.length) {
+            <tr>
+              <td [attr.colspan]="columns.length + 1" class="text-center">
+                <div>Nenhum resultado encontrado</div>
+              </td>
+            </tr>
+          } @else {
+            @for (occurrence of data.occurrences; track occurrence) {
+              <tr class="table-line-hover" style="outline: none;">
+                <td>
+                  <div>
+                    {{ occurrence?.id }}
+                  </div>
+                </td>
+                <td>
+                  <div>
+                   {{occurrence?.date | date: "dd/MM/yyyy"}} {{ occurrence?.time }}
+                  </div>
+                </td>
+                <td>
+                  <div>
+                    {{ occurrence?.observations }}
+                  </div>
+                </td>
+                <td>
+                  <div class="status" [ngClass]="occurrence?.status?.toLowerCase()">
+                    {{ occurrence?.status  | occurrence }}
+                  </div>
+                </td>
+              </tr>
+            }
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <div class="w-100 me-2">
+    <div id="actionsDialog" class="flex-sm-row flex-column">
+
+      <div id="buttonsDialog" class="flex-sm-row flex-column">
+        <div class="col-auto">
+          <button matRipple id="cancel" class="button cancel" (click)="onCancel()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-actions>

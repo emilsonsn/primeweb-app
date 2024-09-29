@@ -1,13 +1,11 @@
-import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
-import { Order, PageControl } from '@models/application';
-import { ToastrService } from 'ngx-toastr';
-import { finalize, Subscription } from 'rxjs';
-import { Request } from '@models/request';
-import { RequestService } from '@services/request.service';
-import { SessionQuery } from '@store/session.query';
-import { PhoneCall, PhoneCallStatus } from '@models/phone-call';
-import { TestService } from '@services/test.service';
-import { PhoneCallService } from '@services/phone-call.service';
+import {Component, EventEmitter, Input, Output, SimpleChanges} from '@angular/core';
+import {Order, PageControl} from '@models/application';
+import {ToastrService} from 'ngx-toastr';
+import {finalize, Subscription} from 'rxjs';
+import {SessionQuery} from '@store/session.query';
+import {PhoneCall} from '@models/phone-call';
+import {TestService} from '@services/test.service';
+import {PhoneCallService} from '@services/phone-call.service';
 
 @Component({
   selector: 'app-table-phone-calls',
@@ -19,7 +17,7 @@ export class TablePhoneCallsComponent {
   private subscription: Subscription;
 
   @Input()
-  showActions : boolean = true;
+  showActions: boolean = true;
 
   @Input()
   filters;
@@ -93,7 +91,7 @@ export class TablePhoneCallsComponent {
     },
   ];
 
-  public phoneCalls : PhoneCall[] = [];
+  public phoneCalls: PhoneCall[] = [];
 
   public pageControl: PageControl = {
     take: 10,
@@ -108,33 +106,32 @@ export class TablePhoneCallsComponent {
 
   constructor(
     private readonly _toastr: ToastrService,
-    private readonly _phoneCallService : PhoneCallService,
-    private readonly _sessionQuery : SessionQuery,
-    private readonly _testService : TestService
-  ) {}
+    private readonly _phoneCallService: PhoneCallService,
+    private readonly _sessionQuery: SessionQuery,
+    private readonly _testService: TestService
+  ) {
+  }
 
   ngOnInit(): void {
     // this.subscription = this._sidebarService.accountIdAlterado$.subscribe(
     //   () => { this._onSearch() }
     // );
 
-    if(!this.showActions) {
+    if (!this.showActions) {
       this.columns.pop();
     }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    const { filters, searchTerm, loading } = changes;
+    const {filters, searchTerm, loading} = changes;
 
-    if ( searchTerm?.previousValue && searchTerm?.currentValue !== searchTerm?.previousValue ) {
+    if (searchTerm?.previousValue && searchTerm?.currentValue !== searchTerm?.previousValue) {
+      this._onSearch();
+    } else if (!loading?.currentValue) {
+      this._onSearch();
+    } else if (filters?.previousValue && filters?.currentValue) {
       this._onSearch();
     }
-    else if (!loading?.currentValue) {
-      this._onSearch();
-    }
-    else if(filters?.previousValue && filters?.currentValue) {
-			this._onSearch();
-		}
 
   }
 

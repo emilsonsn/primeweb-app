@@ -1,4 +1,5 @@
 export interface Occurrence {
+  id: number;
   user_id: number;
   phone_call_id: number;
   contact_id: number;

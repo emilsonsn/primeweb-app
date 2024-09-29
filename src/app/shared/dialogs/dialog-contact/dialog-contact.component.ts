@@ -1,4 +1,4 @@
-import { CdkTextareaAutosize } from '@angular/cdk/text-field';
+import {CdkTextareaAutosize} from '@angular/cdk/text-field';
 import {
   afterNextRender,
   ChangeDetectionStrategy,
@@ -10,35 +10,24 @@ import {
   signal,
   ViewChild,
 } from '@angular/core';
-import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import {
-  MAT_DIALOG_DATA,
-  MatDialog,
-  MatDialogRef,
-} from '@angular/material/dialog';
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators,} from '@angular/forms';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef,} from '@angular/material/dialog';
 import dayjs from 'dayjs';
-import { ToastrService } from 'ngx-toastr';
-import { finalize, map, ReplaySubject } from 'rxjs';
-import { Contact, ContactOriginEnum } from '@models/contact';
-import { TestService } from '@services/test.service';
-import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { MatChipInputEvent } from '@angular/material/chips';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { ContactService } from '@services/contact.service';
-import { UserService } from '@services/user.service';
-import { User } from '@models/user';
-import { SegmentService } from '@services/segment.service';
-import { Segment } from '@models/segment';
-import { UtilsService } from '@services/utils.service';
-import { Estados } from '@models/utils';
-import { SessionQuery } from '@store/session.query';
+import {ToastrService} from 'ngx-toastr';
+import {finalize, map, ReplaySubject} from 'rxjs';
+import {Contact, ContactOriginEnum} from '@models/contact';
+import {LiveAnnouncer} from '@angular/cdk/a11y';
+import {MatChipInputEvent} from '@angular/material/chips';
+import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import {ContactService} from '@services/contact.service';
+import {UserService} from '@services/user.service';
+import {User} from '@models/user';
+import {SegmentService} from '@services/segment.service';
+import {Segment} from '@models/segment';
+import {UtilsService} from '@services/utils.service';
+import {Estados} from '@models/utils';
+import {SessionQuery} from '@store/session.query';
 
 @Component({
   selector: 'app-dialog-contact',
@@ -51,7 +40,7 @@ export class DialogContactComponent {
   public title: string = 'Novo Contato';
   protected isNewContact: boolean = true;
   protected isToEdit: boolean = false;
-  protected canEditUserId : boolean = false;
+  protected canEditUserId: boolean = false;
 
   protected form: FormGroup;
 
@@ -85,9 +74,10 @@ export class DialogContactComponent {
     private readonly _userService: UserService,
     private readonly _dialog: MatDialog,
     private readonly _segmentService: SegmentService,
-    private readonly _sessionQuery : SessionQuery,
-    private readonly _utilsService : UtilsService
-  ) {}
+    private readonly _sessionQuery: SessionQuery,
+    private readonly _utilsService: UtilsService
+  ) {
+  }
 
   ngOnInit(): void {
     this.getUsersFromBack();
@@ -117,10 +107,10 @@ export class DialogContactComponent {
     this.isToHabilitateFieldUserId();
 
     this.cityFilterCtrl.valueChanges
-    .pipe()
-    .subscribe(() => {
-      this.filterCitys();
-    });
+      .pipe()
+      .subscribe(() => {
+        this.filterCitys();
+      });
 
     this.form.get('state').valueChanges.subscribe(res => {
       this.atualizarCidades(res);
@@ -150,7 +140,7 @@ export class DialogContactComponent {
         });
       }
 
-      if(this._data.contact.segments) {
+      if (this._data.contact.segments) {
         const newSegments = this._data.contact.segments.map(segmentContact => ({
           id: segmentContact.segment.id,
           name: segmentContact.segment.name
@@ -231,13 +221,11 @@ export class DialogContactComponent {
         contact.phones.forEach((telephone) => {
           contactFormData.append('phones[]', JSON.stringify(telephone));
         });
-      }
-      else if (key == 'segments') {
+      } else if (key == 'segments') {
         contact.segments.forEach((segment) => {
           contactFormData.append('segments[]', JSON.stringify(segment));
         });
-      }
-      else if (key == 'emails') {
+      } else if (key == 'emails') {
         contact.emails.forEach((email) => {
           contactFormData.append('emails[]', JSON.stringify(email));
         });
@@ -282,7 +270,7 @@ export class DialogContactComponent {
   private createTelephoneFromData(item: any): FormGroup {
     return this._fb.group({
       id: [item.id],
-      phone: [{ value: item.key }, [Validators.required]],
+      phone: [{value: item.key}, [Validators.required]],
     });
   }
 
@@ -332,7 +320,7 @@ export class DialogContactComponent {
   private createEmailFromData(item: any): FormGroup {
     return this._fb.group({
       id: [item.id],
-      email: [{ value: item.key }, [Validators.required]],
+      email: [{value: item.key}, [Validators.required]],
     });
   }
 
@@ -371,7 +359,7 @@ export class DialogContactComponent {
 
   // Segments
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-  readonly currentSegment = model({ id: 0, name: '' });
+  readonly currentSegment = model({id: 0, name: ''});
   segments = signal<{ id: number; name: string }[]>([]);
   allSegments = [];
   readonly filteredSegments = signal(this.allSegments);
@@ -387,8 +375,8 @@ export class DialogContactComponent {
       this.filteredSegments.set(
         loweredSegmentValue
           ? this.allSegments.filter((segment) =>
-              segment.name.toLowerCase().includes(loweredSegmentValue)
-            )
+            segment.name.toLowerCase().includes(loweredSegmentValue)
+          )
           : this.allSegments.slice()
       );
     } else {
@@ -402,11 +390,11 @@ export class DialogContactComponent {
     if (value) {
       this.segments.update((segments) => [
         ...segments,
-        { id: Date.now(), name: value },
+        {id: Date.now(), name: value},
       ]);
     }
 
-    this.currentSegment.set({ id: 0, name: '' });
+    this.currentSegment.set({id: 0, name: ''});
     event.input.value = '';
   }
 
@@ -430,7 +418,7 @@ export class DialogContactComponent {
       this.segments.update((segments) => [...segments, selectedSegment]);
     }
 
-    this.currentSegment.set({ id: 0, name: '' });
+    this.currentSegment.set({id: 0, name: ''});
   }
 
   trackBySegmentId(index: number, segment: { id: number; name: string }) {
@@ -495,26 +483,25 @@ export class DialogContactComponent {
   // Utils
   public isToHabilitateFieldUserId() {
     this._sessionQuery.user$.subscribe(user => {
-      if(user?.role != 'Seller') this.canEditUserId = true;
+      if (user?.role != 'Seller') this.canEditUserId = true;
     })
   }
 
   // CEP
-  public states : string[] = Object.values(Estados);
+  public states: string[] = Object.values(Estados);
 
-  public citys : string[] = [];
+  public citys: string[] = [];
   public cityCtrl: FormControl<any> = new FormControl<any>(null);
   public cityFilterCtrl: FormControl<any> = new FormControl<string>('');
   public filteredCitys: ReplaySubject<any[]> = new ReplaySubject<any[]>(1);
 
   public autocompleteCep() {
-    if(this.form.get('cep').value.length == 8 ) {
+    if (this.form.get('cep').value.length == 8) {
       this._utilsService.getAddressByCep(this.form.get('cep').value)
         .subscribe(res => {
-          if(res.erro) {
+          if (res.erro) {
             this._toastr.error('CEP Inválido para busca!');
-          }
-          else {
+          } else {
             this.form.get('street').patchValue(res.logradouro);
             this.form.get('city').patchValue(res.localidade);
             this.form.get('state').patchValue(res.uf);
