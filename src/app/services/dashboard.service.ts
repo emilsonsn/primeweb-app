@@ -15,16 +15,8 @@ export class DashboardService {
     private readonly _http: HttpClient
   ) {}
 
-  getDashboardCards(): Observable<ApiResponse<OrderData>> {
-    return this._http.get<ApiResponse<OrderData>>(`${environment.api}/dashboard/cards`);
-  }
-
-  getPurchaseGraphicBar() {
-    return this._http.post<any>(`${environment.api}/dashboard/purchaseGraphic`, {});
-  }
-
-  getPurchaseGraphicLine() {
-    return this._http.post<any>(`${environment.api}/dashboard/orderGraphic`, {});
+  getCards(): Observable<ApiResponse<any>> {
+    return this._http.get<ApiResponse<any>>(`${environment.api}/dashboard/cards`);
   }
 
 }

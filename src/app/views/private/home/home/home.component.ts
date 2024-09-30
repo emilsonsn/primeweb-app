@@ -69,38 +69,41 @@ export class HomeComponent {
     {
       icon: 'fa-solid fa-calendar-days',
       background: '#FC9108',
-      title: "1",
+      title: "0",
       category: 'AGENDAMENTOS MÊS',
-      description: 'Desde o último mês',
+      description: 'Criadas esse mês',
       icon_description: 'fa-regular fa-calendar',
     },
     {
       icon: 'fa-solid fa-address-book',
       background: '#4CA750',
-      title: "2",
-      category: 'CONTATOS',
-      description: 'Desde o último mês',
+      title: "0",
+      category: 'CONTATOS DO MÊS',
+      description: 'Total de contatos',
       icon_description: 'fa-regular fa-calendar',
     },
     {
       icon: 'fa-solid fa-users',
       background: '#E9423E',
-      title: "1",
-      category: 'CONTATOS FECHADOS',
-      description: 'Desde o último mês',
+      title: "0",
+      category: 'Telefonemas',
+      description: 'Total de telefonemas',
       icon_description: 'fa-regular fa-calendar',
     },
     {
-      icon: 'fa-solid fa-users-between-lines',
+      icon: 'fa-solid fa-users',
       background: '#0AB2C7',
-      title: "360",
-      category: 'TOTAL CONTATOS FECHADOS',
+      title: "0",
+      category: 'CONTATOS',
+      description: 'Total de contatos',
+      icon_description: 'fa-solid fa-users-between-lines',
     },
   ]);
 
   ngOnInit() {
     this.getContactData();
     this.getPhoneCallData();
+    this.getCards();
 
     this.filtersToContact = {
       date_from: dayjs().format('YYYY-MM-DD'),
@@ -112,6 +115,19 @@ export class HomeComponent {
       date_to : dayjs().format('YYYY-MM-DD')
     };
   }
+
+  public getCards() {
+    this._dashboardService.getCards()
+      .subscribe(cards => {
+        console.log(cards);
+  
+        this.itemsShopping()[0].title = cards.data.occurrencesMonth.toString(); // Agendamentos Mês
+        this.itemsShopping()[1].title = cards.data.contactMonth.toString();     // Contatos do Mês
+        this.itemsShopping()[2].title = cards.data.phoneCalls.toString();       // Telefonemas
+        this.itemsShopping()[3].title = cards.data.contacts.toString();         // Contatos Totais
+      });
+  }
+  
 
   public getContactData() {
     this._contactService.getList(null, {
@@ -126,7 +142,7 @@ export class HomeComponent {
     })
 
   this._contactService.getList(null, {
-      date_from: dayjs().add(7, 'day').format('YYYY-MM-DD'),
+      date_from: dayjs().format('YYYY-MM-DD'),
       date_to : dayjs().add(7, 'day').format('YYYY-MM-DD')
     }).pipe(finalize(() => {}))
     .subscribe({
@@ -150,7 +166,7 @@ export class HomeComponent {
       })
 
     this._phoneCallService.getList(null, {
-        date_from: dayjs().add(7, 'day').format('YYYY-MM-DD'),
+        date_from: dayjs().format('YYYY-MM-DD'),
         date_to : dayjs().add(7, 'day').format('YYYY-MM-DD')
       }).pipe(finalize(() => {}))
       .subscribe({
@@ -164,7 +180,7 @@ export class HomeComponent {
   public filterContact(value) {
     if(value == 'week') {
       this.filtersToContact = {
-        date_from: dayjs().add(7, 'day').format('YYYY-MM-DD'),
+        date_from: dayjs().format('YYYY-MM-DD'),
         date_to : dayjs().add(7, 'day').format('YYYY-MM-DD')
       };
     }
@@ -179,7 +195,7 @@ export class HomeComponent {
   public filterPhoneCall(value) {
     if(value == 'week') {
       this.filtersToPhoneCall = {
-        date_from: dayjs().add(7, 'day').format('YYYY-MM-DD'),
+        date_from: dayjs().format('YYYY-MM-DD'),
         date_to : dayjs().add(7, 'day').format('YYYY-MM-DD')
       };
     }
