@@ -4,7 +4,7 @@ export const environment = {
   production: false,
   appName: 'Granatum App',
   home: '/painel',
-  api: 'http://195.200.1.79:3001/api',
+  api: 'https://api.primewebsistema.com.br/api',
   version: require('../../package.json').version
 };
 
