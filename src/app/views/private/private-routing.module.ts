@@ -74,6 +74,14 @@ const routes: Routes = [
         }
       },
       {
+        path: 'clients',
+        loadChildren: () => import('./clients/clients.module').then(m => m.ClientsModule),
+        canActivate: [permissionGuard],
+        data: {
+          page: 'clients'
+        }
+      },
+      {
         path: '**',
         redirectTo: 'home',
         canMatch: []

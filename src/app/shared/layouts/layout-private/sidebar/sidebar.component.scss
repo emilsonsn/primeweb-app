@@ -156,3 +156,33 @@ nav {
 
   }
 }
+
+.typeDropown {
+  cursor: default!important;
+
+  a {
+    cursor: default;
+  }
+}
+
+.dropdownTemplate {
+  overflow: hidden;
+
+  .dropdownContent {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 1rem 0.5rem 0.5rem 0.5rem;
+
+    .dropdownItem {
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 6px;
+
+      &:hover {
+        background: $sidebar-background;
+        color: $sidebar-text-color!important;
+      }
+    }
+  }
+}

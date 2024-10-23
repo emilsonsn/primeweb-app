@@ -1,0 +1,91 @@
+<div>
+  <app-component-header>
+
+    <div id="buttons">
+      <button matRipple class="button primary" (click)="newClientDialog()">
+        <i class="fa-solid fa-plus"></i> Contato
+      </button>
+    </div>
+
+    <div id="filters">
+      <form [formGroup]="formFilters">
+        <div class="row">
+          <div class="col-md-4 mb-md-0 mb-2">
+            <span class="filterField mb-1">Empresa</span>
+            <mat-form-field>
+              <input matInput formControlName="company" placeholder="Empresa">
+            </mat-form-field>
+          </div>
+
+          <div class="col-md-4 mb-md-0 mb-2">
+            <span class="filterField mb-1">Domínio</span>
+            <mat-form-field>
+              <input matInput formControlName="domain" mask="A*.A*" placeholder="Domínio">
+            </mat-form-field>
+          </div>
+
+          <div class="col-md-4 mb-md-0 mb-2">
+            <span class="filterField mb-1">Segmento</span>
+            <mat-form-field>
+              <input matInput formControlName="segment" placeholder="Segmento">
+            </mat-form-field>
+          </div>
+
+          <div class="col-md-4 mb-md-0 mb-2">
+            <span class="filterField mb-1">Status</span>
+            <mat-form-field>
+              <mat-select formControlName="status" placeholder="Status">
+                <mat-option (click)="clearStatus()">Limpar filtro</mat-option>
+                @for (status of statusSelection; track status) {
+                <mat-option [value]="status">{{ status | occurrence }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="col-md-4 mb-md-0 mb-2">
+            <span class="filterField mb-1">Técnico</span>
+            <mat-form-field>
+              <mat-select formControlName="tecnico" placeholder="Responsável">
+                <mat-option (click)="clearResponsible()">Limpar filtro</mat-option>
+                @for (user of usersSelection; track user) {
+                <mat-option [value]="user.id">{{ user.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="col-md-4 mb-md-0 mb-2">
+            <span class="filterField mb-1">Projeto</span>
+            <mat-form-field>
+              <mat-select formControlName="projeto" placeholder="Origem">
+                <mat-option (click)="clearOrigin()">Limpar filtro</mat-option>
+                @for (origin of originSelection; track origin) {
+                <mat-option [value]="origin">{{ origin | origin }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+        </div>
+      </form>
+
+      <div class="d-flex gap-2 mt-2">
+        <button matRipple class="button red" (click)="clearFormFilters()">
+          <i class="fa-solid fa-trash"></i>
+        </button>
+        <button matRipple class="button primary" (click)="updateFilters()">
+          <i class="fa-solid fa-magnifying-glass"></i> Pesquisar
+        </button>
+      </div>
+    </div>
+
+  </app-component-header>
+</div>
+
+<div id="componentTable" class="col-12 mt-4">
+  <app-table-contacts (onViewContact)="openDetailsContactDialog($event)" (onEditContact)="openEditContactDialog($event)"
+    (onNewOccurrenceContact)="openNewOccurrenceContactDialog($event)"
+    (onDeleteContact)="openDeleteContactDialog($event)" [loading]="loading" [filters]="filters">
+  </app-table-contacts>
+</div>

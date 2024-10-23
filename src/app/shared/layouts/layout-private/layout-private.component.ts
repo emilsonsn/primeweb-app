@@ -48,7 +48,19 @@ export class LayoutPrivateComponent {
       label: 'Logs',
       icon: 'fa-solid fa-clipboard',
       route: '/painel/logs'
-    }
+    },
+    {
+      label: 'Clientes',
+      icon: 'fa-solid fa-user',
+      isDropdown: true,
+      dropdownItems: [
+        {
+          icon: 'fa-solid fa-users',
+          label: 'Clientes',
+          route: '/painel/clients'
+        },
+      ]
+    },
   ]
 
   protected isMobile: boolean = window.innerWidth >= 1000;

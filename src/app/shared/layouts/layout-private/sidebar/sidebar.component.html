@@ -3,9 +3,9 @@
     <img src="./assets/images/logo-light.png" alt="logo">
 
     @if(_sidebarService.mobile()) {
-      <div matRipple (click)="toggleShowSidebar()">
-        <i class="fa-solid fa-bars"></i>
-      </div>
+    <div matRipple (click)="toggleShowSidebar()">
+      <i class="fa-solid fa-bars"></i>
+    </div>
     }
   </div>
 
@@ -13,12 +13,34 @@
 
   <ul class="components">
     @for (item of menuItem; track item) {
-      <li routerLinkActive="active" [routerLink]="item.route">
+      @if(!item.isDropdown) {
+      <li matRipple routerLinkActive="active" [routerLink]="item.route">
         <a [routerLink]="item.route">
           <i [class]="item.icon"></i>
           <span>{{ item.label }}</span>
         </a>
       </li>
+      }
+      @else {
+        <li matRipple routerLinkActive="active" class="typeDropown" (click)="(expandedElement = expandedElement === item ? null : item); $event.stopPropagation()">
+          <a>
+            <i [class]="item.icon"></i>
+            <span>{{ item.label }}</span>
+            <i class="fa-solid fa-angle-down ms-auto me-2" style="cursor: pointer;"></i>
+          </a>
+
+          <div class="dropdownTemplate" [@detailExpand]="item == expandedElement ? 'expanded' : 'collapsed'">
+            <div class="dropdownContent">
+              @for (subItem of item.dropdownItems; track subItem) {
+                <a matRipple [routerLink]="subItem.route" class="dropdownItem">
+                  <i [class]="subItem.icon"></i>
+                  <span>{{ subItem.label }}</span>
+                </a>
+              }
+            </div>
+          </div>
+        </li>
+      }
     }
   </ul>
 </nav>

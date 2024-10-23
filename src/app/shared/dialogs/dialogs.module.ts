@@ -38,6 +38,9 @@ import { DialogOccurrenceContactComponent } from './dialog-occurrence-contact/di
 import { DialogCalendarComponent } from './dialog-calendar/dialog-calendar.component';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import {MatPaginator} from "@angular/material/paginator";
+import { DialogClientComponent } from './dialog-client/dialog-client.component';
+import {MatStepperModule} from '@angular/material/stepper';
+import {MatTabsModule} from '@angular/material/tabs';
 
 @Injectable()
 export class DefaultIntl extends OwlDateTimeIntl {
@@ -92,7 +95,8 @@ export const MY_NATIVE_FORMATS = {
     DialogContactComponent,
     DialogContactDetailsComponent,
     DialogOccurrenceContactComponent,
-    DialogCalendarComponent
+    DialogCalendarComponent,
+    DialogClientComponent
   ],
   imports: [
     CommonModule,
@@ -119,6 +123,9 @@ export const MY_NATIVE_FORMATS = {
     MatAutocompleteModule,
     MatIconModule,
     MatChipsModule,
+    MatPaginator,
+    MatStepperModule,
+    MatTabsModule,
     TextFieldModule,
     CdkTextareaAutosize,
     CurrencyMaskModule,
@@ -127,7 +134,6 @@ export const MY_NATIVE_FORMATS = {
     NgxMaskDirective,
     NgxMaskPipe,
     NgxMatSelectSearchModule,
-    MatPaginator
   ],
   providers: [
     {provide: OwlDateTimeIntl, useClass: DefaultIntl},

@@ -1,30 +1,45 @@
-import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { Order, PageControl } from '@models/application';
 import { ToastrService } from 'ngx-toastr';
 import { finalize, Subscription } from 'rxjs';
 import { SessionQuery } from '@store/session.query';
 import { TestService } from '@services/test.service';
 import { Contact } from '@models/contact';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 import { ContactService } from '@services/contact.service';
 
 @Component({
-  selector: 'app-table-contacts',
-  templateUrl: './table-contacts.component.html',
-  styleUrl: './table-contacts.component.scss',
+  selector: 'app-table-clients',
+  templateUrl: './table-clients.component.html',
+  styleUrl: './table-clients.component.scss',
   animations: [
     trigger('detailExpand', [
-      state('collapsed,void', style({height: '0px', minHeight: '0'}),),
-      state('expanded', style({height: '*'})),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ])
+      state('collapsed,void', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition(
+        'expanded <=> collapsed',
+        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+      ),
+    ]),
   ],
 })
-export class TableContactsComponent {
+export class TableClientsComponent {
   private subscription: Subscription;
 
   @Input()
-  showActions : boolean = true;
+  showActions: boolean = true;
 
   @Input()
   filters;
@@ -49,69 +64,69 @@ export class TableContactsComponent {
 
   public columns = [
     {
-      slug: "enterprise",
+      slug: 'enterprise',
       order: false,
-      title: "Empresa",
-      classes: "",
+      title: 'Empresa',
+      classes: '',
     },
     {
-      slug: "domain",
+      slug: 'domain',
       order: false,
-      title: "Domínio",
-      classes: "",
+      title: 'Domínio',
+      classes: '',
     },
     {
-      slug: "name",
+      slug: 'name',
       order: false,
-      title: "Nome",
-      classes: "",
+      title: 'Nome',
+      classes: '',
     },
     {
-      slug: "segment",
+      slug: 'segment',
       order: false,
-      title: "Segmento",
-      classes: "",
+      title: 'Segmento',
+      classes: '',
     },
     {
-      slug: "responsible",
+      slug: 'responsible',
       order: false,
-      title: "Responsável",
-      classes: "",
+      title: 'Responsável',
+      classes: '',
     },
     {
-      slug: "status",
+      slug: 'status',
       order: false,
-      title: "Status",
-      classes: "justify-content-center",
+      title: 'Status',
+      classes: 'justify-content-center',
     },
     {
-      slug: "actions",
+      slug: 'actions',
       order: false,
-      title: "Menu",
-      classes: "justify-content-end me-5 pe-4",
+      title: 'Menu',
+      classes: 'justify-content-end me-5 pe-4',
     },
   ];
 
-  public contacts : Contact[] = [];
+  public contacts: Contact[] = [];
 
   public pageControl: PageControl = {
     take: 10,
     page: 1,
     itemCount: 0,
     pageCount: 0,
-    orderField: "id",
+    orderField: 'id',
     order: Order.ASC,
   };
 
   isFinancial: boolean = false;
 
-  protected  expandedContact: Contact | null;
+  protected expandedContact: Contact | null;
 
   constructor(
     private readonly _toastr: ToastrService,
-    private readonly _contactService : ContactService,
-    private readonly _sessionQuery : SessionQuery,
-    private readonly _testService : TestService
+    private readonly _contactService: ContactService,
+    private readonly _sessionQuery: SessionQuery,
+    private readonly _testService: TestService
   ) {}
 
   ngOnInit(): void {
@@ -119,7 +134,7 @@ export class TableContactsComponent {
     //   () => { this._onSearch() }
     // );
 
-    if(!this.showActions) {
+    if (!this.showActions) {
       this.columns.pop();
     }
   }
@@ -127,16 +142,16 @@ export class TableContactsComponent {
   ngOnChanges(changes: SimpleChanges): void {
     const { filters, searchTerm, loading } = changes;
 
-    if ( searchTerm?.previousValue && searchTerm?.currentValue !== searchTerm?.previousValue ) {
+    if (
+      searchTerm?.previousValue &&
+      searchTerm?.currentValue !== searchTerm?.previousValue
+    ) {
+      this._onSearch();
+    } else if (!loading?.currentValue) {
+      this._onSearch();
+    } else if (filters?.previousValue && filters?.currentValue) {
       this._onSearch();
     }
-    else if (!loading?.currentValue) {
-      this._onSearch();
-    }
-    else if(filters?.previousValue && filters?.currentValue) {
-			this._onSearch();
-		}
-
   }
 
   ngOnDestroy() {
@@ -162,9 +177,11 @@ export class TableContactsComponent {
 
     this._contactService
       .getList(this.pageControl, this.filters)
-      .pipe(finalize(() => {
-        this._initOrStopLoading()
-      }))
+      .pipe(
+        finalize(() => {
+          this._initOrStopLoading();
+        })
+      )
       .subscribe((res) => {
         this.contacts = res.data;
 
@@ -204,5 +221,4 @@ export class TableContactsComponent {
       this.expandedContact = contact;
     }
   }
-
 }

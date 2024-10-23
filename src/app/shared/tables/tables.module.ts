@@ -16,6 +16,7 @@ import { TableSegmentsComponent } from './table-segments/table-segments.componen
 import { TableContactsComponent } from './table-contacts/table-contacts.component';
 import { TableLogsComponent } from './table-logs/table-logs.component';
 import { MatIconModule } from '@angular/material/icon';
+import { TableClientsComponent } from './table-clients/table-clients.component';
 
 const tables = [
   TableUserComponent,
@@ -23,6 +24,7 @@ const tables = [
   TableSegmentsComponent,
   TableContactsComponent,
   TableLogsComponent,
+  TableClientsComponent,
 ]
 
 @NgModule({

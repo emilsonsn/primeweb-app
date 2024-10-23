@@ -1,3 +1,4 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import {Component, Input} from '@angular/core';
 import {IMenuItem} from "@models/ItemsMenu";
 import { UserRoles } from '@models/user';
@@ -7,10 +8,18 @@ import { SessionService } from '@store/session.service';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.scss'
+  styleUrl: './sidebar.component.scss',
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed,void', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class SidebarComponent {
   @Input() menuItem: IMenuItem[] = []
+  expandedElement;
 
   constructor(
     protected readonly _sidebarService : SidebarService,
@@ -18,7 +27,7 @@ export class SidebarComponent {
   ) {}
 
   ngOnInit(){
-    this._sessionService.getUserFromBack().subscribe(res => {      
+    this._sessionService.getUserFromBack().subscribe(res => {
       this.loadPermissions(res.role);
     });
   }
@@ -26,7 +35,7 @@ export class SidebarComponent {
   public loadPermissions(role): void {
       if(role != 'Admin'){
         const justAdmin = ['Segmentos', 'Logs'];
-    
+
         this.menuItem = this.menuItem.filter((item) => {
           return !justAdmin.includes(item.label);
         });

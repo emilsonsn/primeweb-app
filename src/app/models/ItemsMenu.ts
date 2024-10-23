@@ -3,4 +3,6 @@ export interface IMenuItem {
   icon?: string;
   route?: string;
   active?: boolean;
+  isDropdown?: boolean;
+  dropdownItems? : IMenuItem[];
 }
