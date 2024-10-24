@@ -3,20 +3,15 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { HeaderService } from '@services/header.service';
-import { RequestService } from '@services/request.service';
 import { DialogConfirmComponent } from '@shared/dialogs/dialog-confirm/dialog-confirm.component';
 import { ToastrService } from 'ngx-toastr';
 import { OrderService } from '@services/order.service';
-import { DialogPhoneCallComponent } from '@shared/dialogs/dialog-phone-call/dialog-phone-call.component';
-import { DialogOccurrenceComponent } from '@shared/dialogs/dialog-occurrence/dialog-occurrence.component';
 import { ContactOriginEnum } from '@models/contact';
-import { DialogContactComponent } from '@shared/dialogs/dialog-contact/dialog-contact.component';
-import { DialogContactDetailsComponent } from '@shared/dialogs/dialog-contact-details/dialog-contact-details.component';
-import { DialogOccurrenceContactComponent } from '@shared/dialogs/dialog-occurrence-contact/dialog-occurrence-contact.component';
 import { ContactService } from '@services/contact.service';
 import { UserService } from '@services/user.service';
 import { OccurrenceStatusEnum } from '@models/occurrence';
 import { DialogClientComponent } from '@shared/dialogs/dialog-client/dialog-client.component';
+import { ClientService } from '@services/client.service';
 
 @Component({
   selector: 'app-clients',
@@ -29,8 +24,6 @@ export class ClientsComponent {
 
   public loading: boolean = false;
 
-  protected statusSelection = Object.values(OccurrenceStatusEnum);
-  protected originSelection = Object.values(ContactOriginEnum);
   protected usersSelection;
 
   constructor(
@@ -38,13 +31,13 @@ export class ClientsComponent {
     private readonly _router: Router,
     private readonly _dialog: MatDialog,
     private readonly _fb: FormBuilder,
-    private readonly _contactService: ContactService,
+    private readonly _clientService : ClientService,
     private readonly _orderService: OrderService,
     private readonly _toastrService: ToastrService,
     private readonly _userService: UserService
   ) {
-    this._headerService.setTitle('Contatos');
-    this._headerService.setUpperTitle('Contatos - Primeweb');
+    this._headerService.setTitle('Clientes');
+    this._headerService.setUpperTitle('Clientes - Primeweb');
   }
 
   ngOnInit() {
@@ -89,7 +82,7 @@ export class ClientsComponent {
       });
   }
 
-  public openEditContactDialog(contact) {
+  public openEditClientDialog(client) {
     const dialogConfig: MatDialogConfig = {
       width: '80%',
       height: '90%',
@@ -100,61 +93,19 @@ export class ClientsComponent {
 
     this._dialog
       .open(DialogClientComponent, {
-        data: { contact },
+        data: { client },
         ...dialogConfig,
       })
       .afterClosed()
       .subscribe((res) => {
-        if (res) {
-          this.loading = true;
-          setTimeout(() => {
-            this.loading = false;
-          }, 200);
-        }
+        this.loading = true;
+        setTimeout(() => {
+          this.loading = false;
+        }, 200);
       });
   }
 
-  public openDetailsContactDialog(contact) {
-    const dialogConfig: MatDialogConfig = {
-      width: '80%',
-      maxWidth: '850px',
-      maxHeight: '90%',
-      hasBackdrop: true,
-      closeOnNavigation: true,
-    };
-
-    this._dialog
-      .open(DialogContactDetailsComponent, {
-        data: contact,
-        ...dialogConfig,
-      })
-      .afterClosed()
-      .subscribe((res) => {
-        if (res) {
-          this.loading = true;
-          setTimeout(() => {
-            this.loading = false;
-          }, 200);
-        }
-      });
-  }
-
-  public openNewOccurrenceContactDialog(contact) {
-    const dialogConfig: MatDialogConfig = {
-      width: '80%',
-      maxWidth: '850px',
-      maxHeight: '90%',
-      hasBackdrop: true,
-      closeOnNavigation: true,
-    };
-
-    this._dialog.open(DialogOccurrenceContactComponent, {
-      data: contact,
-      ...dialogConfig,
-    });
-  }
-
-  public openDeleteContactDialog(request) {
+  public openDeleteClientDialog(request) {
     const dialogConfig: MatDialogConfig = {
       width: '80%',
       maxWidth: '550px',
@@ -172,7 +123,7 @@ export class ClientsComponent {
       .subscribe({
         next: (res) => {
           if (res) {
-            this._contactService.delete(request.id).subscribe({
+            this._clientService.delete(request.id).subscribe({
               next: (resData) => {
                 this.loading = true;
                 this._toastrService.success(resData.message);

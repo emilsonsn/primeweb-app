@@ -19,6 +19,7 @@ import {
   trigger,
 } from '@angular/animations';
 import { ContactService } from '@services/contact.service';
+import { ClientService } from '@services/client.service';
 
 @Component({
   selector: 'app-table-clients',
@@ -51,16 +52,13 @@ export class TableClientsComponent {
   loading: boolean = false;
 
   @Output()
-  public onViewContact = new EventEmitter<Contact>();
+  public onViewClient = new EventEmitter<any>();
 
   @Output()
-  public onEditContact = new EventEmitter<Contact>();
+  public onEditClient = new EventEmitter<any>();
 
   @Output()
-  public onDeleteContact = new EventEmitter<Contact>();
-
-  @Output()
-  public onNewOccurrenceContact = new EventEmitter<Contact>();
+  public onDeleteClient = new EventEmitter<any>();
 
   public columns = [
     {
@@ -76,21 +74,21 @@ export class TableClientsComponent {
       classes: '',
     },
     {
-      slug: 'name',
-      order: false,
-      title: 'Nome',
-      classes: '',
-    },
-    {
       slug: 'segment',
       order: false,
       title: 'Segmento',
       classes: '',
     },
     {
-      slug: 'responsible',
+      slug: 'technical',
       order: false,
-      title: 'Responsável',
+      title: 'Técnico',
+      classes: '',
+    },
+    {
+      slug: 'project',
+      order: false,
+      title: 'Projeto',
       classes: '',
     },
     {
@@ -107,7 +105,7 @@ export class TableClientsComponent {
     },
   ];
 
-  public contacts: Contact[] = [];
+  public clients = [];
 
   public pageControl: PageControl = {
     take: 10,
@@ -120,11 +118,11 @@ export class TableClientsComponent {
 
   isFinancial: boolean = false;
 
-  protected expandedContact: Contact | null;
+  protected expanded: any;
 
   constructor(
     private readonly _toastr: ToastrService,
-    private readonly _contactService: ContactService,
+    private readonly _clientService : ClientService,
     private readonly _sessionQuery: SessionQuery,
     private readonly _testService: TestService
   ) {}
@@ -175,7 +173,7 @@ export class TableClientsComponent {
   public search(): void {
     this._initOrStopLoading();
 
-    this._contactService
+    this._clientService
       .getList(this.pageControl, this.filters)
       .pipe(
         finalize(() => {
@@ -183,7 +181,7 @@ export class TableClientsComponent {
         })
       )
       .subscribe((res) => {
-        this.contacts = res.data;
+        this.clients = res.data;
 
         this.pageControl.page = res.current_page - 1;
         this.pageControl.itemCount = res.total;
@@ -214,11 +212,11 @@ export class TableClientsComponent {
   }
 
   // Utils
-  public toggleContactExpanded(contact) {
-    if (this.expandedContact === contact) {
-      this.expandedContact = null;
+  public toggleExpanded(element) {
+    if (this.expanded === element) {
+      this.expanded = null;
     } else {
-      this.expandedContact = contact;
+      this.expanded = element;
     }
   }
 }

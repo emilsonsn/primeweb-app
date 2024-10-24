@@ -24,21 +24,27 @@ import {
 } from '@angular/material/dialog';
 import dayjs from 'dayjs';
 import { ToastrService } from 'ngx-toastr';
-import { finalize, map, ReplaySubject } from 'rxjs';
-import { Contact, ContactOriginEnum } from '@models/contact';
+import {
+  debounceTime,
+  finalize,
+  map,
+  ReplaySubject,
+  Subject,
+  takeUntil,
+} from 'rxjs';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { ContactService } from '@services/contact.service';
 import { UserService } from '@services/user.service';
-import { User } from '@models/user';
+import { User, UserRoles } from '@models/user';
 import { SegmentService } from '@services/segment.service';
-import { Segment } from '@models/segment';
 import { UtilsService } from '@services/utils.service';
 import { Estados } from '@models/utils';
 import { SessionQuery } from '@store/session.query';
 import { ClientService } from '@services/client.service';
+import { Segment } from '@models/segment';
 
 @Component({
   selector: 'app-dialog-client',
@@ -48,31 +54,48 @@ import { ClientService } from '@services/client.service';
 export class DialogClientComponent {
   public loading: boolean = false;
   public title: string = 'Novo Cliente';
+  protected _onDestroy = new Subject<void>();
+
   protected isNewClient: boolean = true;
   protected isToEdit: boolean = false;
   protected canEditUserId: boolean = false;
 
-  protected form: FormGroup;
+  protected formClient: FormGroup;
+  protected formContract: FormGroup;
 
-  // Getters
-  protected originSelect = Object.values(ContactOriginEnum);
+  protected isToGoToContract: boolean = false;
+  protected tabToContract: number = 0;
 
+  // [Selects]
   // Search de Users
   protected userSelect: User[] = [];
-  protected userCtrl: FormControl<any> = new FormControl<any>(null);
-  protected userFilterCtrl: FormControl<any> = new FormControl<string>('');
-  protected filteredUsers: ReplaySubject<any[]> = new ReplaySubject<any[]>(1);
 
-  // Search de Segment
-  protected segmentSelect: Segment[] = [];
-  protected segmentCtrl: FormControl<any> = new FormControl<any>(null);
-  protected segmentFilterCtrl: FormControl<any> = new FormControl<string>('');
-  protected filteredsegments: ReplaySubject<any[]> = new ReplaySubject<any[]>(
+  protected consultantCtrl: FormControl<any> = new FormControl<any>(null);
+  protected consultantFilterCtrl: FormControl<any> = new FormControl<string>(
+    ''
+  );
+  protected filteredConsultants: ReplaySubject<any[]> = new ReplaySubject<
+    any[]
+  >(1);
+
+  protected sellerCtrl: FormControl<any> = new FormControl<any>(null);
+  protected sellerFilterCtrl: FormControl<any> = new FormControl<string>('');
+  protected filteredSellers: ReplaySubject<any[]> = new ReplaySubject<any[]>(1);
+
+  protected technicalCtrl: FormControl<any> = new FormControl<any>(null);
+  protected technicalFilterCtrl: FormControl<any> = new FormControl<string>('');
+  protected filteredTechnicals: ReplaySubject<any[]> = new ReplaySubject<any[]>(
     1
   );
 
-  // Return Time e Return_Time
-  protected date;
+  // Segments
+  protected segmentSelect: Segment[] = [];
+
+  protected segmentCtrl: FormControl<any> = new FormControl<any>(null);
+  protected segmentFilterCtrl: FormControl<any> = new FormControl<string>('');
+  protected filteredSegments: ReplaySubject<any[]> = new ReplaySubject<any[]>(
+    1
+  );
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -87,117 +110,113 @@ export class DialogClientComponent {
     private readonly _segmentService: SegmentService,
     private readonly _sessionQuery: SessionQuery,
     private readonly _utilsService: UtilsService
-  ) {}
-
-  ngOnInit(): void {
+  ) {
     this.getUsersFromBack();
     this.getSegmentsFromBack();
 
-    this.form = this._fb.group({
-      user_id: [null],
-      company: [null],
-      domain: [null],
-      responsible: [null],
-      responsible_2: [null],
-      origin: [null],
-      return_date: [null],
-      return_time: [null],
-      cnpj: [null],
-      cep: [null],
-      street: [null],
-      number: [null],
-      neighborhood: [null],
-      city: [null],
-      state: [null],
+    this.prepareFilterConsultantCtrl();
+    this.prepareFilterSellerCtrl();
+    this.prepareFilterTechnicalCtrl();
+    this.prepareFilterSegmentCtrl();
+  }
+
+  ngOnInit(): void {
+    this.formClient = this._fb.group({
+      company: [null, [Validators.required]],
+      domain: [null, [Validators.required]],
+      client_responsable_name: [null, [Validators.required]],
+      client_responsable_name_2: [null, [Validators.required]],
+      cnpj: [null, [Validators.required]],
+      cep: [null, [Validators.required]],
+      street: [null, [Validators.required]],
+      number: [null, [Validators.required]],
+      neighborhood: [null, [Validators.required]],
+      city: [null, [Validators.required]],
+      state: [null, [Validators.required]],
       observations: [''],
-      segments: [null],
+      segment_id: [null, [Validators.required]],
+      monthly_fee: [null, [Validators.required]],
+      payment_first_date: [null, [Validators.required]],
+      final_date: [null, [Validators.required]],
+      duedate_day: [1, [Validators.min(1), Validators.max(31)]],
+      consultant_id: [''], // , [Validators.required]
+      seller_id: [''], // , [Validators.required]
+      technical_id: [''], // , [Validators.required]
       phones: this._fb.array([]),
       emails: this._fb.array([]),
-      contract_number: [''],
-      contract_file: [''],
-      date: [''],
-      contract_words: [''],
-      mensality: [''],
-      first_parcel_date: [''],
-      end_contract: [''],
-      day_vencimento: [''],
-      consultor: [''],
-      vendedor: [''],
-      tecnico: [''],
-      layout: [''],
-      service: [''],
-      contract_observations: [''],
     });
 
-    this.isToHabilitateFieldUserId();
+    this.formContract = this._fb.group({
+      number: [null, [Validators.required]],
+      path: [null, [Validators.required]],
+      date_hire: [null, [Validators.required]],
+      number_words_contract: [null, [Validators.required]],
+      service_type: [null, [Validators.required]],
+      model: [null, [Validators.required]],
+      observations: [null, [Validators.required]],
+      client_id: [null, [Validators.required]],
+    });
 
     this.cityFilterCtrl.valueChanges.pipe().subscribe(() => {
       this.filterCitys();
     });
 
-    this.form.get('state').valueChanges.subscribe((res) => {
+    this.formClient.get('state').valueChanges.subscribe((res) => {
       this.atualizarCidades(res);
     });
 
-    this.form.get('cep').valueChanges.subscribe((res) => {
+    this.formClient.get('cep').valueChanges.subscribe((res) => {
       this.autocompleteCep();
     });
 
-    this.form.valueChanges.subscribe((res) => {
+    this.formClient.valueChanges.subscribe((res) => {
       console.log(res);
+      if (res.duedate_day < 0 || res.duedate_day > 31) {
+        this.formClient.get('duedate_day').patchValue(1);
+      }
     });
 
     if (this._data) {
       this.isNewClient = false;
       this.title = 'Editar Contato';
 
-      if (this._data.contact.phones) {
-        this._data.contact.phones.forEach((item) => {
+      if (this._data.client.phones) {
+        this._data.client.phones.forEach((item) => {
           this.phones.push(this.createTelephoneFromData(item));
         });
       }
 
-      if (this._data.contact.emails) {
-        this._data.contact.emails.forEach((item) => {
+      if (this._data.client.emails) {
+        this._data.client.emails.forEach((item) => {
           this.emails.push(this.createEmailFromData(item));
         });
       }
 
-      if (this._data.contact.segments) {
-        const newSegments = this._data.contact.segments.map(
-          (segmentContact) => ({
-            id: segmentContact.segment.id,
-            name: segmentContact.segment.name,
-          })
-        );
-
-        this.segments.set(newSegments);
-      }
-
-      this.form.patchValue({
-        ...this._data.contact,
+      this.formClient.patchValue({
+        ...this._data.client,
       });
-
-      const returnDate =
-        this.form.get('return_date').value +
-        `T${this.form.get('return_time').value}`;
-      this.date = new Date(returnDate);
     } else {
       this.phones.push(this.createTelephone());
       this.emails.push(this.createEmail());
     }
-
-    // Filter de Users
-    this.userFilterCtrl.valueChanges.pipe().subscribe(() => {
-      this.filterCitys();
-    });
   }
 
-  public post(contact: Contact) {
+  ngOnDestroy(): void {
+    this._onDestroy.next();
+    this._onDestroy.complete();
+  }
+
+  public post(client, contract) {
     this._initOrStopLoading();
 
     this._clientService
-      .post(this.prepareFormData(contact))
+      .post({
+        ...client,
+        payment_first_date: dayjs(client.payment_first_date).format(
+          'YYYY-MM-DD'
+        ),
+        final_date: dayjs(client.final_date).format('YYYY-MM-DD'),
+      })
       .pipe(
         finalize(() => {
           this._initOrStopLoading();
@@ -206,7 +225,8 @@ export class DialogClientComponent {
       .subscribe({
         next: (res) => {
           this._toastr.success('Contato cadastrado com sucesso!');
-          this._dialogRef.close(true);
+          this.isToGoToContract = true;
+          this.tabToContract = 1;
         },
         error: (err) => {
           this._toastr.error(err.error.error);
@@ -214,11 +234,17 @@ export class DialogClientComponent {
       });
   }
 
-  public patch(id: number, contact: Contact) {
+  public patch(id: number, client) {
     this._initOrStopLoading();
 
     this._clientService
-      .patch(id, { ...contact })
+      .patch(id, {
+        ...client,
+        payment_first_date: dayjs(client.payment_first_date).format(
+          'YYYY-MM-DD'
+        ),
+        final_date: dayjs(client.final_date).format('YYYY-MM-DD'),
+      })
       .pipe(
         finalize(() => {
           this._initOrStopLoading();
@@ -235,45 +261,49 @@ export class DialogClientComponent {
       });
   }
 
-  public prepareFormData(contact: Contact) {
-    const contactFormData = new FormData();
+  public prepareFormData(client) {
+    const clientFormData = new FormData();
 
-    Object.keys(contact).forEach((key) => {
+    Object.keys(client).forEach((key) => {
       if (key == 'phones') {
-        contact.phones.forEach((telephone) => {
-          contactFormData.append('phones[]', JSON.stringify(telephone));
-        });
-      } else if (key == 'segments') {
-        contact.segments.forEach((segment) => {
-          contactFormData.append('segments[]', JSON.stringify(segment));
+        client.phones.forEach((telephone) => {
+          clientFormData.append('phones[]', JSON.stringify(telephone));
         });
       } else if (key == 'emails') {
-        contact.emails.forEach((email) => {
-          contactFormData.append('emails[]', JSON.stringify(email));
+        client.emails.forEach((email) => {
+          clientFormData.append('emails[]', JSON.stringify(email));
         });
-      }
-      else contactFormData.append(key, contact[key]);
+      } else if (key == 'payment_first_date') {
+        clientFormData.append(
+          'payment_first_date',
+          dayjs(client.payment_first_date).format('YYYY-MM-DD')
+        );
+      } else if (key == 'final_date') {
+        clientFormData.append(
+          'final_date',
+          dayjs(client.final_date).format('YYYY-MM-DD')
+        );
+      } else clientFormData.append(key, client[key]);
     });
 
-    return contactFormData;
+    return clientFormData;
   }
 
   public onConfirm(): void {
-    if (!this.form.valid || this.loading) return;
+    if (!this.formClient.valid || this.loading) return;
 
     if (this.isNewClient) {
-      this.post({
-        ...this.form.getRawValue(),
-        segments: this.segments(),
-        return_date: dayjs(this.date).format('YYYY-MM-DD'),
-        return_time: dayjs(this.date).format('HH:mm'),
-      });
+      this.post(
+        {
+          ...this.formClient.getRawValue(),
+        },
+        {
+          ...this.formContract.getRawValue(),
+        }
+      );
     } else {
-      this.patch(this._data.contact.id, {
-        ...this.form.getRawValue(),
-        segments: this.segments(),
-        return_date: dayjs(this.date).format('YYYY-MM-DD'),
-        return_time: dayjs(this.date).format('HH:mm'),
+      this.patch(this._data.client.id, {
+        ...this.formClient.getRawValue(),
       });
     }
   }
@@ -286,6 +316,7 @@ export class DialogClientComponent {
   public createTelephone(): FormGroup {
     return this._fb.group({
       id: [null],
+      name: [null, Validators.required],
       phone: [null, Validators.required],
     });
   }
@@ -293,6 +324,7 @@ export class DialogClientComponent {
   private createTelephoneFromData(item: any): FormGroup {
     return this._fb.group({
       id: [item.id],
+      name: [{ value: item.name }, Validators.required],
       phone: [{ value: item.key }, [Validators.required]],
     });
   }
@@ -302,40 +334,39 @@ export class DialogClientComponent {
   }
 
   public onDeleteTelephone(index: number): void {
-    if (!this.phones.value[index].id) {
-      this.phones.removeAt(index);
+    // if (!this.phones.value[index].id) {
+    //   this.phones.removeAt(index);
 
-      if (this.phones.length === 0) {
-        this.phones.push(this.createTelephone());
-      }
-      return;
-    }
+    //   if (this.phones.length === 0) {
+    //     this.phones.push(this.createTelephone());
+    //   }
+    //   return;
+    // }
 
-    // this.deleteTelephone(index);
+
+    this.deleteTelephone(index);
+    this.phones.removeAt(index);
+
 
     if (this.phones.length === 0) {
       this.phones.push(this.createTelephone());
     }
   }
 
-  /*
-    private deleteTelephone(index) {
-      this._clientService.deleteItem(this.phones.value[index].id).subscribe({
-        next: () => {
-          this._toastr.success('Item deletado com sucesso');
-          this.phones.removeAt(index);
-        },
-        error: (err) => {
-          this._toastr.error(err.error.error);
-        },
-      });
-    }
-  */
+  private deleteTelephone(index) {
+    this._clientService.deletePhone(this.phones.value[index].id).subscribe({
+      next: () => {},
+      error: (err) => {
+        this._toastr.error(err.error.error);
+      },
+    });
+  }
 
   // Email
   public createEmail(): FormGroup {
     return this._fb.group({
       id: [null],
+      name: [null, Validators.required],
       email: [null, Validators.required],
     });
   }
@@ -343,6 +374,7 @@ export class DialogClientComponent {
   private createEmailFromData(item: any): FormGroup {
     return this._fb.group({
       id: [item.id],
+      name: [{ value: item.name }, [Validators.required]],
       email: [{ value: item.key }, [Validators.required]],
     });
   }
@@ -352,100 +384,31 @@ export class DialogClientComponent {
   }
 
   public onDeleteEmail(index: number): void {
-    if (!this.emails.value[index].id) {
-      this.emails.removeAt(index);
+    // if (!this.emails.value[index].id) {
+    //   this.emails.removeAt(index);
 
-      if (this.emails.length === 0) {
-        this.emails.push(this.createEmail());
-      }
-      return;
-    }
+    //   if (this.emails.length === 0) {
+    //     this.emails.push(this.createEmail());
+    //   }
+    //   return;
+    // }
 
-    // this.deleteEmail(index);
+
+    this.deleteEmail(index);
+    this.emails.removeAt(index);
 
     if (this.emails.length === 0) {
       this.emails.push(this.createTelephone());
     }
   }
 
-  // private deleteEmail(index) {
-  //   this._clientService.deleteItem(this.phones.value[index].id).subscribe({
-  //     next: () => {
-  //       this._toastr.success('Item deletado com sucesso');
-  //       this.emails.removeAt(index);
-  //     },
-  //     error: (err) => {
-  //       this._toastr.error(err.error.error);
-  //     },
-  //   });
-  // }
-
-  // Segments
-  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-  readonly currentSegment = model({ id: 0, name: '' });
-  segments = signal<{ id: number; name: string }[]>([]);
-  allSegments = [];
-  readonly filteredSegments = signal(this.allSegments);
-
-  readonly announcer = inject(LiveAnnouncer);
-
-  filterSegments(): void {
-    const currentSegmentValue = this.currentSegment().name;
-
-    if (typeof currentSegmentValue === 'string') {
-      const loweredSegmentValue = currentSegmentValue.toLowerCase();
-
-      this.filteredSegments.set(
-        loweredSegmentValue
-          ? this.allSegments.filter((segment) =>
-              segment.name.toLowerCase().includes(loweredSegmentValue)
-            )
-          : this.allSegments.slice()
-      );
-    } else {
-      this.filteredSegments.set(this.allSegments.slice());
-    }
-  }
-
-  add(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
-
-    if (value) {
-      this.segments.update((segments) => [
-        ...segments,
-        { id: Date.now(), name: value },
-      ]);
-    }
-
-    this.currentSegment.set({ id: 0, name: '' });
-    event.input.value = '';
-  }
-
-  remove(segment: { id: number; name: string }): void {
-    this.segments.update((segments) => {
-      const index = segments.findIndex((s) => s.id === segment.id);
-      if (index < 0) {
-        return segments;
-      }
-
-      segments.splice(index, 1);
-      this.announcer.announce(`Removed ${segment.name}`);
-      return [...segments];
+  private deleteEmail(index) {
+    this._clientService.deleteEmail(this.phones.value[index].id).subscribe({
+      next: () => {},
+      error: (err) => {
+        this._toastr.error(err.error.error);
+      },
     });
-  }
-
-  selected(event: MatAutocompleteSelectedEvent): void {
-    const selectedSegment = event.option.value as { id: number; name: string };
-
-    if (!this.segments().find((segment) => segment.id === selectedSegment.id)) {
-      this.segments.update((segments) => [...segments, selectedSegment]);
-    }
-
-    this.currentSegment.set({ id: 0, name: '' });
-  }
-
-  trackBySegmentId(index: number, segment: { id: number; name: string }) {
-    return segment.id;
   }
 
   // Utils
@@ -453,54 +416,63 @@ export class DialogClientComponent {
     this.loading = !this.loading;
   }
 
-  public clearDate() {
-    this.form.get('date').patchValue('');
-  }
-
-  public isToHabilitateFieldUserId() {
-    this._sessionQuery.user$.subscribe((user) => {
-      if (user?.role != 'Seller') this.canEditUserId = true;
-    });
-  }
-
   public onFileChange(event: any) {
     const file = event.target.files[0];
     if (file) {
-      this.form.patchValue({
-        contract_file: file
+      this.formContract.patchValue({
+        path: file,
       });
     }
   }
 
   // Getters
   public get phones(): FormArray {
-    return this.form.get('phones') as FormArray;
+    return this.formClient.get('phones') as FormArray;
   }
 
   public get emails(): FormArray {
-    return this.form.get('emails') as FormArray;
-  }
-
-  public get getSegments() {
-    return this.form.get('segments') as FormArray;
+    return this.formClient.get('emails') as FormArray;
   }
 
   // Getters do Back
   public getUsersFromBack() {
     this._userService.getUsers().subscribe((res) => {
       this.userSelect = res.data;
-      this.filteredUsers.next(this.userSelect.slice());
+
+      this.filteredConsultants.next(
+        this.userSelect
+          .filter(
+            (user) =>
+              user.role.toLowerCase() === UserRoles.Consultant.toLowerCase()
+          )
+          .slice()
+      );
+
+      this.filteredSellers.next(
+        this.userSelect
+          .filter(
+            (user) => user.role.toLowerCase() === UserRoles.Seller.toLowerCase()
+          )
+          .slice()
+      );
+
+      this.filteredTechnicals.next(
+        this.userSelect
+          .filter(
+            (user) => user.role.toLowerCase() === UserRoles.Seller.toLowerCase()
+          )
+          .slice()
+
+        // this.userSelect.filter(user => (user.role).toLowerCase() === (UserRoles.Technical).toLowerCase()).slice() -> CORRETO
+      );
     });
   }
 
   public getSegmentsFromBack() {
     this._segmentService.getList().subscribe((res) => {
-      for (let segment of res.data) {
-        this.allSegments.push({
-          id: segment.id,
-          name: segment.name,
-        });
-      }
+      this.segmentSelect = res.data;
+
+      this.filteredSegments.next(this.segmentSelect.slice());
     });
   }
 
@@ -522,6 +494,106 @@ export class DialogClientComponent {
     );
   }
 
+  // Filters
+  protected prepareFilterConsultantCtrl() {
+    this.consultantFilterCtrl.valueChanges
+      .pipe(
+        takeUntil(this._onDestroy),
+        debounceTime(100),
+        map((search: string | null) => {
+          if (!search) {
+            return this.userSelect
+              .filter(
+                (user) =>
+                  user.role.toLowerCase() === UserRoles.Consultant.toLowerCase()
+              )
+              .slice();
+          } else {
+            search = search.toLowerCase();
+            return this.userSelect.filter((user) =>
+              user.name.toLowerCase().includes(search)
+            );
+          }
+        })
+      )
+      .subscribe((filtered) => {
+        this.filteredConsultants.next(filtered);
+      });
+  }
+
+  protected prepareFilterSellerCtrl() {
+    this.sellerFilterCtrl.valueChanges
+      .pipe(
+        takeUntil(this._onDestroy),
+        debounceTime(100),
+        map((search: string | null) => {
+          if (!search) {
+            return this.userSelect
+              .filter(
+                (user) =>
+                  user.role.toLowerCase() === UserRoles.Seller.toLowerCase()
+              )
+              .slice();
+          } else {
+            search = search.toLowerCase();
+            return this.userSelect.filter((user) =>
+              user.name.toLowerCase().includes(search)
+            );
+          }
+        })
+      )
+      .subscribe((filtered) => {
+        this.filteredSellers.next(filtered);
+      });
+  }
+
+  protected prepareFilterTechnicalCtrl() {
+    this.technicalFilterCtrl.valueChanges
+      .pipe(
+        takeUntil(this._onDestroy),
+        debounceTime(100),
+        map((search: string | null) => {
+          if (!search) {
+            return this.userSelect
+              .filter(
+                (user) =>
+                  user.role.toLowerCase() === UserRoles.Technical.toLowerCase()
+              )
+              .slice();
+          } else {
+            search = search.toLowerCase();
+            return this.userSelect.filter((user) =>
+              user.name.toLowerCase().includes(search)
+            );
+          }
+        })
+      )
+      .subscribe((filtered) => {
+        this.filteredTechnicals.next(filtered);
+      });
+  }
+
+  protected prepareFilterSegmentCtrl() {
+    this.segmentFilterCtrl.valueChanges
+      .pipe(
+        takeUntil(this._onDestroy),
+        debounceTime(100),
+        map((search: string | null) => {
+          if (!search) {
+            return this.segmentSelect.slice();
+          } else {
+            search = search.toLowerCase();
+            return this.userSelect.filter((segment) =>
+              segment.name.toLowerCase().includes(search)
+            );
+          }
+        })
+      )
+      .subscribe((filtered) => {
+        this.filteredSegments.next(filtered);
+      });
+  }
+
   // CEP
   public states: string[] = Object.values(Estados);
 
@@ -531,17 +603,17 @@ export class DialogClientComponent {
   public filteredCitys: ReplaySubject<any[]> = new ReplaySubject<any[]>(1);
 
   public autocompleteCep() {
-    if (this.form.get('cep').value.length == 8) {
+    if (this.formClient.get('cep').value.length == 8) {
       this._utilsService
-        .getAddressByCep(this.form.get('cep').value)
+        .getAddressByCep(this.formClient.get('cep').value)
         .subscribe((res) => {
           if (res.erro) {
             this._toastr.error('CEP Inválido para busca!');
           } else {
-            this.form.get('street').patchValue(res.logradouro);
-            this.form.get('city').patchValue(res.localidade);
-            this.form.get('state').patchValue(res.uf);
-            this.form.get('neighborhood').patchValue(res.bairro);
+            this.formClient.get('street').patchValue(res.logradouro);
+            this.formClient.get('city').patchValue(res.localidade);
+            this.formClient.get('state').patchValue(res.uf);
+            this.formClient.get('neighborhood').patchValue(res.bairro);
           }
         });
     }

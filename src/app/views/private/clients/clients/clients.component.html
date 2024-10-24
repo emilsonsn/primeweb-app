@@ -3,7 +3,7 @@
 
     <div id="buttons">
       <button matRipple class="button primary" (click)="newClientDialog()">
-        <i class="fa-solid fa-plus"></i> Contato
+        <i class="fa-solid fa-plus"></i> Cliente
       </button>
     </div>
 
@@ -32,36 +32,12 @@
           </div>
 
           <div class="col-md-4 mb-md-0 mb-2">
-            <span class="filterField mb-1">Status</span>
-            <mat-form-field>
-              <mat-select formControlName="status" placeholder="Status">
-                <mat-option (click)="clearStatus()">Limpar filtro</mat-option>
-                @for (status of statusSelection; track status) {
-                <mat-option [value]="status">{{ status | occurrence }}</mat-option>
-                }
-              </mat-select>
-            </mat-form-field>
-          </div>
-
-          <div class="col-md-4 mb-md-0 mb-2">
             <span class="filterField mb-1">Técnico</span>
             <mat-form-field>
               <mat-select formControlName="tecnico" placeholder="Responsável">
                 <mat-option (click)="clearResponsible()">Limpar filtro</mat-option>
                 @for (user of usersSelection; track user) {
                 <mat-option [value]="user.id">{{ user.name }}</mat-option>
-                }
-              </mat-select>
-            </mat-form-field>
-          </div>
-
-          <div class="col-md-4 mb-md-0 mb-2">
-            <span class="filterField mb-1">Projeto</span>
-            <mat-form-field>
-              <mat-select formControlName="projeto" placeholder="Origem">
-                <mat-option (click)="clearOrigin()">Limpar filtro</mat-option>
-                @for (origin of originSelection; track origin) {
-                <mat-option [value]="origin">{{ origin | origin }}</mat-option>
                 }
               </mat-select>
             </mat-form-field>
@@ -84,8 +60,10 @@
 </div>
 
 <div id="componentTable" class="col-12 mt-4">
-  <app-table-contacts (onViewContact)="openDetailsContactDialog($event)" (onEditContact)="openEditContactDialog($event)"
-    (onNewOccurrenceContact)="openNewOccurrenceContactDialog($event)"
-    (onDeleteContact)="openDeleteContactDialog($event)" [loading]="loading" [filters]="filters">
-  </app-table-contacts>
+  <app-table-clients
+    (onEditClient)="openEditClientDialog($event)"
+    (onDeleteClient)="openDeleteClientDialog($event)"
+    [loading]="loading"
+    [filters]="filters">
+  </app-table-clients>
 </div>

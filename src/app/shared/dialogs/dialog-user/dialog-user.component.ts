@@ -124,6 +124,7 @@ export class DialogUserComponent {
       formData.append('name', form.get('name')?.value);
       formData.append('phone', form.get('phone')?.value);
       formData.append('email', form.get('email')?.value);
+      formData.append('role', form.get('role')?.value);
       formData.append('is_active', form.get('is_active')?.value ? "1" : "0");
 
       this._dialogRef.close(formData)

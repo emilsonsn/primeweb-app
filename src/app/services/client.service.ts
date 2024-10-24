@@ -34,4 +34,23 @@ export class ClientService {
   public delete(id: number): Observable<DeleteApiResponse> {
     return this._http.delete<DeleteApiResponse>(`${environment.api}/${this.sessionEndpoint}/${id}`);
   }
+
+  public deletePhone(id: number): Observable<DeleteApiResponse> {
+    return this._http.delete<DeleteApiResponse>(`${environment.api}/${this.sessionEndpoint}/phone/${id}`);
+  }
+
+  public deleteEmail(id: number): Observable<DeleteApiResponse> {
+    return this._http.delete<DeleteApiResponse>(`${environment.api}/${this.sessionEndpoint}/email/${id}`);
+  }
+
+  // Contract
+  public postContract(client_id : number, contract: any | FormData): Observable<ApiResponse<any>> {
+    return this._http.post<ApiResponse<any>>(`${environment.api}/${this.sessionEndpoint}/${client_id}/add-contract`, contract);
+  }
+
+  public deleteContract(id: number): Observable<DeleteApiResponse> {
+    return this._http.delete<DeleteApiResponse>(`${environment.api}/${this.sessionEndpoint}/contract/${id}`);
+  }
+
+
 }

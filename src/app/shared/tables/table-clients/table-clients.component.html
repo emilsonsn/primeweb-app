@@ -25,7 +25,7 @@
         </tr>
         }
         @else {
-        @if(!contacts?.length) {
+        @if(!clients?.length) {
         <tr>
           <td [attr.colspan]="columns.length + 1" class="text-center">
             <div>Nenhum resultado encontrado</div>
@@ -33,68 +33,61 @@
         </tr>
         }
         @else {
-        @for (contact of contacts; track contact) {
-        <tr class="table-line-hover" style="outline: none;" (click)="toggleContactExpanded(contact)">
+        @for (client of clients; track client) {
+        <tr class="table-line-hover" style="outline: none;" (click)="toggleExpanded(client)">
           <td>
             <div>
-              {{ contact?.company}}
+              {{ client?.company}}
             </div>
           </td>
           <td>
             <div>
-              {{ contact?.domain}}
+              {{ client?.domain}}
             </div>
           </td>
           <td>
             <div>
-              {{ contact?.responsible}}
+              {{ client?.segment?.name }}
             </div>
           </td>
           <td>
             <div>
-              @for(segment of contact.segments; track segment) {
-              {{ segment?.segment?.name }}
-              }
+              {{ client?.technical?.name }}
             </div>
           </td>
           <td>
             <div>
-              {{ contact?.user?.name}}
+              {{ client?.contract?.name}}
             </div>
           </td>
           <td>
-            <div class="d-flex w-100 justify-content-center">
-              <div class="status">
-                {{ contact?.occurrences[contact?.occurrences?.length - 1]?.status | occurrence }}
-              </div>
+            <div>
+              {{ client?.contract?.name}}
             </div>
           </td>
           @if(showActions) {
           <td>
             <div class="d-flex justify-content-end gap-2">
-              <div matTooltip="Ocorrência" matRipple class="buttonTemplate"
-                (click)="onNewOccurrenceContact.emit(contact); $event.stopPropagation()">
-                <i class="fa-solid fa-bullhorn"></i>
-              </div>
 
               <div matTooltip="Detalhes" matRipple class="buttonTemplate"
-                (click)="onViewContact.emit(contact); $event.stopPropagation()">
+                (click)="onViewClient.emit(client); $event.stopPropagation()">
                 <i class="fa-solid fa-eye"></i>
               </div>
 
               <div matTooltip="Editar" matRipple class="buttonTemplate"
-                (click)="onEditContact.emit(contact); $event.stopPropagation()">
+                (click)="onEditClient.emit(client); $event.stopPropagation()">
                 <i class="fa-solid fa-pen-to-square"></i>
               </div>
 
               <div matTooltip="Deletar" matRipple class="buttonTemplate delete"
-                (click)="onDeleteContact.emit(contact); $event.stopPropagation()">
+                (click)="onDeleteClient.emit(client); $event.stopPropagation()">
                 <i class="fa-solid fa-trash"></i>
               </div>
             </div>
           </td>
           }
         </tr>
+        <!-- Tabela com expand
         <tr>
           <td colspan="7" class="p-0">
             <div [@detailExpand]="contact == expandedContact ? 'expanded' : 'collapsed'" style="overflow: hidden;">
@@ -133,6 +126,7 @@
             </div>
           </td>
         </tr>
+        -->
         }
         }
         }

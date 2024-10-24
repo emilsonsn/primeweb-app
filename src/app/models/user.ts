@@ -3,7 +3,7 @@ export interface User {
   name : string;
   email : string;
   is_active : boolean;
-  role : UserRoles;
+  role : UserRoles | string;
   email_verified_at? : string;
   phone? : string;
   updated_at? : string;
@@ -14,7 +14,8 @@ export enum UserRoles {
   Seller = 'Seller',
   Consultant = 'Consultant',
   Manager = 'Manager',
-  Admin = 'Admin'
+  Admin = 'Admin',
+  Technical = 'Technical',
 }
 
 export enum UserStatus {
