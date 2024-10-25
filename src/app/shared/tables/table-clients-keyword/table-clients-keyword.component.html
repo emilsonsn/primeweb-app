@@ -25,7 +25,7 @@
         </tr>
         }
         @else {
-        @if(!contracts?.length) {
+        @if(!keywords?.length) {
         <tr>
           <td [attr.colspan]="columns.length + 1" class="text-center">
             <div>Nenhum resultado encontrado</div>
@@ -33,69 +33,65 @@
         </tr>
         }
         @else {
-        @for (contract of contracts; track contract) {
-        <tr class="table-line-hover" style="outline: none;" (click)="toggleExpanded(contract)">
+        @for (keyword of keywords; track keyword) {
+        <tr class="table-line-hover" style="outline: none;" (click)="toggleExpanded(keyword)">
           <td>
             <div>
-              {{ contract?.number}}
+              {{ keyword?.number}}
             </div>
           </td>
           <td>
             <div>
-              {{ contract?.model | contract}}
+              {{ keyword?.model | contract}}
             </div>
           </td>
           <td>
             <div>
-              {{ contract?.service_type | contract}}
+              {{ keyword?.service_type | contract}}
             </div>
           </td>
           <td>
             <div>
-              {{ contract?.date_hire | date:"dd/MM/YYYY" }}
+              {{ keyword?.date_hire | date:"dd/MM/YYYY" }}
             </div>
           </td>
           @if(showActions) {
           <td>
             <div class="d-flex justify-content-end gap-2">
-
-              <div matTooltip="Abrir Contrato" matRipple class="buttonTemplate"
-                (click)="openContract(contract); $event.stopPropagation()">
-                <i class="fa-solid fa-file"></i>
-              </div>
-
               <div matTooltip="Deletar" matRipple class="buttonTemplate delete"
-                (click)="deleteContract(contract); $event.stopPropagation()">
+                (click)="deleteContract(keyword); $event.stopPropagation()">
                 <i class="fa-solid fa-trash"></i>
               </div>
             </div>
           </td>
           }
         </tr>
-        <tr>
-          <td colspan="7" class="p-0">
-            <div [@detailExpand]="contract == expanded ? 'expanded' : 'collapsed'" style="overflow: hidden;">
-              <div class="row">
-                <div class="col-12">
-                  <div class="p-md-3 p-2">
-                    <span class="mb-2" style="font-weight: 500; font-size: 1rem; color: #5c5c5c;">Número de Palavras no Contrato</span>
-                    <div>
-                      {{contract.number_words_contract }}
+        <!--
+          <tr>
+            <td colspan="7" class="p-0">
+              <div [@detailExpand]="keyword == expanded ? 'expanded' : 'collapsed'" style="overflow: hidden;">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="p-md-3 p-2">
+                      <span class="mb-2" style="font-weight: 500; font-size: 1rem; color: #5c5c5c;">Número de Palavras no Contrato</span>
+                      <div>
+                        {{keyword.number_words_contract }}
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="col-12">
-                  <div class="p-md-3 p-2">
-                    <span class="mb-2" style="font-weight: 500; font-size: 1rem; color: #5c5c5c;">Observações</span>
-                    <div>
-                      {{ contract.observations }}
+                  <div class="col-12">
+                    <div class="p-md-3 p-2">
+                      <span class="mb-2" style="font-weight: 500; font-size: 1rem; color: #5c5c5c;">Observações</span>
+                      <div>
+                        {{ keyword.observations }}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </td>
-        </tr>
+            </td>
+          </tr>
+        -->
         }
         }
         }

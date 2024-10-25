@@ -13,6 +13,7 @@ import { OccurrenceStatusEnum } from '@models/occurrence';
 import { DialogClientComponent } from '@shared/dialogs/dialog-client/dialog-client.component';
 import { ClientService } from '@services/client.service';
 import { DialogClientStatusComponent } from '@shared/dialogs/dialog-client-status/dialog-client-status.component';
+import { DialogClientKeywordComponent } from '@shared/dialogs/dialog-client-keyword/dialog-client-keyword.component';
 
 @Component({
   selector: 'app-clients',
@@ -99,10 +100,12 @@ export class ClientsComponent {
       })
       .afterClosed()
       .subscribe((res) => {
-        this.loading = true;
-        setTimeout(() => {
-          this.loading = false;
-        }, 200);
+        if (res) {
+          this.loading = true;
+          setTimeout(() => {
+            this.loading = false;
+          }, 200);
+        }
       });
   }
 
@@ -150,7 +153,7 @@ export class ClientsComponent {
     this._dialog
       .open(DialogClientStatusComponent, {
         data: { client },
-        ...dialogConfig
+        ...dialogConfig,
       })
       .afterClosed()
       .subscribe((res) => {
@@ -163,7 +166,30 @@ export class ClientsComponent {
       });
   }
 
-  protected openKeyword(client): void {}
+  protected openKeyword(client): void {
+    const dialogConfig: MatDialogConfig = {
+      width: '80%',
+      height: '60%',
+      maxWidth: '1085px',
+      hasBackdrop: true,
+      closeOnNavigation: true,
+    };
+
+    this._dialog
+      .open(DialogClientKeywordComponent, {
+        data: { client },
+        ...dialogConfig,
+      })
+      .afterClosed()
+      .subscribe((res) => {
+        if (res) {
+          this.loading = true;
+          setTimeout(() => {
+            this.loading = false;
+          }, 200);
+        }
+      });
+  }
 
   // Utils
   public updateFilters() {

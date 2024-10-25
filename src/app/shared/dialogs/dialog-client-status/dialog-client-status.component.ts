@@ -35,9 +35,6 @@ export class DialogClientStatusComponent implements OnInit {
       status: ['', Validators.required],
       date : ['']
     });
-
-    console.log(this._data);
-    console.log(this.form.getRawValue())
   }
 
   public onCancel(): void {

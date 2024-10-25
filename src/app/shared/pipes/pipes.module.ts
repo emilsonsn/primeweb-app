@@ -11,6 +11,7 @@ import { CompanyPositionPipe } from './company-position.pipe';
 import { OccurrencePipe } from './occurrence.pipe';
 import { RolesPipe } from './roles.pipe';
 import { OriginPipe } from './origin.pipe';
+import { ContractPipe } from './contract.pipe';
 
 const pipes = [
   RequestOrderTypePipe,
@@ -23,7 +24,8 @@ const pipes = [
   CompanyPositionPipe,
   OccurrencePipe,
   RolesPipe,
-  OriginPipe
+  OriginPipe,
+  ContractPipe
 ];
 
 @NgModule({

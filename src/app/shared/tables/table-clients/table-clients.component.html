@@ -56,13 +56,10 @@
             </div>
           </td>
           <td>
-            <div>
-              {{ client?.contract?.name}}
-            </div>
-          </td>
-          <td>
-            <div>
-              {{ client?.contract?.name}}
+            <div class="d-flex justify-content-center align-items-center h-100">
+              <div class="status" [ngClass]="client?.status">
+                {{ client?.status | status }}
+              </div>
             </div>
           </td>
           @if(showActions) {
@@ -92,36 +89,15 @@
           </td>
           }
         </tr>
-        <!-- Tabela com expand
         <tr>
           <td colspan="7" class="p-0">
-            <div [@detailExpand]="contact == expandedContact ? 'expanded' : 'collapsed'" style="overflow: hidden;">
+            <div [@detailExpand]="client == expanded ? 'expanded' : 'collapsed'" style="overflow: hidden;">
               <div class="row">
-                <div class="col-md-4">
-                  <div class="p-md-3 p-2">
-                    <span class="mb-2" style="font-weight: 500; font-size: 1rem; color: #5c5c5c;">Segmentos</span>
-                    <div class="d-flex flex-wrap gap-2">
-                      @for(segment of contact?.segments; track segment) {
-                      <div class="segment">{{ segment?.segment_id }}</div>
-                      }
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="p-md-3 p-2">
-                    <span class="mb-2" style="font-weight: 500; font-size: 1rem; color: #5c5c5c;">Telefones</span>
-                    <div class="d-flex flex-wrap gap-2">
-                      @for(phone of contact?.phones; track phone) {
-                      <div class="segment">{{ phone?.phone | phoneMask }}</div>
-                      }
-                    </div>
-                  </div>
-                </div>
                 <div class="col-md-4">
                   <div class="p-md-3 p-2">
                     <span class="mb-2" style="font-weight: 500; font-size: 1rem; color: #5c5c5c;">E-mails</span>
                     <div class="d-flex flex-wrap gap-2">
-                      @for(email of contact?.emails; track email) {
+                      @for(email of client?.emails; track email) {
                       <div class="segment">{{ email?.email }}</div>
                       }
                     </div>
@@ -131,7 +107,6 @@
             </div>
           </td>
         </tr>
-        -->
         }
         }
         }

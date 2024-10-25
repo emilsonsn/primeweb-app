@@ -151,22 +151,26 @@ export class TableClientsContractsComponent {
   }
 
   public search(): void {
-    this._initOrStopLoading();
 
-    this._clientService
-      .getById(this.client_id)
-      .pipe(
-        finalize(() => {
-          this._initOrStopLoading();
-        })
-      )
-      .subscribe((res) => {
-        this.contracts = res.data.contracts;
+    if(this.client_id) {
+      this._initOrStopLoading();
 
-        // this.pageControl.page = res.current_page - 1;
-        // this.pageControl.itemCount = res.total;
-        // this.pageControl.pageCount = res.last_page;
-      });
+      this._clientService
+        .getById(this.client_id)
+        .pipe(
+          finalize(() => {
+            this._initOrStopLoading();
+          })
+        )
+        .subscribe((res) => {
+          this.contracts = res.data.contracts;
+
+          // this.pageControl.page = res.current_page - 1;
+          // this.pageControl.itemCount = res.total;
+          // this.pageControl.pageCount = res.last_page;
+        });
+    }
+
   }
 
   public onClickOrderBy(slug: string, order: boolean) {
@@ -203,6 +207,10 @@ export class TableClientsContractsComponent {
           this._toastr.error('Não foi possível excluir o contrato.');
         },
       })
+  }
+
+  public openContract(contract) {
+    window.open(contract.path, '_blank');
   }
 
   // Utils

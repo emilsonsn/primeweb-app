@@ -54,12 +54,14 @@ import { ContractModelEnum, ContractTypeServiceEnum } from '@models/contract';
 })
 export class DialogClientComponent {
   public loading: boolean = false;
+  public isToUpdateTable : boolean = false;
   public title: string = 'Novo Cliente';
   protected _onDestroy = new Subject<void>();
 
   protected isNewClient: boolean = true;
   protected isToEdit: boolean = false;
   protected canEditUserId: boolean = false;
+  protected client_id : number;
 
   protected formClient: FormGroup;
   protected formContract: FormGroup;
@@ -174,7 +176,6 @@ export class DialogClientComponent {
     });
 
     this.formClient.valueChanges.subscribe((res) => {
-      console.log(res);
       if (res.duedate_day < 0 || res.duedate_day > 31) {
         this.formClient.get('duedate_day').patchValue(1);
       }
@@ -231,6 +232,7 @@ export class DialogClientComponent {
           this._toastr.success('Contato cadastrado com sucesso!');
           this.isToGoToContract = true;
           this.tabToContract = 1;
+          this.client_id = res.data.id;
         },
         error: (err) => {
           this._toastr.error(err.error.error);
@@ -319,7 +321,7 @@ export class DialogClientComponent {
 
     this._clientService
       .postContract(
-        this._data.client.id,
+        this._data?.client.id ?? this.client_id,
         this.prepareFormData({ ...this.formContract.getRawValue() })
       )
       .pipe(
@@ -330,6 +332,8 @@ export class DialogClientComponent {
       .subscribe({
         next: (res) => {
           this._toastr.success('Contrato adicionado!');
+          this.formContract.reset();
+
         },
         error: (err) => {
           this._toastr.error('Erro ao adicionar contrato!');
@@ -338,7 +342,7 @@ export class DialogClientComponent {
   }
 
   public onCancel(): void {
-    this._dialogRef.close(false);
+    this._dialogRef.close(this.isToUpdateTable);
   }
 
   // Telephones
@@ -382,7 +386,9 @@ export class DialogClientComponent {
 
   private deleteTelephone(index) {
     this._clientService.deletePhone(this.phones.value[index].id).subscribe({
-      next: () => {},
+      next: (res) => {
+        this.isToUpdateTable = true;
+      },
       error: (err) => {
         this._toastr.error(err.error.error);
       },
@@ -429,8 +435,10 @@ export class DialogClientComponent {
   }
 
   private deleteEmail(index) {
-    this._clientService.deleteEmail(this.phones.value[index].id).subscribe({
-      next: () => {},
+    this._clientService.deleteEmail(this.emails.value[index].id).subscribe({
+      next: (res) => {
+        this.isToUpdateTable = true;
+      },
       error: (err) => {
         this._toastr.error(err.error.error);
       },

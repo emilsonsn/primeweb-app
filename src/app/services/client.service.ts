@@ -60,5 +60,21 @@ export class ClientService {
     return this._http.delete<DeleteApiResponse>(`${environment.api}/${this.sessionEndpoint}/contract/${id}`);
   }
 
+  // Keyword
+  public getKeywordList(pageControl?: PageControl, filters?: any): Observable<ApiResponsePageable<any>> {
+    const paginate = Utils.mountPageControl(pageControl);
+    const filterParams = Utils.mountPageControl(filters);
+
+    return this._http.get<ApiResponsePageable<any>>(`${environment.api}/client-word-key/search?${paginate}${filterParams}`);
+  }
+
+  public postKeyword(client: any | FormData): Observable<ApiResponse<any>> {
+    return this._http.post<ApiResponse<any>>(`${environment.api}/client-word-key/create`, client);
+  }
+
+  public deleteKeyword(id: number): Observable<DeleteApiResponse> {
+    return this._http.delete<DeleteApiResponse>(`${environment.api}/client-word-key/${id}`);
+  }
+
 
 }

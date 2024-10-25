@@ -28,18 +28,10 @@ mat-spinner {
 }
 
 .status {
-  display: flex;
-  justify-content: center;
-  width: 7rem;
-  border-radius: 25px;
-  padding: 0 1rem;
+  width: fit-content;
+  padding: 0.1rem 1rem;
+  border-radius: 12px;
   color: $white;
-
-  &.active {
-    background-color: $green;
-  }
-
-  &.inactive {
-    background-color: $red;
-  }
+  background-color: $quindecenary;
+  white-space: nowrap;
 }

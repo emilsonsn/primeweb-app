@@ -355,7 +355,7 @@
             <mat-form-field>
               <mat-select formControlName="service_type" placeholder="Tipo de Serviço">
                 @for (service of serviceTypeEnum; track service) {
-                <mat-option [value]="service">{{ service }}</mat-option>
+                <mat-option [value]="service">{{ service | contract }}</mat-option>
                 }
               </mat-select>
             </mat-form-field>
@@ -366,7 +366,7 @@
             <mat-form-field>
               <mat-select formControlName="model" placeholder="Modelo Layout">
                 @for (model of modelEnum; track model) {
-                <mat-option [value]="model">{{ model }}</mat-option>
+                <mat-option [value]="model">{{ model | contract }}</mat-option>
                 }
               </mat-select>
             </mat-form-field>
@@ -390,8 +390,8 @@
         </div>
       </form>
 
-      <div class="mt-1" style="border: 1px solid #333547; border-radius: 4px; padding: 0.5rem;">
-        <app-table-clients-contracts [client_id]="_data?.client?.id"></app-table-clients-contracts>
+      <div class="p-md-2 p-1 mt-1" style="border: 1px solid #333547; border-radius: 4px;">
+        <app-table-clients-contracts [loading]="loading" [client_id]="_data?.client?.id ?? client_id"></app-table-clients-contracts>
       </div>
 
     </mat-tab>
