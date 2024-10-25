@@ -23,6 +23,10 @@ export class ClientService {
     return this._http.get<ApiResponsePageable<any>>(`${environment.api}/${this.sessionEndpoint}/search?${paginate}${filterParams}`);
   }
 
+  public getById(id : number) : Observable<ApiResponse<any>> {
+    return this._http.get<ApiResponse<any>>(`${environment.api}/${this.sessionEndpoint}/${id}`);
+  }
+
   public post(client: any | FormData): Observable<ApiResponse<any>> {
     return this._http.post<ApiResponse<any>>(`${environment.api}/${this.sessionEndpoint}/create`, client);
   }
@@ -33,6 +37,10 @@ export class ClientService {
 
   public delete(id: number): Observable<DeleteApiResponse> {
     return this._http.delete<DeleteApiResponse>(`${environment.api}/${this.sessionEndpoint}/${id}`);
+  }
+
+  public changeStatus(client: any | FormData): Observable<ApiResponse<any>> {
+    return this._http.post<ApiResponse<any>>(`${environment.api}/${this.sessionEndpoint}/change-status`, client);
   }
 
   public deletePhone(id: number): Observable<DeleteApiResponse> {

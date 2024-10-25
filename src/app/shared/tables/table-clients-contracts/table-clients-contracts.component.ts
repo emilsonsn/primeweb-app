@@ -22,9 +22,9 @@ import { ContactService } from '@services/contact.service';
 import { ClientService } from '@services/client.service';
 
 @Component({
-  selector: 'app-table-clients',
-  templateUrl: './table-clients.component.html',
-  styleUrl: './table-clients.component.scss',
+  selector: 'app-table-clients-contracts',
+  templateUrl: './table-clients-contracts.component.html',
+  styleUrl: './table-clients-contracts.component.scss',
   animations: [
     trigger('detailExpand', [
       state('collapsed,void', style({ height: '0px', minHeight: '0' })),
@@ -36,7 +36,7 @@ import { ClientService } from '@services/client.service';
     ]),
   ],
 })
-export class TableClientsComponent {
+export class TableClientsContractsComponent {
   private subscription: Subscription;
 
   @Input()
@@ -51,54 +51,33 @@ export class TableClientsComponent {
   @Input()
   loading: boolean = false;
 
-  @Output()
-  public onKeyWord = new EventEmitter<any>();
-
-  @Output()
-  public onEditStatus = new EventEmitter<any>();
-
-  @Output()
-  public onEditClient = new EventEmitter<any>();
-
-  @Output()
-  public onDeleteClient = new EventEmitter<any>();
+  @Input()
+  client_id : number;
 
   public columns = [
     {
-      slug: 'enterprise',
+      slug: 'number',
       order: false,
-      title: 'Empresa',
+      title: 'Número',
       classes: '',
     },
     {
-      slug: 'domain',
+      slug: 'model',
       order: false,
-      title: 'Domínio',
+      title: 'Modelo',
       classes: '',
     },
     {
-      slug: 'segment',
+      slug: 'service_type',
       order: false,
-      title: 'Segmento',
+      title: 'Tipo de Serviço',
       classes: '',
     },
     {
-      slug: 'technical',
+      slug: 'date_hire',
       order: false,
-      title: 'Técnico',
+      title: 'Data Contratada',
       classes: '',
-    },
-    {
-      slug: 'project',
-      order: false,
-      title: 'Projeto',
-      classes: '',
-    },
-    {
-      slug: 'status',
-      order: false,
-      title: 'Status',
-      classes: 'justify-content-center',
     },
     {
       slug: 'actions',
@@ -108,7 +87,7 @@ export class TableClientsComponent {
     },
   ];
 
-  public clients = [];
+  public contracts = [];
 
   public pageControl: PageControl = {
     take: 10,
@@ -118,8 +97,6 @@ export class TableClientsComponent {
     orderField: 'id',
     order: Order.ASC,
   };
-
-  isFinancial: boolean = false;
 
   protected expanded: any;
 
@@ -177,18 +154,18 @@ export class TableClientsComponent {
     this._initOrStopLoading();
 
     this._clientService
-      .getList(this.pageControl, this.filters)
+      .getById(this.client_id)
       .pipe(
         finalize(() => {
           this._initOrStopLoading();
         })
       )
       .subscribe((res) => {
-        this.clients = res.data;
+        this.contracts = res.data.contracts;
 
-        this.pageControl.page = res.current_page - 1;
-        this.pageControl.itemCount = res.total;
-        this.pageControl.pageCount = res.last_page;
+        // this.pageControl.page = res.current_page - 1;
+        // this.pageControl.itemCount = res.total;
+        // this.pageControl.pageCount = res.last_page;
       });
   }
 
@@ -212,6 +189,20 @@ export class TableClientsComponent {
     this.pageControl.page = $event.pageIndex + 1;
     this.pageControl.take = $event.pageSize;
     this.search();
+  }
+
+  // Methods
+  public deleteContract(contract) {
+    this._clientService.deleteContract(contract.id)
+      .subscribe({
+        next: () => {
+          this._toastr.success('Contrato excluído com sucesso!');
+          this.search();
+        },
+        error: (error) => {
+          this._toastr.error('Não foi possível excluir o contrato.');
+        },
+      })
   }
 
   // Utils

@@ -12,6 +12,7 @@ import { UserService } from '@services/user.service';
 import { OccurrenceStatusEnum } from '@models/occurrence';
 import { DialogClientComponent } from '@shared/dialogs/dialog-client/dialog-client.component';
 import { ClientService } from '@services/client.service';
+import { DialogClientStatusComponent } from '@shared/dialogs/dialog-client-status/dialog-client-status.component';
 
 @Component({
   selector: 'app-clients',
@@ -31,7 +32,7 @@ export class ClientsComponent {
     private readonly _router: Router,
     private readonly _dialog: MatDialog,
     private readonly _fb: FormBuilder,
-    private readonly _clientService : ClientService,
+    private readonly _clientService: ClientService,
     private readonly _orderService: OrderService,
     private readonly _toastrService: ToastrService,
     private readonly _userService: UserService
@@ -137,6 +138,33 @@ export class ClientsComponent {
       });
   }
 
+  protected editStatus(client): void {
+    const dialogConfig: MatDialogConfig = {
+      width: '80%',
+      maxWidth: '550px',
+      maxHeight: '90%',
+      hasBackdrop: true,
+      closeOnNavigation: true,
+    };
+
+    this._dialog
+      .open(DialogClientStatusComponent, {
+        data: { client },
+        ...dialogConfig
+      })
+      .afterClosed()
+      .subscribe((res) => {
+        if (res) {
+          this.loading = true;
+          setTimeout(() => {
+            this.loading = false;
+          }, 200);
+        }
+      });
+  }
+
+  protected openKeyword(client): void {}
+
   // Utils
   public updateFilters() {
     this.filters = this.formFilters.getRawValue();
@@ -164,7 +192,7 @@ export class ClientsComponent {
       segment: '',
       tecnico: '',
       projeto: '',
-      status: ''
+      status: '',
     });
     this.updateFilters();
   }

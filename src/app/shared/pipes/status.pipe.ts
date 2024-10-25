@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { ClientStatusEnum } from '@models/client';
 import { PhoneCallStatus } from '@models/phone-call';
 import { RequestStatus } from '@models/request';
 import { RequestOrderStatus } from '@models/requestOrder';
@@ -35,6 +36,14 @@ export class StatusPipe implements PipeTransform {
         return 'Ativo';
       case Status.Inactive:
         return 'Inativo';
+      case ClientStatusEnum.CANCELED:
+        return 'Cancelado';
+      case ClientStatusEnum.CLOSED:
+        return 'Fechado';
+      case ClientStatusEnum.FINISHED:
+        return 'Finalizado';
+      case ClientStatusEnum.IN_PROGRESS:
+        return 'Em andamento';
 
       default:
         return 'Não encontrado';

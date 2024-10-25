@@ -1,0 +1,37 @@
+@import "_variables";
+
+mat-spinner {
+  height: 4.5rem !important;
+}
+
+.segment {
+  text-align: center;
+  border-radius: 12px;
+  width: 5rem;
+  min-width: fit-content;
+  background-color: $vigenary;
+  color: $white-100;
+  padding: 0.1rem 0.6rem;
+}
+
+.table-line-hover {
+
+  td {
+    background-color: transparent;
+  }
+
+  &:hover {
+    cursor: pointer;
+    background-color: $terciary;
+  }
+
+}
+
+.status {
+  width: fit-content;
+  padding: 0.1rem 1rem;
+  border-radius: 12px;
+  color: $white;
+  background-color: $quindecenary;
+  white-space: nowrap;
+}

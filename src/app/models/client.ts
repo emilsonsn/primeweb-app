@@ -11,3 +11,10 @@ export interface Client {
   created_at?: Date;
   updated_at?: Date;
 }
+
+export enum ClientStatusEnum {
+  IN_PROGRESS = 'IN_PROGRESS',
+  CLOSED = 'CLOSED',
+  FINISHED = 'FINISHED',
+  CANCELED = 'CANCELED'
+}

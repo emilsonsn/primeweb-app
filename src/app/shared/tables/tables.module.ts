@@ -17,6 +17,7 @@ import { TableContactsComponent } from './table-contacts/table-contacts.componen
 import { TableLogsComponent } from './table-logs/table-logs.component';
 import { MatIconModule } from '@angular/material/icon';
 import { TableClientsComponent } from './table-clients/table-clients.component';
+import { TableClientsContractsComponent } from './table-clients-contracts/table-clients-contracts.component';
 
 const tables = [
   TableUserComponent,
@@ -25,6 +26,7 @@ const tables = [
   TableContactsComponent,
   TableLogsComponent,
   TableClientsComponent,
+  TableClientsContractsComponent
 ]
 
 @NgModule({

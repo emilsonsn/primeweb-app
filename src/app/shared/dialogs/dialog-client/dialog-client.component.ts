@@ -45,6 +45,7 @@ import { Estados } from '@models/utils';
 import { SessionQuery } from '@store/session.query';
 import { ClientService } from '@services/client.service';
 import { Segment } from '@models/segment';
+import { ContractModelEnum, ContractTypeServiceEnum } from '@models/contract';
 
 @Component({
   selector: 'app-dialog-client',
@@ -97,6 +98,10 @@ export class DialogClientComponent {
     1
   );
 
+  // Contract
+  protected serviceTypeEnum = Object.values(ContractTypeServiceEnum);
+  protected modelEnum = Object.values(ContractModelEnum);
+
   constructor(
     @Inject(MAT_DIALOG_DATA)
     protected readonly _data,
@@ -148,13 +153,12 @@ export class DialogClientComponent {
 
     this.formContract = this._fb.group({
       number: [null, [Validators.required]],
-      path: [null, [Validators.required]],
+      contract: [null, [Validators.required]],
       date_hire: [null, [Validators.required]],
       number_words_contract: [null, [Validators.required]],
       service_type: [null, [Validators.required]],
       model: [null, [Validators.required]],
       observations: [null, [Validators.required]],
-      client_id: [null, [Validators.required]],
     });
 
     this.cityFilterCtrl.valueChanges.pipe().subscribe(() => {
@@ -206,7 +210,7 @@ export class DialogClientComponent {
     this._onDestroy.complete();
   }
 
-  public post(client, contract) {
+  public postClient(client) {
     this._initOrStopLoading();
 
     this._clientService
@@ -283,6 +287,11 @@ export class DialogClientComponent {
           'final_date',
           dayjs(client.final_date).format('YYYY-MM-DD')
         );
+      } else if (key == 'date_hire') {
+        clientFormData.append(
+          'date_hire',
+          dayjs(client.date_hire).format('YYYY-MM-DD')
+        );
       } else clientFormData.append(key, client[key]);
     });
 
@@ -293,19 +302,39 @@ export class DialogClientComponent {
     if (!this.formClient.valid || this.loading) return;
 
     if (this.isNewClient) {
-      this.post(
-        {
-          ...this.formClient.getRawValue(),
-        },
-        {
-          ...this.formContract.getRawValue(),
-        }
-      );
+      this.postClient({
+        ...this.formClient.getRawValue(),
+      });
     } else {
       this.patch(this._data.client.id, {
         ...this.formClient.getRawValue(),
       });
     }
+  }
+
+  public postContract(): void {
+    if (!this.formContract.valid || this.loading) return;
+
+    this._initOrStopLoading();
+
+    this._clientService
+      .postContract(
+        this._data.client.id,
+        this.prepareFormData({ ...this.formContract.getRawValue() })
+      )
+      .pipe(
+        finalize(() => {
+          this._initOrStopLoading();
+        })
+      )
+      .subscribe({
+        next: (res) => {
+          this._toastr.success('Contrato adicionado!');
+        },
+        error: (err) => {
+          this._toastr.error('Erro ao adicionar contrato!');
+        },
+      });
   }
 
   public onCancel(): void {
@@ -343,10 +372,8 @@ export class DialogClientComponent {
     //   return;
     // }
 
-
     this.deleteTelephone(index);
     this.phones.removeAt(index);
-
 
     if (this.phones.length === 0) {
       this.phones.push(this.createTelephone());
@@ -393,7 +420,6 @@ export class DialogClientComponent {
     //   return;
     // }
 
-
     this.deleteEmail(index);
     this.emails.removeAt(index);
 
@@ -418,9 +444,10 @@ export class DialogClientComponent {
 
   public onFileChange(event: any) {
     const file = event.target.files[0];
+
     if (file) {
       this.formContract.patchValue({
-        path: file,
+        contract: file,
       });
     }
   }

@@ -41,6 +41,8 @@ import {MatPaginator} from "@angular/material/paginator";
 import { DialogClientComponent } from './dialog-client/dialog-client.component';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatTabsModule} from '@angular/material/tabs';
+import { DialogClientStatusComponent } from './dialog-client-status/dialog-client-status.component';
+import { DialogClientKeywordComponent } from './dialog-client-keyword/dialog-client-keyword.component';
 
 @Injectable()
 export class DefaultIntl extends OwlDateTimeIntl {
@@ -96,7 +98,9 @@ export const MY_NATIVE_FORMATS = {
     DialogContactDetailsComponent,
     DialogOccurrenceContactComponent,
     DialogCalendarComponent,
-    DialogClientComponent
+    DialogClientComponent,
+    DialogClientStatusComponent,
+    DialogClientKeywordComponent,
   ],
   imports: [
     CommonModule,

@@ -25,7 +25,7 @@
         </tr>
         }
         @else {
-        @if(!clients?.length) {
+        @if(!contracts?.length) {
         <tr>
           <td [attr.colspan]="columns.length + 1" class="text-center">
             <div>Nenhum resultado encontrado</div>
@@ -33,105 +33,65 @@
         </tr>
         }
         @else {
-        @for (client of clients; track client) {
-        <tr class="table-line-hover" style="outline: none;" (click)="toggleExpanded(client)">
+        @for (contract of contracts; track contract) {
+        <tr class="table-line-hover" style="outline: none;" (click)="toggleExpanded(contract)">
           <td>
             <div>
-              {{ client?.company}}
+              {{ contract?.number}}
             </div>
           </td>
           <td>
             <div>
-              {{ client?.domain}}
+              {{ contract?.model}}
             </div>
           </td>
           <td>
             <div>
-              {{ client?.segment?.name }}
+              {{ contract?.service_type }}
             </div>
           </td>
           <td>
             <div>
-              {{ client?.technical?.name }}
-            </div>
-          </td>
-          <td>
-            <div>
-              {{ client?.contract?.name}}
-            </div>
-          </td>
-          <td>
-            <div>
-              {{ client?.contract?.name}}
+              {{ contract?.date_hire }}
             </div>
           </td>
           @if(showActions) {
           <td>
             <div class="d-flex justify-content-end gap-2">
-
-              <div matTooltip="Alterar Status" matRipple class="buttonTemplate"
-                (click)="onEditStatus.emit(client); $event.stopPropagation()">
-                <i class="fa-solid fa-globe"></i>
-              </div>
-
-              <div matTooltip="Palavras-Chave" matRipple class="buttonTemplate"
-                (click)="onKeyWord.emit(client); $event.stopPropagation()">
-                <i class="fa-solid fa-font"></i>
-              </div>
-
-              <div matTooltip="Editar" matRipple class="buttonTemplate"
-                (click)="onEditClient.emit(client); $event.stopPropagation()">
-                <i class="fa-solid fa-pen-to-square"></i>
-              </div>
-
               <div matTooltip="Deletar" matRipple class="buttonTemplate delete"
-                (click)="onDeleteClient.emit(client); $event.stopPropagation()">
+                (click)="deleteContract(contract); $event.stopPropagation()">
                 <i class="fa-solid fa-trash"></i>
               </div>
             </div>
           </td>
           }
         </tr>
-        <!-- Tabela com expand
         <tr>
           <td colspan="7" class="p-0">
-            <div [@detailExpand]="contact == expandedContact ? 'expanded' : 'collapsed'" style="overflow: hidden;">
+            <div [@detailExpand]="contract == expanded ? 'expanded' : 'collapsed'" style="overflow: hidden;">
               <div class="row">
                 <div class="col-md-4">
                   <div class="p-md-3 p-2">
                     <span class="mb-2" style="font-weight: 500; font-size: 1rem; color: #5c5c5c;">Segmentos</span>
-                    <div class="d-flex flex-wrap gap-2">
-                      @for(segment of contact?.segments; track segment) {
-                      <div class="segment">{{ segment?.segment_id }}</div>
-                      }
-                    </div>
+
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="p-md-3 p-2">
                     <span class="mb-2" style="font-weight: 500; font-size: 1rem; color: #5c5c5c;">Telefones</span>
-                    <div class="d-flex flex-wrap gap-2">
-                      @for(phone of contact?.phones; track phone) {
-                      <div class="segment">{{ phone?.phone | phoneMask }}</div>
-                      }
-                    </div>
+
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="p-md-3 p-2">
                     <span class="mb-2" style="font-weight: 500; font-size: 1rem; color: #5c5c5c;">E-mails</span>
-                    <div class="d-flex flex-wrap gap-2">
-                      @for(email of contact?.emails; track email) {
-                      <div class="segment">{{ email?.email }}</div>
-                      }
-                    </div>
+
                   </div>
                 </div>
               </div>
             </div>
           </td>
         </tr>
-        -->
         }
         }
         }
