@@ -136,7 +136,6 @@ export class DialogClientComponent {
       cnpj: [null, [Validators.required]],
       cep: [null, [Validators.required]],
       street: [null, [Validators.required]],
-      number: [null, [Validators.required]],
       neighborhood: [null, [Validators.required]],
       city: [null, [Validators.required]],
       state: [null, [Validators.required]],

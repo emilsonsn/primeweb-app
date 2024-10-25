@@ -48,7 +48,7 @@ export class DialogClientStatusComponent implements OnInit {
 
     this._clientService.changeStatus({
       ...this.form.getRawValue(),
-      date : dayjs(this.form.get('date').value).format('YYYY-MM-DD')
+      date : this.form.get('date').value ? dayjs(this.form.get('date').value).format('YYYY-MM-DD') : ''
     })
       .pipe(finalize(() => {
         this._initOrStopLoading();

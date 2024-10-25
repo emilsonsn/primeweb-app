@@ -56,27 +56,15 @@ export class TableClientsKeywordComponent {
 
   public columns = [
     {
-      slug: 'number',
+      slug: 'id',
       order: false,
-      title: 'Número',
+      title: 'ID',
       classes: '',
     },
     {
-      slug: 'model',
+      slug: 'key',
       order: false,
-      title: 'Modelo',
-      classes: '',
-    },
-    {
-      slug: 'service_type',
-      order: false,
-      title: 'Tipo de Serviço',
-      classes: '',
-    },
-    {
-      slug: 'date_hire',
-      order: false,
-      title: 'Data Contratada',
+      title: 'Palavra',
       classes: '',
     },
     {
@@ -197,21 +185,17 @@ export class TableClientsKeywordComponent {
   }
 
   // Methods
-  public deleteContract(contract) {
-    this._clientService.deleteContract(contract.id)
+  public deleteKeyword(keyword) {
+    this._clientService.deleteKeyword(keyword.id)
       .subscribe({
-        next: () => {
-          this._toastr.success('Contrato excluído com sucesso!');
+        next: (res) => {
+          this._toastr.success('Palavra-Chave excluída com sucesso!');
           this.search();
         },
         error: (error) => {
-          this._toastr.error('Não foi possível excluir o contrato.');
+          this._toastr.error('Não foi possível excluir a palavra-chave!');
         },
       })
-  }
-
-  public openContract(contract) {
-    window.open(contract.path, '_blank');
   }
 
   // Utils

@@ -37,29 +37,19 @@
         <tr class="table-line-hover" style="outline: none;" (click)="toggleExpanded(keyword)">
           <td>
             <div>
-              {{ keyword?.number}}
+              {{ keyword?.id}}
             </div>
           </td>
           <td>
             <div>
-              {{ keyword?.model | contract}}
-            </div>
-          </td>
-          <td>
-            <div>
-              {{ keyword?.service_type | contract}}
-            </div>
-          </td>
-          <td>
-            <div>
-              {{ keyword?.date_hire | date:"dd/MM/YYYY" }}
+              {{ keyword?.word_key}}
             </div>
           </td>
           @if(showActions) {
           <td>
             <div class="d-flex justify-content-end gap-2">
               <div matTooltip="Deletar" matRipple class="buttonTemplate delete"
-                (click)="deleteContract(keyword); $event.stopPropagation()">
+                (click)="deleteKeyword(keyword); $event.stopPropagation()">
                 <i class="fa-solid fa-trash"></i>
               </div>
             </div>
