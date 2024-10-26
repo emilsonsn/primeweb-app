@@ -493,11 +493,10 @@ export class DialogClientComponent {
       this.filteredTechnicals.next(
         this.userSelect
           .filter(
-            (user) => user.role.toLowerCase() === UserRoles.Seller.toLowerCase()
+            (user) => user.role.toLowerCase() === UserRoles.Technical.toLowerCase()
           )
           .slice()
 
-        // this.userSelect.filter(user => (user.role).toLowerCase() === (UserRoles.Technical).toLowerCase()).slice() -> CORRETO
       );
     });
   }
