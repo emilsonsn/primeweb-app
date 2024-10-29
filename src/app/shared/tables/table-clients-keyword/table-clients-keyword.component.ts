@@ -70,7 +70,7 @@ export class TableClientsKeywordComponent {
     {
       slug: 'user',
       order: false,
-      title: 'Usuário',
+      title: 'Criado por',
       classes: '',
     },
     {
@@ -82,7 +82,7 @@ export class TableClientsKeywordComponent {
     {
       slug: 'actions',
       order: false,
-      title: 'Menu',
+      title: 'Deletar',
       classes: 'justify-content-end me-5 pe-4',
     },
   ];

@@ -24,10 +24,19 @@
             </mat-form-field>
           </div>
 
-          <div class="col-md-4 mb-md-0 mb-2">
-            <span class="filterField mb-1">Segmento</span>
+          <div class="col-md-4 mb-3">
+            <span class="fw-bolder">Segmento *</span>
             <mat-form-field>
-              <input matInput formControlName="segment" placeholder="Segmento">
+              <mat-select formControlName="segment_id" placeholder="Segmento">
+                <mat-option>
+                  <ngx-mat-select-search [formControl]="segmentFilterCtrl" placeholderLabel="Procure pelo segmento"
+                    i18n-placeholderLabel noEntriesFoundLabel="Segmento não encontrado" i18n-noEntriesFoundLabel>
+                  </ngx-mat-select-search>
+                </mat-option>
+                <mat-option *ngFor="let segment of filteredSegments | async" [value]="segment.id">
+                  {{ segment.name }}
+                </mat-option>
+              </mat-select>
             </mat-form-field>
           </div>
 

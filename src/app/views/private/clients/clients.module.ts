@@ -13,6 +13,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 
 @NgModule({
@@ -34,6 +35,9 @@ import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
     MatOptionModule,
     NgxMaskDirective,
     NgxMaskPipe,
+    NgxMatSelectSearchModule,
+
+    
   ]
 })
 export class ClientsModule { }

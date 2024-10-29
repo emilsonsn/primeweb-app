@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { HeaderService } from '@services/header.service';
@@ -14,6 +14,10 @@ import { DialogClientComponent } from '@shared/dialogs/dialog-client/dialog-clie
 import { ClientService } from '@services/client.service';
 import { DialogClientStatusComponent } from '@shared/dialogs/dialog-client-status/dialog-client-status.component';
 import { DialogClientKeywordComponent } from '@shared/dialogs/dialog-client-keyword/dialog-client-keyword.component';
+import { debounceTime, map, ReplaySubject, Subject, takeUntil } from 'rxjs';
+import { Segment } from '@models/segment';
+import { SegmentService } from '@services/segment.service';
+import { User } from '@models/user';
 
 @Component({
   selector: 'app-clients',
@@ -24,7 +28,20 @@ export class ClientsComponent {
   public formFilters: FormGroup;
   public filters;
 
+  protected _onDestroy = new Subject<void>();
+
   public loading: boolean = false;
+
+  protected userSelect: User[] = [];
+
+
+  protected segmentSelect: Segment[] = [];
+
+  protected segmentCtrl: FormControl<any> = new FormControl<any>(null);
+  protected segmentFilterCtrl: FormControl<any> = new FormControl<string>('');
+  protected filteredSegments: ReplaySubject<any[]> = new ReplaySubject<any[]>(
+    1
+  );
 
   protected usersSelection;
 
@@ -36,7 +53,9 @@ export class ClientsComponent {
     private readonly _clientService: ClientService,
     private readonly _orderService: OrderService,
     private readonly _toastrService: ToastrService,
-    private readonly _userService: UserService
+    private readonly _userService: UserService,
+    private readonly _segmentService: SegmentService,
+
   ) {
     this._headerService.setTitle('Clientes');
     this._headerService.setUpperTitle('Clientes - Primeweb');
@@ -56,6 +75,16 @@ export class ClientsComponent {
       segment: [''],
       projeto: [''],
       tecnico: [''],
+    });
+
+    this.getUsersFromBack();
+    this.getSegmentsFromBack();
+  }
+  
+
+  public getUsersFromBack() {
+    this._userService.getUsers().subscribe((res) => {
+      this.userSelect = res.data;
     });
   }
 
@@ -163,6 +192,35 @@ export class ClientsComponent {
             this.loading = false;
           }, 200);
         }
+      });
+  }
+
+  public getSegmentsFromBack() {
+    this._segmentService.getList().subscribe((res) => {
+      this.segmentSelect = res.data;
+
+      this.filteredSegments.next(this.segmentSelect.slice());
+    });
+  }
+
+  protected prepareFilterSegmentCtrl() {
+    this.segmentFilterCtrl.valueChanges
+      .pipe(
+        takeUntil(this._onDestroy),
+        debounceTime(100),
+        map((search: string | null) => {
+          if (!search) {
+            return this.segmentSelect.slice();
+          } else {
+            return this.userSelect.filter((segment) =>
+              segment.name.toLowerCase().includes(search)
+            );
+
+          }
+        })
+      )
+      .subscribe((filtered) => {
+        this.filteredSegments.next(filtered);
       });
   }
 
