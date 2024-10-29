@@ -303,6 +303,9 @@ export class DialogClientComponent {
     if (!this.formClient.valid || this.loading) return;
 
     if (this.isNewClient) {
+
+      if(this.isToGoToContract) this._dialogRef.close(true);
+
       this.postClient({
         ...this.formClient.getRawValue(),
       });
@@ -475,26 +478,26 @@ export class DialogClientComponent {
 
       this.filteredConsultants.next(
         this.userSelect
-          .filter(
-            (user) =>
-              user.role.toLowerCase() === UserRoles.Consultant.toLowerCase()
-          )
+          // .filter(
+          //   (user) =>
+          //     user.role.toLowerCase() === UserRoles.Consultant.toLowerCase()
+          // )
           .slice()
       );
 
       this.filteredSellers.next(
         this.userSelect
-          .filter(
-            (user) => user.role.toLowerCase() === UserRoles.Seller.toLowerCase()
-          )
+          // .filter(
+          //   (user) => user.role.toLowerCase() === UserRoles.Seller.toLowerCase()
+          // )
           .slice()
       );
 
       this.filteredTechnicals.next(
         this.userSelect
-          .filter(
-            (user) => user.role.toLowerCase() === UserRoles.Technical.toLowerCase()
-          )
+          // .filter(
+          //   (user) => user.role.toLowerCase() === UserRoles.Technical.toLowerCase()
+          // )
           .slice()
 
       );

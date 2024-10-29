@@ -68,6 +68,18 @@ export class TableClientsKeywordComponent {
       classes: '',
     },
     {
+      slug: 'user',
+      order: false,
+      title: 'Usuário',
+      classes: '',
+    },
+    {
+      slug: 'date',
+      order: false,
+      title: 'Data de Criação',
+      classes: '',
+    },
+    {
       slug: 'actions',
       order: false,
       title: 'Menu',

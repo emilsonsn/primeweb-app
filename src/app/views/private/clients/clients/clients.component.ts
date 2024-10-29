@@ -169,7 +169,7 @@ export class ClientsComponent {
   protected openKeyword(client): void {
     const dialogConfig: MatDialogConfig = {
       width: '80%',
-      height: '60%',
+      height: '80%',
       maxWidth: '1085px',
       hasBackdrop: true,
       closeOnNavigation: true,
