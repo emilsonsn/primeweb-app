@@ -17,6 +17,7 @@ export enum UserRoles {
   Admin = 'Admin',
   Technical = 'Technical',
   Financial = 'Financial',
+  Copywriter = 'Copywriter'
 }
 
 export enum UserStatus {
