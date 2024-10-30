@@ -17,7 +17,8 @@ import { DialogClientKeywordComponent } from '@shared/dialogs/dialog-client-keyw
 import { debounceTime, map, ReplaySubject, Subject, takeUntil } from 'rxjs';
 import { Segment } from '@models/segment';
 import { SegmentService } from '@services/segment.service';
-import { User } from '@models/user';
+import { User, UserRoles } from '@models/user';
+import { ClientStatusEnum } from '@models/client';
 
 @Component({
   selector: 'app-clients',
@@ -25,25 +26,29 @@ import { User } from '@models/user';
   styleUrl: './clients.component.scss',
 })
 export class ClientsComponent {
+
+  protected _onDestroy = new Subject<void>();
+  public loading: boolean = false;
+
+  // Filters
   public formFilters: FormGroup;
   public filters;
 
-  protected _onDestroy = new Subject<void>();
-
-  public loading: boolean = false;
-
   protected userSelect: User[] = [];
-
+  protected technicalCtrl: FormControl<any> = new FormControl<any>(null);
+  protected technicalFilterCtrl: FormControl<any> = new FormControl<string>('');
+  protected filteredTechnicals: ReplaySubject<any[]> = new ReplaySubject<any[]>(
+    1
+  );
 
   protected segmentSelect: Segment[] = [];
-
   protected segmentCtrl: FormControl<any> = new FormControl<any>(null);
   protected segmentFilterCtrl: FormControl<any> = new FormControl<string>('');
   protected filteredSegments: ReplaySubject<any[]> = new ReplaySubject<any[]>(
     1
   );
 
-  protected usersSelection;
+  protected statusSelect = Object.values(ClientStatusEnum);
 
   constructor(
     private readonly _headerService: HeaderService,
@@ -51,7 +56,6 @@ export class ClientsComponent {
     private readonly _dialog: MatDialog,
     private readonly _fb: FormBuilder,
     private readonly _clientService: ClientService,
-    private readonly _orderService: OrderService,
     private readonly _toastrService: ToastrService,
     private readonly _userService: UserService,
     private readonly _segmentService: SegmentService,
@@ -59,32 +63,23 @@ export class ClientsComponent {
   ) {
     this._headerService.setTitle('Clientes');
     this._headerService.setUpperTitle('Clientes - Primeweb');
+
+    // Getters
+    this.getUsersFromBack();
+    this.getSegmentsFromBack();
+
+    // Filters Ctrl
+    this.prepareFilterSegmentCtrl();
+    this.prepareFilterTechnicalCtrl();
   }
 
   ngOnInit() {
-    this.getUsers();
-
     this.formFilters = this._fb.group({
       company: [''],
-      email: [''],
       domain: [''],
-      phone: [''],
-      name: [''],
       status: [''],
       user_id: [''],
-      segment: [''],
-      projeto: [''],
-      tecnico: [''],
-    });
-
-    this.getUsersFromBack();
-    this.getSegmentsFromBack();
-  }
-  
-
-  public getUsersFromBack() {
-    this._userService.getUsers().subscribe((res) => {
-      this.userSelect = res.data;
+      segment_id: [''],
     });
   }
 
@@ -195,35 +190,6 @@ export class ClientsComponent {
       });
   }
 
-  public getSegmentsFromBack() {
-    this._segmentService.getList().subscribe((res) => {
-      this.segmentSelect = res.data;
-
-      this.filteredSegments.next(this.segmentSelect.slice());
-    });
-  }
-
-  protected prepareFilterSegmentCtrl() {
-    this.segmentFilterCtrl.valueChanges
-      .pipe(
-        takeUntil(this._onDestroy),
-        debounceTime(100),
-        map((search: string | null) => {
-          if (!search) {
-            return this.segmentSelect.slice();
-          } else {
-            return this.userSelect.filter((segment) =>
-              segment.name.toLowerCase().includes(search)
-            );
-
-          }
-        })
-      )
-      .subscribe((filtered) => {
-        this.filteredSegments.next(filtered);
-      });
-  }
-
   protected openKeyword(client): void {
     const dialogConfig: MatDialogConfig = {
       width: '80%',
@@ -249,43 +215,104 @@ export class ClientsComponent {
       });
   }
 
-  // Utils
+  // Filters
   public updateFilters() {
     this.filters = this.formFilters.getRawValue();
-  }
-
-  public clearStatus() {
-    this.formFilters.get('status').patchValue('');
-    this.updateFilters();
-  }
-
-  public clearResponsible() {
-    this.formFilters.get('responsible').patchValue('');
-    this.updateFilters();
-  }
-
-  public clearOrigin() {
-    this.formFilters.get('origin').patchValue('');
-    this.updateFilters();
   }
 
   public clearFormFilters() {
     this.formFilters.patchValue({
       company: '',
       domain: '',
-      segment: '',
-      tecnico: '',
-      projeto: '',
+      segment_id: '',
+      user_id: '',
       status: '',
     });
     this.updateFilters();
   }
 
-  public getUsers() {
-    this._userService.getUsers().subscribe({
-      next: (res) => {
-        this.usersSelection = res.data;
-      },
+  public clearStatus() {
+    this.formFilters.get('status').patchValue('');
+  }
+
+  public clearSegment() {
+    this.formFilters.get('segment_id').patchValue('');
+  }
+
+  public clearUserId() {
+    this.formFilters.get('user_id').patchValue('');
+  }
+
+  // Filters Ctrl
+  protected prepareFilterTechnicalCtrl() {
+    this.technicalFilterCtrl.valueChanges
+      .pipe(
+        takeUntil(this._onDestroy),
+        debounceTime(100),
+        map((search: string | null) => {
+          if (!search) {
+            return this.userSelect
+              .filter(
+                (user) =>
+                  user.role.toLowerCase() === UserRoles.Technical.toLowerCase()
+              )
+              .slice();
+          } else {
+            search = search.toLowerCase();
+            return this.userSelect.filter((user) =>
+              user.name.toLowerCase().includes(search)
+            );
+          }
+        })
+      )
+      .subscribe((filtered) => {
+        this.filteredTechnicals.next(filtered);
+      });
+  }
+
+  protected prepareFilterSegmentCtrl() {
+    this.segmentFilterCtrl.valueChanges
+      .pipe(
+        takeUntil(this._onDestroy),
+        debounceTime(100),
+        map((search: string | null) => {
+          if (!search) {
+            return this.segmentSelect.slice();
+          } else {
+            return this.segmentSelect.filter((segment) =>
+              segment.name.toLowerCase().includes(search)
+            );
+
+          }
+        })
+      )
+      .subscribe((filtered) => {
+        this.filteredSegments.next(filtered);
+      });
+  }
+
+  // Getters
+  public getUsersFromBack() {
+    this._userService.getUsers().subscribe((res) => {
+      this.userSelect = res.data;
+
+      this.filteredTechnicals.next(
+        this.userSelect
+          .filter(
+            (user) => user.role.toLowerCase() === UserRoles.Technical.toLowerCase()
+          )
+          .slice()
+
+      );
     });
   }
+
+  public getSegmentsFromBack() {
+    this._segmentService.getList().subscribe((res) => {
+      this.segmentSelect = res.data;
+
+      this.filteredSegments.next(this.segmentSelect.slice());
+    });
+  }
+
 }

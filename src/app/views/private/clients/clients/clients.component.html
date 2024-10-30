@@ -33,6 +33,9 @@
                     i18n-placeholderLabel noEntriesFoundLabel="Segmento não encontrado" i18n-noEntriesFoundLabel>
                   </ngx-mat-select-search>
                 </mat-option>
+                @if(formFilters.get('segment_id').value) {
+                  <mat-option class="trash" (click)="clearSegment()">Limpar filtro</mat-option>
+                }
                 <mat-option *ngFor="let segment of filteredSegments | async" [value]="segment.id">
                   {{ segment.name }}
                 </mat-option>
@@ -43,10 +46,31 @@
           <div class="col-md-4 mb-md-0 mb-2">
             <span class="filterField mb-1">Técnico</span>
             <mat-form-field>
-              <mat-select formControlName="tecnico" placeholder="Responsável">
-                <mat-option (click)="clearResponsible()">Limpar filtro</mat-option>
-                @for (user of usersSelection; track user) {
-                <mat-option [value]="user.id">{{ user.name }}</mat-option>
+              <mat-select formControlName="user_id" placeholder="Técnico">
+                <mat-option>
+                  <ngx-mat-select-search [formControl]="technicalFilterCtrl" placeholderLabel="Procure pelo usuário"
+                    i18n-placeholderLabel noEntriesFoundLabel="Usuário não encontrado" i18n-noEntriesFoundLabel>
+                  </ngx-mat-select-search>
+                </mat-option>
+                @if(formFilters.get('user_id').value) {
+                  <mat-option class="trash" (click)="clearUserId()">Limpar filtro</mat-option>
+                }
+                <mat-option *ngFor="let user of filteredTechnicals | async" [value]="user.id">
+                  {{ user.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="col-md-4 mb-md-0 mb-2">
+            <span class="filterField mb-1">Status</span>
+            <mat-form-field>
+              <mat-select formControlName="status" placeholder="Status">
+                @if(formFilters.get('status').value) {
+                  <mat-option class="trash" (click)="clearStatus()">Limpar filtro</mat-option>
+                }
+                @for (status of statusSelect; track status) {
+                <mat-option [value]="status">{{ status | status }}</mat-option>
                 }
               </mat-select>
             </mat-form-field>
