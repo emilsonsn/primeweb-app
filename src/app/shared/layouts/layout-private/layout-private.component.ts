@@ -61,8 +61,13 @@ export class LayoutPrivateComponent {
         },
       ]
     },
+    {
+      label: 'Usuários',
+      icon: 'fa-solid fa-users',
+      route: '/painel/users'
+    },
   ]
-
+  
   protected isMobile: boolean = window.innerWidth >= 1000;
   private resizeSubscription: Subscription;
   user: User;
@@ -99,7 +104,6 @@ export class LayoutPrivateComponent {
     })
 
   }
-
 
   ngOnDestroy(): void {
     if (this.resizeSubscription) {

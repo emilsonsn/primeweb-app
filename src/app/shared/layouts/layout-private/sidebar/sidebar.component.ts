@@ -34,7 +34,7 @@ export class SidebarComponent {
 
   public loadPermissions(role): void {
       if(role != 'Admin'){
-        const justAdmin = ['Segmentos', 'Logs'];
+        const justAdmin = ['Segmentos', 'Logs', 'Usuários'];
 
         this.menuItem = this.menuItem.filter((item) => {
           return !justAdmin.includes(item.label);
