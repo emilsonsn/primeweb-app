@@ -212,25 +212,15 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <div class="col-md-4 col-12 mb-3">
-        <mat-form-field>
-          <mat-select formControlName="city" placeholder="Cidade">
-            <mat-option>
-              <ngx-mat-select-search [formControl]="cityFilterCtrl"
-                placeholderLabel="Procure a cidade"
-                i18n-placeholderLabel
-                noEntriesFoundLabel="Cidade não encontrada"
-                i18n-noEntriesFoundLabel>
-              </ngx-mat-select-search>
-            </mat-option>
-            <mat-option *ngFor="let city of filteredCitys | async" [value]="city">
-              {{ city }}
-            </mat-option>
-          </mat-select>
+          
+      <div class="col-md-4 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Cidade</mat-label>
+          <input matInput type="text" formControlName="city">
         </mat-form-field>
       </div>
+      
     </div>
-
 
     <div class="my-3">
       <span class="fw-bolder">Descrição</span>

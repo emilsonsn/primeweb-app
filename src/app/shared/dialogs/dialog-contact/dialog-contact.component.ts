@@ -207,34 +207,7 @@ export class DialogContactComponent {
         },
       });
   }
-
-  public prepareFormData(contact: Contact) {
-    const contactFormData = new FormData();
-
-    Object.keys(contact).forEach((key) => {
-      if (key == 'return_date') {
-        contactFormData.append(
-          'return_date',
-          dayjs(contact.return_date).format('YYYY-MM-DD')
-        );
-      } else if (key == 'phones') {
-        contact.phones.forEach((telephone) => {
-          contactFormData.append('phones[]', JSON.stringify(telephone));
-        });
-      } else if (key == 'segments') {
-        contact.segments.forEach((segment) => {
-          contactFormData.append('segments[]', JSON.stringify(segment));
-        });
-      } else if (key == 'emails') {
-        contact.emails.forEach((email) => {
-          contactFormData.append('emails[]', JSON.stringify(email));
-        });
-      } else contactFormData.append(key, contact[key]);
-    });
-
-    return contactFormData;
-  }
-
+  
   public onConfirm(): void {
     if (!this.form.valid || this.loading || !this.date) return;
 

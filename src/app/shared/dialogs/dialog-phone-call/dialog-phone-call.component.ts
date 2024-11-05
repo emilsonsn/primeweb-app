@@ -92,7 +92,7 @@ export class DialogPhoneCallComponent {
       return;
     }
 
-    this._phoneCallService.post(this.prepareFormData(phoneCall))
+    this._phoneCallService.post(phoneCall)
       .pipe(finalize(() => {
         this._initOrStopLoading();
       }))
@@ -113,7 +113,7 @@ export class DialogPhoneCallComponent {
       return;
     }
 
-    this._phoneCallService.patch(id, this.prepareFormData(phoneCall))
+    this._phoneCallService.patch(id, phoneCall)
       .pipe(finalize(() => {
         this._initOrStopLoading();
       }))
