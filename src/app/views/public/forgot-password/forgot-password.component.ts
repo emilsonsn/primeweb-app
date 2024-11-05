@@ -18,6 +18,7 @@ export class ForgotPasswordComponent {
   showInput: boolean = true;
   countdown: number = 60;
   intervalId: any;
+  loading: boolean = false;
 
   constructor (
     private fb: FormBuilder,
@@ -33,9 +34,11 @@ export class ForgotPasswordComponent {
   onSubmit() {
     if (this.emailForm.valid) {
       this.disablePrimaryBtn = true;
+      this.loading = true;
 
       this._userService.recoverPassword(this.emailForm.value.email)
         .pipe(finalize(() => {
+          this.loading = false;
         }))
         .subscribe({
           next: (res) => {
