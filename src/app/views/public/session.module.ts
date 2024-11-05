@@ -11,6 +11,7 @@ import {MatIcon} from "@angular/material/icon";
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { PasswordRecoveryComponent } from './password-recovery/password-recovery.component';
 import { MatRippleModule } from '@angular/material/core';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 @NgModule({
@@ -33,6 +34,8 @@ import { MatRippleModule } from '@angular/material/core';
     MatIcon,
     MatFormField,
     MatButton,
+    MatProgressSpinnerModule,
+
   ]
 })
 export class SessionModule {

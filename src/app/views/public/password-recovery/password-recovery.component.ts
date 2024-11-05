@@ -4,6 +4,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {UserService} from "@services/user.service";
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-password-recovery',
@@ -18,6 +19,7 @@ export class PasswordRecoveryComponent {
   passwordForm: FormGroup;
   hidePassword = true;
   hideConfirmPassword = true;
+  loading = false;
 
   constructor(
     private readonly _toastr: ToastrService,
@@ -64,10 +66,18 @@ export class PasswordRecoveryComponent {
         code: this.code,
         password: password
       };
-
-      this._userService.updatePassword(recoveryData).subscribe(res => {
-        if (res.status) {
-          this.router.navigate(['/login']).then();
+      this.loading = true;
+      this._userService.updatePassword(recoveryData)
+      .pipe(finalize(() => this.loading = false))
+      .subscribe({
+        next: res => {
+          if (res.status) {
+            this.router.navigate(['/login']).then();
+          }
+        },
+        error: (error) => {
+          this._toastr.error('Erro ao atualizar a senha!');
+          console.error(error);
         }
       });
     }
