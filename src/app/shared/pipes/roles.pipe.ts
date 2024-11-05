@@ -17,8 +17,10 @@ export class RolesPipe implements PipeTransform {
         return 'Vendedor(a)';
       case UserRoles.Consultant:
         return 'Consultor(a)';
-      case UserRoles.Manager:
-        return 'Gerente';
+      case UserRoles.CommercialManager:
+        return 'Gerente comercial';
+      case UserRoles.TechnicalManager:
+        return 'Gerente técnico';
       case UserRoles.Admin:
         return 'Administrador(a)';
       case UserRoles.Technical:

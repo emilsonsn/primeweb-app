@@ -12,8 +12,9 @@ export interface User {
 
 export enum UserRoles {
   Seller = 'Seller',
-  Consultant = 'Consultant',
-  Manager = 'Manager',
+  Consultant = 'Consultant',  
+  CommercialManager = 'CommercialManager',
+  TechnicalManager = 'TechnicalManager',
   Admin = 'Admin',
   Technical = 'Technical',
   Financial = 'Financial',
