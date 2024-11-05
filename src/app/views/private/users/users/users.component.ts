@@ -38,7 +38,7 @@ export class UsersComponent {
     private readonly _toastr: ToastrService
   ) {
     this._headerService.setTitle('Usuários');
-    this._headerService.setUpperTitle('Usuários - Primeweb')
+    this._headerService.setUpperTitle('Usuários - Prime Web')
   }
 
   ngOnInit() {

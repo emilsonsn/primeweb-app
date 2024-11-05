@@ -32,7 +32,7 @@ export class LogsComponent {
     private readonly _headerService: HeaderService
   ) {
     this._headerService.setTitle('Logs');
-    this._headerService.setUpperTitle('Logs - Primeweb')
+    this._headerService.setUpperTitle('Logs - Prime Web')
   }
 
   ngOnInit() {

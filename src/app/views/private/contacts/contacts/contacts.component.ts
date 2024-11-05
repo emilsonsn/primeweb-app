@@ -44,7 +44,7 @@ export class ContactsComponent {
     private readonly _userService : UserService
   ) {
     this._headerService.setTitle('Contatos');
-    this._headerService.setUpperTitle('Contatos - Primeweb');
+    this._headerService.setUpperTitle('Contatos - Prime Web');
   }
 
   ngOnInit() {

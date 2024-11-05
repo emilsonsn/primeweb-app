@@ -34,7 +34,7 @@ export class PhoneCallsComponent {
     private readonly _phoneCallService: PhoneCallService
   ) {
     this._headerService.setTitle('Telefonemas');
-    this._headerService.setUpperTitle('Telefonemas - Primeweb')
+    this._headerService.setUpperTitle('Telefonemas - Prime Web')
   }
 
   ngOnInit() {

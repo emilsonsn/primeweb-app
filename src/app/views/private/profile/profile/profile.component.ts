@@ -29,7 +29,7 @@ export class ProfileComponent {
     private readonly _sessionService: SessionService
   ) {
     this._headerService.setTitle('Perfil');
-    this._headerService.setUpperTitle('Perfil - Primeweb')
+    this._headerService.setUpperTitle('Perfil - Prime Web')
   }
 
   ngOnInit() {

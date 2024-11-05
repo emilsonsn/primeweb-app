@@ -62,7 +62,7 @@ export class HomeComponent {
     private readonly _contactService : ContactService
   ) {
     this._headerService.setTitle('Home');
-    this._headerService.setUpperTitle('Home - Primeweb');
+    this._headerService.setUpperTitle('Home - Prime Web');
   }
 
   itemsShopping: Signal<ISmallInformationCard[]> = computed<ISmallInformationCard[]>(() => [

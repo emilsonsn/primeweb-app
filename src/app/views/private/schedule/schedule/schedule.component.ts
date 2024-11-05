@@ -42,7 +42,7 @@ export class ScheduleComponent {
     private readonly _userService : UserService
   ) {
     this._headerService.setTitle('Agenda');
-    this._headerService.setUpperTitle('Agenda - Primeweb');
+    this._headerService.setUpperTitle('Agenda - Prime Web');
 
     window.addEventListener('resize', () => {
       this.calendarComponent.getApi().updateSize();

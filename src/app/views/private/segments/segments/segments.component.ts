@@ -31,7 +31,7 @@ export class SegmentsComponent {
     private readonly _toastrService: ToastrService
   ) {
     this._headerService.setTitle('Segmentos');
-    this._headerService.setUpperTitle('Segmentos - Primeweb')
+    this._headerService.setUpperTitle('Segmentos - Prime Web')
   }
 
   ngOnInit() {

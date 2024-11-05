@@ -62,7 +62,7 @@ export class ClientsComponent {
 
   ) {
     this._headerService.setTitle('Clientes');
-    this._headerService.setUpperTitle('Clientes - Primeweb');
+    this._headerService.setUpperTitle('Clientes - Prime Web');
 
     // Getters
     this.getUsersFromBack();
