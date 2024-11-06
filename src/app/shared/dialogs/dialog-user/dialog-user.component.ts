@@ -1,18 +1,25 @@
-import {Component, Inject} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
-import {UserService} from '@services/user.service';
-import {User, UserRoles} from '@models/user';
+import { Component, Inject } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogConfig,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import { UserService } from '@services/user.service';
+import { User, UserRoles } from '@models/user';
 import dayjs from 'dayjs';
-import {Utils} from '@shared/utils';
+import { Utils } from '@shared/utils';
+import { Estados } from '@models/utils';
+import { UtilsService } from '@services/utils.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-dialog-user',
   templateUrl: './dialog-user.component.html',
-  styleUrl: './dialog-user.component.scss'
+  styleUrl: './dialog-user.component.scss',
 })
 export class DialogUserComponent {
-
   public isNewUser: boolean = true;
   public title: string = 'Novo Usuário';
   public form: FormGroup;
@@ -23,11 +30,13 @@ export class DialogUserComponent {
   public userPositionEnum;
   public userSectorsEnum;
 
-  protected confirm_password : string;
+  protected confirm_password: string;
 
   public utils = Utils;
 
   protected userRolesEnum = Object.values(UserRoles);
+
+  public states: string[] = Object.values(Estados);
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -35,26 +44,36 @@ export class DialogUserComponent {
     private readonly _dialogRef: MatDialogRef<DialogUserComponent>,
     private readonly _fb: FormBuilder,
     private readonly _dialog: MatDialog,
-    private readonly _userService: UserService
-  ) {
-  }
+    private readonly _userService: UserService,
+    private readonly _utilsService: UtilsService,
+    private readonly _toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
-
     this.form = this._fb.group({
       id: [null],
       name: [null, [Validators.required]],
       phone: [null, [Validators.required]],
       email: [null, [Validators.required]],
       role: [null, [Validators.required]],
-      is_active : [true]
-    })
+      is_active: [true],
+      cep: [null],
+      street: [null],
+      number: [null],
+      neighborhood: [null],
+      city: [null],
+      state: [null],
+    });
 
     if (this._data?.user) {
       this.isNewUser = false;
       this.title = 'Editar Usuário';
       this._fillForm(this._data.user);
     }
+
+    this.form.get('cep').valueChanges.subscribe((res) => {
+      this.autocompleteCep();
+    });
   }
 
   onFileSelected(event: Event): void {
@@ -98,15 +117,12 @@ export class DialogUserComponent {
     }
   }
 
-
   removeImage(event: Event): void {
     event.stopPropagation();
     this.profileImage = null;
   }
 
-
   private _fillForm(user: User): void {
-
     this.form.patchValue(user);
   }
 
@@ -118,18 +134,44 @@ export class DialogUserComponent {
     if (!form.valid) {
       form.markAllAsTouched();
     } else {
-
-      const formData = new FormData();
-      formData.append('id', form.get('id')?.value);
-      formData.append('name', form.get('name')?.value);
-      formData.append('phone', form.get('phone')?.value);
-      formData.append('email', form.get('email')?.value);
-      formData.append('role', form.get('role')?.value);
-      formData.append('is_active', form.get('is_active')?.value ? "1" : "0");
-
-      this._dialogRef.close(formData)
+      this._dialogRef.close(this.prepareFormData(form));
     }
   }
 
+  public prepareFormData(client) {
+    const userFormData = new FormData();
+
+    Object.keys(client.controls).forEach((key) => {
+      if (key === 'is_active') {
+        userFormData.append(
+          'is_active',
+          this.form.get('is_active')?.value ? '1' : '0'
+        );
+      } else {
+        userFormData.append(key, this.form.get(key)?.value);
+      }
+    });
+
+    return userFormData;
+  }
+
   // Utils
+
+  // CEP
+  public autocompleteCep() {
+    if (this.form.get('cep').value.length == 8) {
+      this._utilsService
+        .getAddressByCep(this.form.get('cep').value)
+        .subscribe((res) => {
+          if (res.erro) {
+            this._toastr.error('CEP Inválido para busca!');
+          } else {
+            this.form.get('street').patchValue(res.logradouro);
+            this.form.get('city').patchValue(res.localidade);
+            this.form.get('state').patchValue(res.uf);
+            this.form.get('neighborhood').patchValue(res.bairro);
+          }
+        });
+    }
+  }
 }

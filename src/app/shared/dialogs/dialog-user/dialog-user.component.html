@@ -21,7 +21,8 @@
       <div class="col-12 mb-3">
         <mat-form-field appearance="outline">
           <mat-label>E-mail</mat-label>
-          <input matInput type="email" formControlName="email">
+          <input matInput type="email" formControlName="email" mask="A*@A*.A*" [validation]="true"
+            [dropSpecialCharacters]="false">
         </mat-form-field>
       </div>
 
@@ -52,6 +53,55 @@
             <span style="font-weight: 500; font-size: 1rem; margin-left: 0.4rem;">Ativo</span>
           </mat-slide-toggle>
         </div>
+      </div>
+
+      <div class="col-12 mb-3">
+        <span class="fw-bolder">Endereço</span>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>CEP</mat-label>
+          <input matInput type="text" mask="00000-000" formControlName="cep">
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-5 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Rua</mat-label>
+          <input matInput type="text" formControlName="street">
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-3 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Número</mat-label>
+          <input matInput type="text" formControlName="number">
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Bairro</mat-label>
+          <input matInput type="text" formControlName="neighborhood">
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-4 col-12 mb-3">
+        <mat-form-field>
+          <mat-select formControlName="state" placeholder="Estado">
+            @for (state of states; track state) {
+            <mat-option [value]="state">{{ state }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Cidade</mat-label>
+          <input matInput type="text" formControlName="city">
+        </mat-form-field>
       </div>
 
     </div>
