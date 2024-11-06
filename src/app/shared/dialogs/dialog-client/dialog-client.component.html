@@ -115,8 +115,7 @@
               <div class="d-flex flex-sm-row flex-column gap-1" [formGroupName]="$index">
                 <div class="d-flex flex-sm-row flex-column gap-2 w-100">
                   <mat-form-field appearance="outline">
-                    <input matInput type="text" formControlName="email" placeholder="E-mail" mask="A*@A*.A*"
-                      [validation]="true" [dropSpecialCharacters]="false">
+                    <input matInput type="email" formControlName="email" placeholder="E-mail">
                   </mat-form-field>
 
                   <mat-form-field appearance="outline">
