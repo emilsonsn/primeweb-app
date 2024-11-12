@@ -33,9 +33,9 @@ export class StatusPipe implements PipeTransform {
       case Status.LOST:
         return 'Perdido';
       case Status.Active:
-        return 'Ativo';
+        return 'Liberado';
       case Status.Inactive:
-        return 'Inativo';
+        return 'Bloqueado';
       case ClientStatusEnum.CANCELED:
         return 'Cancelado';
       case ClientStatusEnum.CLOSED:

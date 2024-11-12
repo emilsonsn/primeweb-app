@@ -11,14 +11,17 @@ export interface User {
 }
 
 export enum UserRoles {
-  Seller = 'Seller',
-  Consultant = 'Consultant',  
-  CommercialManager = 'CommercialManager',
-  TechnicalManager = 'TechnicalManager',
-  Admin = 'Admin',
-  Technical = 'Technical',
-  Financial = 'Financial',
-  Copywriter = 'Copywriter'
+  Seller = "Seller" ,
+  Consultant = "Consultant" ,
+  CommercialManager = "CommercialManager" ,
+  TechnicalManager = "TechnicalManager" ,
+  Admin = "Admin" ,
+  Technical = "Technical" ,
+  Financial = "Financial" ,
+  Copywriter = "Copywriter" ,
+  SocialMedia = "SocialMedia" ,
+  NoAccess = "NoAccess" ,
+  CopywriterManager = "CopywriterManager" 
 }
 
 export enum UserStatus {

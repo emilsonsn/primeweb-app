@@ -29,8 +29,12 @@ export class RolesPipe implements PipeTransform {
         return 'Financeiro(a)';
       case UserRoles.Copywriter:
         return 'Redator(a)';
-        
-
+      case UserRoles.SocialMedia:
+        return "Social media";
+      case UserRoles.CopywriterManager:
+        return "Gerente de redação";
+      case UserRoles.NoAccess:
+        return 'Convidado sem acesso';
       default:
         return 'Não encontrado';
     }
