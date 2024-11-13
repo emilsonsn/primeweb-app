@@ -1,7 +1,7 @@
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import {afterNextRender, Component, inject, Inject, Injector, signal, ViewChild} from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import {ApiResponse, PaymentForm} from '@models/application';
 import {Banco, OrderResponsible, RequestOrder, RequestOrderStatus, RequestOrderType} from '@models/requestOrder';
 import { User } from '@models/user';
@@ -17,6 +17,9 @@ import { SessionQuery } from '@store/session.query';
 import { PhoneCallOccurrenceStatusEnum, PhoneCallStatus } from '@models/phone-call';
 import { OccurrenceService } from '@services/occurrence.service';
 import { OccurrenceStatusEnum } from '@models/occurrence';
+import { DialogConfirmComponent } from '../dialog-confirm/dialog-confirm.component';
+import { DialogContactComponent } from '../dialog-contact/dialog-contact.component';
+import { ContactService } from '@services/contact.service';
 
 @Component({
   selector: 'app-dialog-occurrence',
@@ -44,6 +47,7 @@ export class DialogOccurrenceComponent {
     private readonly _occurrenceService : OccurrenceService,
     private readonly _sessionQuery : SessionQuery,
     private readonly _dialog: MatDialog,
+    private readonly _contactService: ContactService
   ) { }
 
   ngOnInit(): void {
@@ -66,12 +70,48 @@ export class DialogOccurrenceComponent {
       .subscribe({
         next: (res) => {
           this._toastr.success('Ocorrência criada com sucesso!');
+          if (this.form.get('status').value == 'ConvertedContact'){
+            this.createContact();
+          }
           this._dialogRef.close(true);
         },
         error : (err) => {
           this._toastr.error("Erro ao cadastrar ocorrência " + err.error.message);
         }
       });
+  }
+
+  public createContact(){
+    this.openEditContactDialog(this._data);
+  }
+
+  public openEditContactDialog(contact) {
+    const dialogConfig: MatDialogConfig = {
+      width: '80%',
+      height: '90%',
+      maxWidth: '1085px',
+      hasBackdrop: true,
+      closeOnNavigation: true,
+    };
+
+    this._dialog.open(DialogContactComponent, {
+      data: {
+        contact :{
+          ...contact,
+          emails: [{id: null, email: contact.email}],
+          phones: [{id: null, phone: contact.phone}],
+        }
+      },
+      ...dialogConfig,
+    }).afterClosed()
+    .subscribe((res) => {
+      if(res) {
+        this.loading = true;
+        setTimeout(() => {
+          this.loading = false;
+        }, 200);
+      }
+    });
   }
 
   public onConfirm(): void {

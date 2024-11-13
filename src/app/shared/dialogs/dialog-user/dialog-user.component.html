@@ -28,7 +28,7 @@
       <div class="col-12 mb-3">
         <mat-form-field appearance="outline">
           <mat-label>Telefone</mat-label>
-          <input type="text" formControlName="phone" matInput mask="(00) 00000-0000||(00) 0000-0000"
+          <input type="text" formControlName="phone" matInput mask="0000 000 0000||(00) 00000-0000"
             title="Digite um número de telefone válido (xx)xxxx-xxxx ou (xx)xxxxx-xxxx" />
           <mat-error *ngIf="!form.get('phone').valid">O telefone deve
             estar no formato (xx) xxxxx-xxxx ou (xx) xxxx-xxxx.</mat-error>

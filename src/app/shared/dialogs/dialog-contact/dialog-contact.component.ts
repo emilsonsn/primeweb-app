@@ -125,8 +125,11 @@ export class DialogContactComponent {
     });
 
     if (this._data) {
-      this.isNewContact = false;
-      this.title = 'Editar Contato';
+
+      if(this._data?.id){
+        this.isNewContact = false;
+        this.title = 'Editar Contato';
+      }
 
       if (this._data.contact.phones) {
         this._data.contact.phones.forEach((item) => {
@@ -209,7 +212,10 @@ export class DialogContactComponent {
   }
   
   public onConfirm(): void {
-    if (!this.form.valid || this.loading || !this.date) return;
+    if (!this.form.valid || this.loading || !this.date){
+      this.form.markAsTouched();
+      return;
+    };
 
     if (this.isNewContact) {
       this.post({
@@ -425,7 +431,7 @@ export class DialogContactComponent {
   }
 
   public getSegmentsFromBack() {
-    this._segmentService.getList().subscribe((res) => {
+    this._segmentService.getAll().subscribe((res) => {
       for (let segment of res.data) {
         this.allSegments.push({
           id: segment.id,
