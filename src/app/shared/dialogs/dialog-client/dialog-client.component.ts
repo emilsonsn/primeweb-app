@@ -505,7 +505,7 @@ export class DialogClientComponent {
   }
 
   public getSegmentsFromBack() {
-    this._segmentService.getList().subscribe((res) => {
+    this._segmentService.getAll().subscribe((res) => {
       this.segmentSelect = res.data;
 
       this.filteredSegments.next(this.segmentSelect.slice());
@@ -619,7 +619,7 @@ export class DialogClientComponent {
             return this.segmentSelect.slice();
           } else {
             search = search.toLowerCase();
-            return this.userSelect.filter((segment) =>
+            return this.segmentSelect.filter((segment) =>
               segment.name.toLowerCase().includes(search)
             );
           }

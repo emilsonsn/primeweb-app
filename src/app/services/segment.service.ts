@@ -17,6 +17,10 @@ export class SegmentService {
     private readonly _http: HttpClient
   ) { }
 
+  public getAll(): Observable<ApiResponsePageable<Segment>> {
+    return this._http.get<ApiResponsePageable<Segment>>(`${environment.api}/${this.sessionEndpoint}/all`);
+  }
+
   public getList(pageControl?: PageControl, filters?: any): Observable<ApiResponsePageable<Segment>> {
     const paginate = Utils.mountPageControl(pageControl);
     const filterParams = Utils.mountPageControl(filters);
