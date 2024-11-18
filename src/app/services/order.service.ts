@@ -49,7 +49,7 @@ export class OrderService {
   }
 
   public throwToGranatum(id : number): Observable<ApiResponse<RequestOrder>> {
-    return this._http.post<ApiResponse<RequestOrder>>(`${environment.api}/${this.sessionEndpoint}/granatum/${id}`, {});
+    return this._http.post<ApiResponse<RequestOrder>>(`${environment.api}/${this.sessionEndpoint}/primeweb/${id}`, {});
   }
 
   public getBank(): Observable<ApiResponse<Banco[]>> {

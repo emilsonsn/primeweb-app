@@ -1,6 +1,6 @@
 {
-  "name": "granatum-app",
-  "version": "1.0.10",
+  "name": "primeweb-app",
+  "version": "1.0.11",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
