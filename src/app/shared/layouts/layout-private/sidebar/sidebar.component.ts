@@ -40,8 +40,15 @@ export class SidebarComponent {
           return !justAdmin.includes(item.label);
         });
       }
-  }
 
+      if(role != 'Admin' && role != 'Financial'){
+        const justAdmin = ['Clientes'];
+
+        this.menuItem = this.menuItem.filter((item) => {
+          return !justAdmin.includes(item.label);
+        });
+      }
+  }
 
   public toggleShowSidebar() {
     this._sidebarService.showSidebar.set(false);

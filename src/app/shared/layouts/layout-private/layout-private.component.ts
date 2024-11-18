@@ -40,7 +40,7 @@ export class LayoutPrivateComponent {
       route: '/painel/contacts'
     },
     {
-      label: 'Agenda',
+      label: 'Agenda Comercial',
       icon: 'fa-solid fa-calendar',
       route: '/painel/schedule'
     },

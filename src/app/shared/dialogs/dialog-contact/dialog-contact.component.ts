@@ -102,6 +102,7 @@ export class DialogContactComponent {
       segments: [null],
       phones: this._fb.array([]),
       emails: this._fb.array([]),
+      phone_call_id: [null]
     });
 
     this.isToHabilitateFieldUserId();

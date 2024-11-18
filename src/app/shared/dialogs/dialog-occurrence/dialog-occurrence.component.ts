@@ -72,8 +72,9 @@ export class DialogOccurrenceComponent {
           this._toastr.success('Ocorrência criada com sucesso!');
           if (this.form.get('status').value == 'ConvertedContact'){
             this.createContact();
+          }else{
+            this._dialogRef.close(true);
           }
-          this._dialogRef.close(true);
         },
         error : (err) => {
           this._toastr.error("Erro ao cadastrar ocorrência " + err.error.message);
@@ -98,6 +99,7 @@ export class DialogOccurrenceComponent {
       data: {
         contact :{
           ...contact,
+          phone_call_id: contact.id,
           emails: [{id: null, email: contact.email}],
           phones: [{id: null, phone: contact.phone}],
         }
@@ -108,6 +110,7 @@ export class DialogOccurrenceComponent {
       if(res) {
         this.loading = true;
         setTimeout(() => {
+          this._dialogRef.close(true);
           this.loading = false;
         }, 200);
       }
@@ -125,7 +128,6 @@ export class DialogOccurrenceComponent {
         phone_call_id : this._data.id
       }
     );
-
   }
 
   // Utils

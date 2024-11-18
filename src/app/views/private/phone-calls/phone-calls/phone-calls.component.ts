@@ -128,6 +128,12 @@ export class PhoneCallsComponent {
     this._dialog.open(DialogOccurrenceComponent, {
       data: phoneCall,
       ...dialogConfig,
+    }).afterClosed()
+    .subscribe((res) => {
+      this.loading = true;
+      setTimeout(() => {
+        this.loading = false;
+      }, 200);
     });
   }
 

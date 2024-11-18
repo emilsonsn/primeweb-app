@@ -11,6 +11,7 @@ import { PhoneCallService } from '@services/phone-call.service';
 import { finalize } from 'rxjs';
 import dayjs from 'dayjs';
 import { ContactService } from '@services/contact.service';
+import { SessionService } from '@store/session.service';
 
 @Component({
   selector: 'app-home',
@@ -42,6 +43,7 @@ export class HomeComponent {
 
   protected filtersToPhoneCall : any;
   protected filtersToContact : any
+  public viewInfos = false;
 
   protected phoneCallsCount = {
     daily : 0,
@@ -59,7 +61,8 @@ export class HomeComponent {
     private readonly _dashboardService: DashboardService,
     private readonly _headerService: HeaderService,
     private readonly _phoneCallService : PhoneCallService,
-    private readonly _contactService : ContactService
+    private readonly _contactService : ContactService,
+    private readonly _sessionService: SessionService
   ) {
     this._headerService.setTitle('Home');
     this._headerService.setUpperTitle('Home - Prime Web');
@@ -114,6 +117,16 @@ export class HomeComponent {
       date_from: dayjs().format('YYYY-MM-DD'),
       date_to : dayjs().format('YYYY-MM-DD')
     };
+
+    this._sessionService.getUserFromBack().subscribe(res => {
+      this.loadPermissions(res.role);
+    });
+  }
+
+  public loadPermissions(role): void {
+      if(role == 'Admin' || role == 'CommercialManager' ||  role == 'Consultant' || role == 'Seller'){
+        this.viewInfos = true;
+      }
   }
 
   public getCards() {
@@ -213,10 +226,13 @@ export class HomeComponent {
 
   public toggleContactTable() {
     this.showContactTable.set(!this.showContactTable());
+
+    this.showPhoneTable.set(false);
   }
 
   public togglePhoneTable() {
     this.showPhoneTable.set(!this.showPhoneTable());
-  }
 
+    this.showContactTable.set(false);
+  }
 }

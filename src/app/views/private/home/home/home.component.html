@@ -1,104 +1,108 @@
-<div class="row mt-4">
-  @for (item of itemsShopping(); track item) {
-    <div class="col-xl-3 col-md-6 mb-xl-0 mb-2">
-      <app-small-information-card [data]="item"></app-small-information-card>
+<ng-container *ngIf="viewInfos">
+
+  <div class="row mt-4">
+    @for (item of itemsShopping(); track item) {
+      <div class="col-xl-3 col-md-6 mb-xl-0 mb-2">
+        <app-small-information-card [data]="item"></app-small-information-card>
+      </div>
+    }
+  </div>
+  
+  <mat-divider class="my-3"></mat-divider>
+  
+  <div class="d-flex align-items-center gap-2 mb-2">
+    <button mat-button color="primary" style="background-color: #38a4f8; color: #FFF" (click)="togglePhoneTable()">Telefonemas</button>
+    <button mat-button color="primary" style="background-color: #38a4f8; color: #FFF" (click)="toggleContactTable()">Contatos</button>
+  </div>
+  
+  <div class="row" [@phoneExpand]="showPhoneTable() ? 'expanded' : 'collapsed'" [@showPhones]="showPhoneTable() ? 'expanded' : 'collapsed'">
+  
+    <div class="my-2">
+      <div class="radio-inputs">
+        <label class="radio" (click)="filterPhoneCall('daily')">
+          <input type="radio" name="phoneCalls" checked="">
+          <span class="name">Telefonemas do dia
+            <div class="value">
+              {{ phoneCallsCount.daily }}
+            </div>
+          </span>
+        </label>
+  
+        <!-- <label class="radio">
+          <input type="radio" name="phoneCalls">
+          <span class="name">Telefonemas atrasados (7 dias)
+            <div class="value">
+              {{ phoneCallsCount.previousWeek }}
+            </div>
+          </span>
+        </label> -->
+  
+        <label class="radio" (click)="filterPhoneCall('week')">
+          <input type="radio" name="phoneCalls">
+          <span class="name">Próximos telefonemas (7 dias)
+            <div class="value">
+              {{ phoneCallsCount.nextWeek }}
+            </div>
+          </span>
+        </label>
+      </div>
     </div>
-  }
-</div>
-
-<mat-divider class="my-3"></mat-divider>
-
-<div class="d-flex align-items-center gap-2 mb-2">
-  <button mat-button color="primary" style="background-color: #38a4f8; color: #FFF" (click)="togglePhoneTable()">Telefonemas</button>
-  <button mat-button color="primary" style="background-color: #38a4f8; color: #FFF" (click)="toggleContactTable()">Contatos</button>
-</div>
-
-<div class="row" [@phoneExpand]="showPhoneTable() ? 'expanded' : 'collapsed'" [@showPhones]="showPhoneTable() ? 'expanded' : 'collapsed'">
-
-  <div class="my-2">
-    <div class="radio-inputs">
-      <label class="radio" (click)="filterPhoneCall('daily')">
-        <input type="radio" name="phoneCalls" checked="">
-        <span class="name">Telefonemas do dia
-          <div class="value">
-            {{ phoneCallsCount.daily }}
-          </div>
-        </span>
-      </label>
-
-      <!-- <label class="radio">
-        <input type="radio" name="phoneCalls">
-        <span class="name">Telefonemas atrasados (7 dias)
-          <div class="value">
-            {{ phoneCallsCount.previousWeek }}
-          </div>
-        </span>
-      </label> -->
-
-      <label class="radio" (click)="filterPhoneCall('week')">
-        <input type="radio" name="phoneCalls">
-        <span class="name">Próximos telefonemas (7 dias)
-          <div class="value">
-            {{ phoneCallsCount.nextWeek }}
-          </div>
-        </span>
-      </label>
+  
+    <div class="card mb-4">
+      <div class="w-100 p-3" style="max-height: 400px">
+        <app-table-phone-calls class="h-100"
+          [filters]="filtersToPhoneCall"
+          [showActions]="false"
+          >
+        </app-table-phone-calls>
+      </div>
     </div>
   </div>
-
-  <div class="card mb-4">
-    <div class="w-100 p-3" style="max-height: 400px">
-      <app-table-phone-calls class="h-100"
-        [filters]="filtersToPhoneCall"
-        [showActions]="false"
-        >
-      </app-table-phone-calls>
+  
+  <mat-divider class="my-3"></mat-divider>
+  
+  <div class="row" [@contactExpand]="showContactTable() ? 'expanded' : 'collapsed'" [@showContacts]="showContactTable() ? 'expanded' : 'collapsed'">
+  
+    <div class="my-2">
+      <div class="radio-inputs">
+        <label class="radio" (click)="filterContact('daily')">
+          <input type="radio" name="contacts" checked="">
+          <span class="name">Contatos do dia
+            <div class="value">
+              {{ contactCount.nextWeek }}
+            </div>
+          </span>
+        </label>
+  
+        <!-- <label class="radio">
+          <input type="radio" name="contacts">
+          <span class="name">Contatos atrasados (7 dias)
+            <div class="value">
+              50
+            </div>
+          </span>
+        </label> -->
+  
+        <label class="radio" (click)="filterContact('week')">
+          <input type="radio" name="contacts">
+          <span class="name">Próximos contatos (7 dias)
+            <div class="value">
+              {{ contactCount.nextWeek }}
+            </div>
+          </span>
+        </label>
+      </div>
+    </div>
+  
+    <div class="card mb-4">
+      <div class="w-100 p-3" style="max-height: 400px">
+        <app-table-contacts class="h-100"
+          [filters]="filtersToContact"
+          [showActions]="false">
+        </app-table-contacts>
+      </div>
     </div>
   </div>
-</div>
-
-<mat-divider class="my-3"></mat-divider>
-
-<div class="row" [@contactExpand]="showContactTable() ? 'expanded' : 'collapsed'" [@showContacts]="showContactTable() ? 'expanded' : 'collapsed'">
-
-  <div class="my-2">
-    <div class="radio-inputs">
-      <label class="radio" (click)="filterContact('daily')">
-        <input type="radio" name="contacts" checked="">
-        <span class="name">Contatos do dia
-          <div class="value">
-            {{ contactCount.nextWeek }}
-          </div>
-        </span>
-      </label>
-
-      <!-- <label class="radio">
-        <input type="radio" name="contacts">
-        <span class="name">Contatos atrasados (7 dias)
-          <div class="value">
-            50
-          </div>
-        </span>
-      </label> -->
-
-      <label class="radio" (click)="filterContact('week')">
-        <input type="radio" name="contacts">
-        <span class="name">Próximos contatos (7 dias)
-          <div class="value">
-            {{ contactCount.nextWeek }}
-          </div>
-        </span>
-      </label>
-    </div>
-  </div>
-
-  <div class="card mb-4">
-    <div class="w-100 p-3" style="max-height: 400px">
-      <app-table-contacts class="h-100"
-        [filters]="filtersToContact"
-        [showActions]="false">
-      </app-table-contacts>
-    </div>
-  </div>
-</div>
-
+  
+  
+</ng-container>
