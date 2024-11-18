@@ -83,12 +83,19 @@
       </div>
 
       <div class="col-md-4 mb-3">
-        <span class="fw-bolder">CNPJ *</span>
+        <span class="fw-bolder">CPF ou CNPJ *</span>
         <mat-form-field appearance="outline">
-          <input type="text" formControlName="cnpj" matInput mask="00.000.000/0000-00"
-            placeholder="00.000.000/0000-00" required/>
+          <input
+            type="text"
+            formControlName="cnpj"
+            matInput
+            mask="000.000.000-00||00.000.000/0000-00"
+            placeholder="Digite CPF ou CNPJ"
+            required
+          />
         </mat-form-field>
       </div>
+      
 
       @if(canEditUserId) {
         <div class="col-md-4 mb-3">

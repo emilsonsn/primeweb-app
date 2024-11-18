@@ -213,7 +213,10 @@ export class DialogContactComponent {
   }
   
   public onConfirm(): void {
-    if (!this.form.valid || this.loading || !this.date){
+    if (!this.form.valid || !this.date){
+      console.log(this.form.controls);
+      console.log(this.loading);
+      console.log(this.date);
       this.form.markAsTouched();
       return;
     };
