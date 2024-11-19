@@ -107,7 +107,7 @@
   </form>
 
 </mat-dialog-content>
-<mat-dialog-actions>
+<mat-dialog-actions *ngIf="!view">
   <div class="container">
     <div id="actionsDialog" class="flex-sm-row flex-column">
       @if(loading) {

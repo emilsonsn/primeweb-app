@@ -24,17 +24,20 @@ export class TableUserComponent {
   onUserEdit: EventEmitter<User> = new EventEmitter<User>();
 
   @Output()
+  onUserView: EventEmitter<User> = new EventEmitter<User>();
+
+  @Output()
   onDeleteUser: EventEmitter<number> = new EventEmitter<number>();
 
   public users: User[] = [];
 
   public columns = [
-    {
-      slug: "id",
-      order: true,
-      title: "ID",
-      align: "start",
-    },
+    // {
+    //   slug: "id",
+    //   order: true,
+    //   title: "ID",
+    //   align: "start",
+    // },
     {
       slug: "name",
       order: true,

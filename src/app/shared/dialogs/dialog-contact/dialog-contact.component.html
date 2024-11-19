@@ -120,23 +120,29 @@
       <div class="col-md-6 mb-3">
         <span class="fw-bolder">Telefones *</span>
         <div class="d-flex flex-column gap-3" formArrayName="phones">
-          @for(telephone of phones.controls; track telephone) {
-          <div class="d-flex flex-sm-row flex-column gap-1" [formGroupName]="$index">
+          <div *ngFor="let telephone of phones.controls; let i = index;" [formGroupName]="i" class="d-flex flex-sm-row flex-column gap-1">
             <div class="d-flex flex-sm-row flex-column  gap-2 w-100">
               <mat-form-field appearance="outline">
-                <input matInput type="text" formControlName="phone" placeholder="Número"
-                  mask="0000 000 0000||(00) 00000-0000">
+                <input
+                  matInput
+                  type="text"
+                  formControlName="phone"
+                  placeholder="Número"
+                  [mask]="phoneMasks[i]"
+                  (input)="updatePhoneMask($event, i)"
+
+                />
               </mat-form-field>
+              
             </div>
             <div class="d-flex align-items-center">
               @if(true) {
-              <button class="mt-1" color="warn" mat-icon-button (click)="onDeleteTelephone($index)">
+              <button class="mt-1" color="warn" mat-icon-button (click)="onDeleteTelephone(i)">
                 <i class="fa-solid fa-trash"></i>
               </button>
               }
             </div>
-          </div>
-          }
+          </div>          
           <div class="col-auto">
             <div matRipple id="addItem">
               <button color="primary" *ngIf="true" (click)="!isToEdit ? pushTelephone() : null">

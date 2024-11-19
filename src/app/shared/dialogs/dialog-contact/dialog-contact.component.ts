@@ -63,6 +63,7 @@ export class DialogContactComponent {
 
   // Return Time e Return_Time
   protected date;
+  phoneMasks: string[] = [];
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -121,8 +122,11 @@ export class DialogContactComponent {
       this.autocompleteCep();
     });
 
-    this.form.valueChanges.subscribe((res) => {
-      console.log(res);
+
+    this.form.get('phones').valueChanges.subscribe((phones: any[]) => {
+      phones.forEach((phone, index) => {
+        this.updatePhoneMaskOnInit(phone.phone, index);
+      });
     });
 
     if (this._data) {    
@@ -131,11 +135,13 @@ export class DialogContactComponent {
         this.title = 'Editar Contato';
       }
 
-      if (this._data.contact.phones) {
-        this._data.contact.phones.forEach((item) => {
+      if (this._data?.contact?.phones) {
+        this._data.contact.phones.forEach((item, index) => {
           this.phones.push(this.createTelephoneFromData(item));
+          this.phoneMasks[index] = '(00) 00000-0000'; // Máscara inicial
+          this.updatePhoneMaskOnInit(item.phone, index);
         });
-      }
+      }      
 
       if (this._data.contact.emails) {
         this._data.contact.emails.forEach((item) => {
@@ -168,6 +174,31 @@ export class DialogContactComponent {
       this.filterCitys();
     });
   }
+
+  updatePhoneMask(event: Event, index: number): void {
+    const input = event.target as HTMLInputElement;
+    const value = input.value.replace(/\D/g, '');
+  
+    if (value.startsWith('0800')) {
+      this.phoneMasks[index] = '0000 000 0000';
+    } else {
+      this.phoneMasks[index] = '(00) 00000-0000';
+    }
+  }
+  
+
+  updatePhoneMaskOnInit(phone: string, index: number): void {
+    if (typeof phone !== 'string') return;
+  
+    const numericValue = phone.replace(/\D/g, '');
+  
+    if (numericValue.startsWith('0800')) {
+      this.phoneMasks[index] = '0000 000 0000'; // Máscara para números 0800
+    } else {
+      this.phoneMasks[index] = '(00) 00000-0000'; // Máscara para outros números
+    }
+  }
+  
 
   public post(contact: Contact) {
     this._initOrStopLoading();

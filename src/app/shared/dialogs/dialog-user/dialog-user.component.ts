@@ -37,10 +37,11 @@ export class DialogUserComponent {
   protected userRolesEnum = Object.values(UserRoles);
 
   public states: string[] = Object.values(Estados);
-
+  view: boolean = false;
+  
   constructor(
     @Inject(MAT_DIALOG_DATA)
-    private readonly _data: { user: User },
+    private readonly _data: { user: User, view?: boolean;},
     private readonly _dialogRef: MatDialogRef<DialogUserComponent>,
     private readonly _fb: FormBuilder,
     private readonly _dialog: MatDialog,
@@ -69,6 +70,14 @@ export class DialogUserComponent {
       this.isNewUser = false;
       this.title = 'Editar Usuário';
       this._fillForm(this._data.user);
+    }
+
+    if (this._data?.view) {
+      this.isNewUser = false;
+      this.title = 'Visualizar Usuário';      
+      this._fillForm(this._data.user);
+      // this.form.disable();
+      this.view = true;
     }
 
     this.form.get('cep').valueChanges.subscribe((res) => {

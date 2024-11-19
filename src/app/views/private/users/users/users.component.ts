@@ -72,6 +72,28 @@ export class UsersComponent {
       });
   }
 
+  openDialogViewUser(user?) {
+    this._dialog
+      .open(DialogUserComponent, {
+        data: {user, view: true},
+        width: '80%',
+        maxWidth: '850px',
+        maxHeight: '90%',
+      })
+      .afterClosed()
+      .subscribe((res) => {
+        if (res) {
+          const id = +res.get('id');
+          if (id) {
+            this._patchUser(res);
+            return;
+          }
+
+          this._postUser(res);
+        }
+      });
+  }
+
   _patchUser(user: FormData) {
     this._initOrStopLoading();
     const id = +user.get('id');

@@ -36,6 +36,7 @@ export class DialogPhoneCallComponent {
   public users: User[];
 
   protected canEditUserId : boolean = false;
+  public phoneMask: string = '(00) 00000-0000'; // Máscara padrão
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -60,6 +61,7 @@ export class DialogPhoneCallComponent {
       observations: [''],
     });
 
+
     this.isToHabilitadeFieldUserId();
     this.getUsers();
 
@@ -71,6 +73,11 @@ export class DialogPhoneCallComponent {
         ...this._data.phoneCall,
         return_time: dayjs(this._data.return_time).format('HH:mm')
       });
+
+      const phone = this.form.get('phone')?.value;
+      if (phone) {
+        this.updatePhoneMaskOnInit(phone);
+      }
 
       const returnDate = this.form.get('return_date').value + `T${this.form.get('return_time').value}`;
       this.date = new Date(returnDate);
@@ -84,6 +91,28 @@ export class DialogPhoneCallComponent {
         this.users = res.data;
       }
     });
+  }
+
+  updatePhoneMaskOnInit(value): void {
+    const numericValue = value.replace(/\D/g, ''); // Remove caracteres não numéricos
+  
+    if (numericValue.startsWith('0800')) {
+      this.phoneMask = '0000 000 0000'; // Máscara para números 0800
+    } else {
+      this.phoneMask = '(00) 00000-0000'; // Máscara para outros números
+    }
+  }
+
+  updatePhoneMask(event): void {
+    const input = event.target as HTMLInputElement;
+    const value = input.value.replace(/\D/g, '');
+    const numericValue = value.replace(/\D/g, ''); // Remove caracteres não numéricos
+  
+    if (numericValue.startsWith('0800')) {
+      this.phoneMask = '0000 000 0000'; // Máscara para números 0800
+    } else {
+      this.phoneMask = '(00) 00000-0000'; // Máscara para outros números
+    }
   }
 
   public postPhoneCall(phoneCall : PhoneCall) {
@@ -139,6 +168,8 @@ export class DialogPhoneCallComponent {
 
     return phoneCallFormData;
   }
+
+  
 
   public onConfirm(): void {
     if(!this.form.valid || this.loading || !this.date) return;

@@ -54,6 +54,7 @@
 <div id="componentTable" class="col-12 mt-4">
   <app-table-users
     (onUserEdit)="openDialogUser($event)"
+    (onUserView)="openDialogViewUser($event)"
     (onDeleteUser)="onDeleteUser($event)"
     [loading]="loading"
     [filters]="filters"
