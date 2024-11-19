@@ -125,9 +125,8 @@ export class DialogContactComponent {
       console.log(res);
     });
 
-    if (this._data) {
-
-      if(this._data?.id){
+    if (this._data) {    
+      if(this._data?.contact?.id && !this._data?.contact?.phone_call_id){
         this.isNewContact = false;
         this.title = 'Editar Contato';
       }
