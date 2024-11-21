@@ -16,6 +16,8 @@ export enum OccurrenceStatusEnum {
   ConvertedContact = "ConvertedContact",
   SchedulingVisit = "SchedulingVisit",
   ReschedulingVisit = "ReschedulingVisit",
+  MeetingScheduling = "MeetingScheduling",
+  Meetingrescheduling = "Meetingrescheduling",
   DelegationContact = "DelegationContact",
   InNegotiation = "InNegotiation",
   Closed = "Closed",

@@ -8,6 +8,7 @@ import { finalize } from 'rxjs';
 import { SessionQuery } from '@store/session.query';
 import { OccurrenceService } from '@services/occurrence.service';
 import { ContactOccurenceEnum } from '@models/contact';
+import { OccurrenceStatusEnum } from '@models/occurrence';
 
 @Component({
   selector: 'app-dialog-occurrence-contact',
@@ -22,6 +23,8 @@ export class DialogOccurrenceContactComponent {
   protected isToEdit : boolean = false;
 
   protected form : FormGroup;
+  
+  protected hasLink : boolean = false;
 
   protected statusSelection = Object.values(ContactOccurenceEnum);
 
@@ -41,11 +44,27 @@ export class DialogOccurrenceContactComponent {
       date: [null, Validators.required],
       time: [null],
       observations: [''],
-      link: [null, Validators.required],
+      link: [null],
       status: [null, Validators.required],
       contact_id: [null]
     });
 
+    this.form.get('status').valueChanges
+    .subscribe(status => {
+      const statusList = [
+        OccurrenceStatusEnum.MeetingScheduling,
+        OccurrenceStatusEnum.ReschedulingVisit,
+        OccurrenceStatusEnum.SchedulingVisit,
+        OccurrenceStatusEnum.Meetingrescheduling
+      ];
+  
+      if (statusList.includes(status)) {
+        this.hasLink = true;
+      } else {
+        this.hasLink = false;
+      }
+    });
+  
   }
 
   public post(occurrence) {

@@ -33,7 +33,7 @@
       </mat-form-field>
     </div>
 
-    <div class="mb-3">
+    <div class="mb-3" *ngIf="hasLink">
       <span class="fw-bolder">Link da Reunião</span>
       <mat-form-field appearance="outline">
         <input type="text" formControlName="link" matInput placeholder="https://www.domain.com" />
