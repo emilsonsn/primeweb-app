@@ -187,7 +187,7 @@ export class DialogContactComponent {
     } else if(value.length < 11 ) {
       this.phoneMasks[index] = '(00) 0000-0000||(00) 0000-00000';
     }else{
-      this.phoneMasks[index] = '(00) 00000-0000|';
+      this.phoneMasks[index] = '(00) 00000-0000';
     }
 
     const formattedValue = this.utils.formatPhoneNumber(value);
@@ -207,7 +207,7 @@ export class DialogContactComponent {
     } else if(numericValue.length < 11 ) {
       this.phoneMasks[index] = '(00) 0000-0000||(00) 0000-00000';
     }else{
-      this.phoneMasks[index] = '(00) 00000-0000|';
+      this.phoneMasks[index] = '(00) 00000-0000';
     }
   }
 
