@@ -36,6 +36,21 @@ export class Utils {
 		return result;
 	}
 
+    static formatPhoneNumber(value: string): string {
+        const numericValue = value.replace(/\D/g, ''); // Remove caracteres não numéricos
+      
+        if (numericValue.startsWith('0800')) {
+          return numericValue.replace(/^(\d{4})(\d{3})(\d{4})$/, '$1 $2 $3'); // Formato 0800 000 0000
+        } else if (numericValue.length === 10) {
+          return numericValue.replace(/^(\d{2})(\d{4})(\d{4})$/, '($1) $2-$3'); // Formato (XX) XXXX-XXXX
+        } else if (numericValue.length === 11) {
+          return numericValue.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3'); // Formato (XX) XXXXX-XXXX
+        }
+      
+        return value; // Retorna o valor original se não se encaixar nos formatos
+    }
+      
+
 	static filterAutocomplete(items, value, field = 'name', field2 = '') {
         if (typeof value === 'string' && items.length) {
             const filterValue = value

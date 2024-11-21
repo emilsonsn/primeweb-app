@@ -28,6 +28,7 @@ import {Segment} from '@models/segment';
 import {UtilsService} from '@services/utils.service';
 import {Estados} from '@models/utils';
 import {SessionQuery} from '@store/session.query';
+import { Utils } from '@shared/utils';
 
 @Component({
   selector: 'app-dialog-contact',
@@ -60,6 +61,8 @@ export class DialogContactComponent {
   protected filteredsegments: ReplaySubject<any[]> = new ReplaySubject<any[]>(
     1
   );
+
+  public utils = Utils;
 
   // Return Time e Return_Time
   protected date;
@@ -181,24 +184,32 @@ export class DialogContactComponent {
   
     if (value.startsWith('0800')) {
       this.phoneMasks[index] = '0000 000 0000';
-    } else {
-      this.phoneMasks[index] = '(00) 00000-0000';
+    } else if(value.length < 11 ) {
+      this.phoneMasks[index] = '(00) 0000-0000||(00) 0000-00000';
+    }else{
+      this.phoneMasks[index] = '(00) 00000-0000|';
+    }
+
+    const formattedValue = this.utils.formatPhoneNumber(value);
+    const phoneControl = (this.phones.at(index) as FormGroup).get('phone');
+    if (phoneControl) {
+      phoneControl.setValue(formattedValue, { emitEvent: true });
     }
   }
-  
 
   updatePhoneMaskOnInit(phone: string, index: number): void {
     if (typeof phone !== 'string') return;
   
     const numericValue = phone.replace(/\D/g, '');
-  
+
     if (numericValue.startsWith('0800')) {
-      this.phoneMasks[index] = '0000 000 0000'; // Máscara para números 0800
-    } else {
-      this.phoneMasks[index] = '(00) 00000-0000'; // Máscara para outros números
+      this.phoneMasks[index] = '0000 000 0000';
+    } else if(numericValue.length < 11 ) {
+      this.phoneMasks[index] = '(00) 0000-0000||(00) 0000-00000';
+    }else{
+      this.phoneMasks[index] = '(00) 00000-0000|';
     }
   }
-  
 
   public post(contact: Contact) {
     this._initOrStopLoading();

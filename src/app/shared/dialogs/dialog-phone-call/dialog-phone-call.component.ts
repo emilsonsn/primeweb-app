@@ -36,7 +36,7 @@ export class DialogPhoneCallComponent {
   public users: User[];
 
   protected canEditUserId : boolean = false;
-  public phoneMask: string = '(00) 00000-0000'; // Máscara padrão
+  public phoneMask: string = '(00) 0000-0000'; // Máscara padrão
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -54,13 +54,12 @@ export class DialogPhoneCallComponent {
       user_id: [null],
       company: [null, Validators.required],
       domain: [null, Validators.required],
-      phone: [null, Validators.required],
+      phone: [null],
       email: [null, Validators.required],
       return_date: [null],
       return_time: [null],
       observations: [''],
     });
-
 
     this.isToHabilitadeFieldUserId();
     this.getUsers();
@@ -76,6 +75,7 @@ export class DialogPhoneCallComponent {
 
       const phone = this.form.get('phone')?.value;
       if (phone) {
+        console.log('entrou')
         this.updatePhoneMaskOnInit(phone);
       }
 
@@ -94,25 +94,41 @@ export class DialogPhoneCallComponent {
   }
 
   updatePhoneMaskOnInit(value): void {
-    const numericValue = value.replace(/\D/g, ''); // Remove caracteres não numéricos
+    const numericValue = value.replace(/\D/g, '');
   
     if (numericValue.startsWith('0800')) {
-      this.phoneMask = '0000 000 0000'; // Máscara para números 0800
+      this.phoneMask = '0000 000 0000';
+      console.log(this.phoneMask)
+    } else if (numericValue.length === 11) {
+      this.phoneMask = '(00) 00000-0000';
+      console.log(this.phoneMask)
     } else {
-      this.phoneMask = '(00) 00000-0000'; // Máscara para outros números
+      this.phoneMask = '(00) 0000-0000';
+      console.log(this.phoneMask)
     }
+
+    const formattedValue = this.utils.formatPhoneNumber(value);
+    this.form.get('phone')?.setValue(formattedValue, { emitEvent: true })
   }
 
   updatePhoneMask(event): void {
     const input = event.target as HTMLInputElement;
     const value = input.value.replace(/\D/g, '');
-    const numericValue = value.replace(/\D/g, ''); // Remove caracteres não numéricos
+    const numericValue = value.replace(/\D/g, '');
   
     if (numericValue.startsWith('0800')) {
-      this.phoneMask = '0000 000 0000'; // Máscara para números 0800
+      this.phoneMask = '0000 000 0000';
+      console.log(this.phoneMask)
+    } else if (numericValue.length < 11) {
+      this.phoneMask = '(00) 0000-00000||(00) 0000-0000';
+      console.log(this.phoneMask)
     } else {
-      this.phoneMask = '(00) 00000-0000'; // Máscara para outros números
+      this.phoneMask = '(00) 00000-0000';
+      console.log(this.phoneMask)
     }
+
+    const formattedValue = this.utils.formatPhoneNumber(input.value);
+    this.form.get('phone')?.setValue(formattedValue, { emitEvent: true })
   }
 
   public postPhoneCall(phoneCall : PhoneCall) {
@@ -168,8 +184,6 @@ export class DialogPhoneCallComponent {
 
     return phoneCallFormData;
   }
-
-  
 
   public onConfirm(): void {
     if(!this.form.valid || this.loading || !this.date) return;
