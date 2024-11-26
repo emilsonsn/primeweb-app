@@ -62,6 +62,8 @@ export enum ContactOccurenceEnum {
   SchedulingVisit = "SchedulingVisit",
   ReschedulingVisit = "ReschedulingVisit",
   DelegationContact = "DelegationContact",
+  MeetingScheduling = "MeetingScheduling",
+  Meetingrescheduling = "Meetingrescheduling",
   InNegotiation = "InNegotiation",
   Closed = "Closed",
   Lost = "Lost"

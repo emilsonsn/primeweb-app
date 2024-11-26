@@ -27,9 +27,9 @@ export class OccurrencePipe implements PipeTransform {
       case OccurrenceStatusEnum.InNegotiation:
         return 'Em Negociação';
       case OccurrenceStatusEnum.MeetingScheduling:
-        return 'Agendamento de reunião';
+        return 'Agendamento de vídeochamada';
       case OccurrenceStatusEnum.Meetingrescheduling:
-        return 'Reagendamento de reunião';
+        return 'Reagendamento de vídeochamada';
       case OccurrenceStatusEnum.Closed:
         return 'Fechado';
       case OccurrenceStatusEnum.Lost:
