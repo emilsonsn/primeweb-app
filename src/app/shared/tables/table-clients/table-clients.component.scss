@@ -31,9 +31,10 @@ mat-spinner {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
+  font-weight: 600;
   border-radius: 12px;
-  padding: 4px 8px;
+  padding: 4px 5px;
   color: $white;
 
   &.IN_PROGRESS{
