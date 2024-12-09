@@ -19,9 +19,9 @@ export class OccurrencePipe implements PipeTransform {
       case OccurrenceStatusEnum.ConvertedContact:
         return 'Contato Convertido';
       case OccurrenceStatusEnum.SchedulingVisit:
-        return 'Agendamento de Visita';
+        return 'Reunião Presencial';
       case OccurrenceStatusEnum.ReschedulingVisit:
-        return 'Reagendamento de Visita';
+        return 'Reagendamento de Reunião Presencial';
       case OccurrenceStatusEnum.DelegationContact:
         return 'Delegação de Contato';
       case OccurrenceStatusEnum.InNegotiation:

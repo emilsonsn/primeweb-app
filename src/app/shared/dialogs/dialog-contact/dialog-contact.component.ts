@@ -99,6 +99,7 @@ export class DialogContactComponent {
       cep: [null],
       street: [null],
       number: [null],
+      complement: [null],
       neighborhood: [null],
       city: [null],
       state: [null],

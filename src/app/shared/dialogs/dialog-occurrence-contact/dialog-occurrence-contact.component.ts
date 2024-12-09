@@ -25,7 +25,8 @@ export class DialogOccurrenceContactComponent {
   protected form : FormGroup;
   
   protected hasLink : boolean = false;
-
+  protected hasAddress : boolean = false;
+  
   protected statusSelection = Object.values(ContactOccurenceEnum);
 
   constructor(
@@ -44,25 +45,43 @@ export class DialogOccurrenceContactComponent {
       date: [null, Validators.required],
       time: [null],
       observations: [''],
-      link: [null],
+      link: [null, [Validators.pattern(/^(https:\/\/).+/)]],
+      address: [null],
       status: [null, Validators.required],
       contact_id: [null]
     });
 
+    this.form.get('date').valueChanges.subscribe((value) => {
+      if (value) {
+        const updatedDate = dayjs(value).set('second', 0); // Zera os segundos
+        this.form.get('date').setValue(updatedDate.toISOString(), { emitEvent: false });
+      }
+    });
+
     this.form.get('status').valueChanges
     .subscribe(status => {
-      const statusList = [
-        OccurrenceStatusEnum.MeetingScheduling,
+      const statusVisit = [
         OccurrenceStatusEnum.ReschedulingVisit,
         OccurrenceStatusEnum.SchedulingVisit,
+      ];
+
+      const statusMeeting = [
+        OccurrenceStatusEnum.MeetingScheduling,
         OccurrenceStatusEnum.Meetingrescheduling
       ];
-  
-      if (statusList.includes(status)) {
+
+      if (statusVisit.includes(status)) {
+        this.hasAddress = true;
+      } else {
+        this.hasAddress = false;
+      }
+
+      if (statusMeeting.includes(status)) {
         this.hasLink = true;
       } else {
         this.hasLink = false;
       }
+
     });
   
   }

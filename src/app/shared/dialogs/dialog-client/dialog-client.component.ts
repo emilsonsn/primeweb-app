@@ -132,33 +132,34 @@ export class DialogClientComponent {
       company: [null, [Validators.required]],
       domain: [null, [Validators.required]],
       client_responsable_name: [null, [Validators.required]],
-      client_responsable_name_2: [null, [Validators.required]],
-      cnpj: [null, [Validators.required]],
+      client_responsable_name_2: [null],
+      cnpj: [null],
       cep: [null, [Validators.required]],
-      street: [null, [Validators.required]],
-      neighborhood: [null, [Validators.required]],
-      city: [null, [Validators.required]],
-      state: [null, [Validators.required]],
+      street: [null],
+      number: [null],
+      neighborhood: [null],
+      city: [null],
+      state: [null],
       observations: [''],
       segment_id: [null, [Validators.required]],
       monthly_fee: [null, [Validators.required]],
-      payment_first_date: [null, [Validators.required]],
-      final_date: [null, [Validators.required]],
-      duedate_day: [1, [Validators.min(1), Validators.max(31)]],
-      consultant_id: [''], // , [Validators.required]
-      seller_id: [''], // , [Validators.required]
-      technical_id: [''], // , [Validators.required]
+      payment_first_date: [null],
+      final_date: [null],
+      duedate_day: [null],
+      consultant_id: ['', [Validators.required]],
+      seller_id: ['', [Validators.required]],
+      technical_id: ['', [Validators.required]],
       phones: this._fb.array([]),
       emails: this._fb.array([]),
     });
 
     this.formContract = this._fb.group({
-      number: [null, [Validators.required]],
+      number: [null],
       contract: [null, [Validators.required]],
       date_hire: [null, [Validators.required]],
       number_words_contract: [null, [Validators.required]],
       service_type: [null, [Validators.required]],
-      model: [null, [Validators.required]],
+      model: [null],
       observations: [null, [Validators.required]],
     });
 
@@ -216,10 +217,8 @@ export class DialogClientComponent {
     this._clientService
       .post({
         ...client,
-        payment_first_date: dayjs(client.payment_first_date).format(
-          'YYYY-MM-DD'
-        ),
-        final_date: dayjs(client.final_date).format('YYYY-MM-DD'),
+        payment_first_date: client.payment_first_date ? dayjs(client.payment_first_date).format('YYYY-MM-DD'): '',
+        final_date: client.final_date ? dayjs(client.final_date).format('YYYY-MM-DD') : '',
       })
       .pipe(
         finalize(() => {
@@ -245,10 +244,10 @@ export class DialogClientComponent {
     this._clientService
       .patch(id, {
         ...client,
-        payment_first_date: dayjs(client.payment_first_date).format(
+        payment_first_date: client.payment_first_date ? dayjs(client.payment_first_date).format(
           'YYYY-MM-DD'
-        ),
-        final_date: dayjs(client.final_date).format('YYYY-MM-DD'),
+        ) : '',
+        final_date: client.final_date ? dayjs(client.final_date).format('YYYY-MM-DD') : '',
       })
       .pipe(
         finalize(() => {
@@ -300,11 +299,17 @@ export class DialogClientComponent {
   }
 
   public onConfirm(): void {
-    if (!this.formClient.valid || this.loading) return;
+    if (!this.formClient.valid || this.loading){
+      this.formClient.markAllAsTouched();      
+      return;
+    }
 
     if (this.isNewClient) {
 
-      if(this.isToGoToContract) this._dialogRef.close(true);
+      if(this.isToGoToContract) {
+        this._dialogRef.close(true)
+        return;
+      };
 
       this.postClient({
         ...this.formClient.getRawValue(),
@@ -351,7 +356,7 @@ export class DialogClientComponent {
   public createTelephone(): FormGroup {
     return this._fb.group({
       id: [null],
-      name: [null, Validators.required],
+      name: [null],
       phone: [null, Validators.required],
     });
   }
@@ -359,7 +364,7 @@ export class DialogClientComponent {
   private createTelephoneFromData(item: any): FormGroup {
     return this._fb.group({
       id: [item.id],
-      name: [{ value: item.name }, Validators.required],
+      name: [{ value: item.name }],
       phone: [{ value: item.key }, [Validators.required]],
     });
   }
@@ -401,7 +406,7 @@ export class DialogClientComponent {
   public createEmail(): FormGroup {
     return this._fb.group({
       id: [null],
-      name: [null, Validators.required],
+      name: [null],
       email: [null, Validators.required],
     });
   }
@@ -409,7 +414,7 @@ export class DialogClientComponent {
   private createEmailFromData(item: any): FormGroup {
     return this._fb.group({
       id: [item.id],
-      name: [{ value: item.name }, [Validators.required]],
+      name: [{ value: item.name }],
       email: [{ value: item.key }, [Validators.required]],
     });
   }

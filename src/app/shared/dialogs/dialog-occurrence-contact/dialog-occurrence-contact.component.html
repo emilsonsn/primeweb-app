@@ -40,6 +40,13 @@
       </mat-form-field>
     </div>
 
+    <div class="mb-3" *ngIf="hasAddress">
+      <span class="fw-bolder">Endereço</span>
+      <mat-form-field appearance="outline">
+        <input type="text" formControlName="address" matInput placeholder="Endereço da reunião" />
+      </mat-form-field>
+    </div>
+
     <div class="col-12 mb-3">
       <span class="fw-bolder">Observações</span>
       <mat-form-field>

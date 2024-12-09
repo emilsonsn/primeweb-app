@@ -18,21 +18,21 @@
         <div class="row">
 
           <div class="col-md-4 mb-3">
-            <span class="fw-bolder">Empresa *</span>
+            <span class="fw-bolder">Empresa</span>
             <mat-form-field appearance="outline">
               <input type="text" formControlName="company" matInput placeholder="Empresa" />
             </mat-form-field>
           </div>
 
           <div class="col-md-4 mb-3">
-            <span class="fw-bolder">Domínio *</span>
+            <span class="fw-bolder">Domínio</span>
             <mat-form-field appearance="outline">
-              <input type="text" formControlName="domain" matInput placeholder="Domínio" />
+              <input type="text" formControlName="domain" matInput placeholder="https://domain.com.br" />
             </mat-form-field>
           </div>
 
           <div class="col-md-4 mb-3">
-            <span class="fw-bolder">Segmento *</span>
+            <span class="fw-bolder">Segmento</span>
             <mat-form-field>
               <mat-select formControlName="segment_id" placeholder="Segmento">
                 <mat-option>
@@ -48,22 +48,22 @@
           </div>
 
           <div class="col-md-4 mb-3">
-            <span class="fw-bolder">CNPJ *</span>
+            <span class="fw-bolder">CNPJ / CPF</span>
             <mat-form-field appearance="outline">
-              <input type="text" formControlName="cnpj" matInput mask="00.000.000/0000-00"
-                placeholder="00.000.000/0000-00" />
+              <input type="text" formControlName="cnpj" matInput mask="000.000.000-00||00.000.000/0000-00"
+                placeholder="CNPJ ou CPF" />
             </mat-form-field>
           </div>
 
           <div class="col-md-4 mb-3">
-            <span class="fw-bolder" style="white-space: nowrap;">Nome do Responsável *</span>
+            <span class="fw-bolder" style="white-space: nowrap;">Nome do Responsável</span>
             <mat-form-field appearance="outline">
               <input type="text" formControlName="client_responsable_name" matInput placeholder="Cliente" />
             </mat-form-field>
           </div>
 
           <div class="col-md-4 mb-3">
-            <span class="fw-bolder" style="white-space: nowrap;">Nome do Segundo Responsável *</span>
+            <span class="fw-bolder" style="white-space: nowrap;">Nome do Segundo Responsável</span>
             <mat-form-field appearance="outline">
               <input type="text" formControlName="client_responsable_name_2" matInput placeholder="Cliente" />
             </mat-form-field>
@@ -73,7 +73,7 @@
 
           <!-- Telefones -->
           <div class="col mb-3">
-            <span class="fw-bolder">Telefones *</span>
+            <span class="fw-bolder">Telefones</span>
             <div class="d-flex flex-column gap-3" formArrayName="phones">
               @for(telephone of phones.controls; track telephone) {
               <div class="d-flex flex-sm-row flex-column gap-1" [formGroupName]="$index">
@@ -109,7 +109,7 @@
           <!-- Emails -->
           <div class="col mb-3">
 
-            <span class="fw-bolder">E-mail *</span>
+            <span class="fw-bolder">E-mail</span>
             <div class="d-flex flex-column gap-3" formArrayName="emails">
               @for(email of emails.controls; track email) {
               <div class="d-flex flex-sm-row flex-column gap-1" [formGroupName]="$index">
@@ -154,8 +154,15 @@
 
           <div class="col-md-5 mb-3">
             <mat-form-field appearance="outline">
-              <mat-label>Rua</mat-label>
+              <mat-label>Logradouro</mat-label>
               <input matInput type="text" formControlName="street">
+            </mat-form-field>
+          </div>
+
+          <div class="col-md-3 mb-3">
+            <mat-form-field appearance="outline">
+              <mat-label>Nª</mat-label>
+              <input matInput type="text" formControlName="number">
             </mat-form-field>
           </div>
 
@@ -194,14 +201,14 @@
           </div>
 
           <div class="col-md-4 mb-3">
-            <span class="fw-bolder" style="white-space: nowrap;">Valor da Mensalidade *</span>
+            <span class="fw-bolder" style="white-space: nowrap;">Valor da Parcela</span>
             <mat-form-field appearance="outline">
               <input type="text" formControlName="monthly_fee" matInput currencyMask placeholder="R$ 0,00" />
             </mat-form-field>
           </div>
 
           <div class="col mb-3">
-            <span class="fw-bolder" style="white-space: nowrap;">Data do Pagamento da 1º Parcela *</span>
+            <span class="fw-bolder" style="white-space: nowrap;">Data do Pagamento da 1º Parcela</span>
             <mat-form-field class="example-full-width">
               <input matInput [matDatepicker]="first_parcel" placeholder="DD/MM/YYYY"
                 formControlName="payment_first_date" readonly />
@@ -213,7 +220,7 @@
           </div>
 
           <div class="col mb-3">
-            <span class="fw-bolder" style="white-space: nowrap;">Data da finalização do contrato *</span>
+            <span class="fw-bolder" style="white-space: nowrap;">Data da finalização do contrato</span>
             <mat-form-field class="example-full-width">
               <input matInput [matDatepicker]="day_vencimento" placeholder="DD/MM/YYYY" formControlName="final_date"
                 readonly />
@@ -227,7 +234,7 @@
           <div class="col-12"></div>
 
           <div class="col-md-4 mb-3">
-            <span class="fw-bolder" style="white-space: nowrap;">Dia de Vencimento do Boleto *</span>
+            <span class="fw-bolder" style="white-space: nowrap;">Dia de Vencimento do Boleto</span>
             <mat-form-field appearance="outline">
               <input type="text" formControlName="duedate_day" matInput mask="0*" placeholder="0" />
             </mat-form-field>
@@ -238,7 +245,7 @@
           </div>
 
           <div class="col-md-4 mb-3">
-            <span class="fw-bolder">Consultor *</span>
+            <span class="fw-bolder">Consultor</span>
             <mat-form-field>
               <mat-select formControlName="consultant_id" placeholder="Consultor">
                 <mat-option>
@@ -254,7 +261,7 @@
           </div>
 
           <div class="col-md-4 mb-3">
-            <span class="fw-bolder">Vendedor *</span>
+            <span class="fw-bolder">Vendedor</span>
             <mat-form-field>
               <mat-select formControlName="seller_id" placeholder="Vendedor">
                 <mat-option>
@@ -270,7 +277,7 @@
           </div>
 
           <div class="col-md-4 mb-3">
-            <span class="fw-bolder">Técnico *</span>
+            <span class="fw-bolder">Técnico</span>
             <mat-form-field>
               <mat-select formControlName="technical_id" placeholder="Técnico">
                 <mat-option>
@@ -305,7 +312,7 @@
         <div class="row">
 
           <div class="col-md-4 mb-3">
-            <span class="fw-bolder">Número do Contrato *</span>
+            <span class="fw-bolder">Número do Contrato</span>
             <mat-form-field appearance="outline">
               <input type="text" formControlName="number" matInput placeholder="Número do Contrato" />
             </mat-form-field>
@@ -313,7 +320,7 @@
 
           <div class="col-md-4 mb-3">
             <div class="d-flex flex-column gap-2">
-              <span class="fw-bolder">Arquivo *</span>
+              <span class="fw-bolder">Arquivo</span>
               <input type="file" (change)="onFileChange($event)" />
             </div>
           </div>
@@ -323,7 +330,7 @@
           </div>
 
           <div class="col mb-3">
-            <span class="fw-bolder" style="white-space: nowrap;">Data da Contratação *</span>
+            <span class="fw-bolder" style="white-space: nowrap;">Data da Contratação</span>
             <mat-form-field class="example-full-width">
               <input matInput [matDatepicker]="contract" placeholder="DD/MM/YYYY" formControlName="date_hire"
                 readonly />
@@ -336,14 +343,14 @@
 
 
           <div class="col mb-3">
-            <span class="fw-bolder" style="white-space: nowrap;">Quantidade de Palavras no Contrato *</span>
+            <span class="fw-bolder" style="white-space: nowrap;">Quantidade de Palavras no Contrato</span>
             <mat-form-field appearance="outline">
               <input type="text" formControlName="number_words_contract" matInput mask="0*" placeholder="0" />
             </mat-form-field>
           </div>
 
           <div class="col mb-3">
-            <span class="fw-bolder" style="white-space: nowrap;">Tipo de Serviço *</span>
+            <span class="fw-bolder" style="white-space: nowrap;">Tipo de Serviço</span>
             <mat-form-field>
               <mat-select formControlName="service_type" placeholder="Tipo de Serviço">
                 @for (service of serviceTypeEnum; track service) {
@@ -354,7 +361,7 @@
           </div>
 
           <div class="col mb-3">
-            <span class="fw-bolder" style="white-space: nowrap;">Modelo Layout *</span>
+            <span class="fw-bolder" style="white-space: nowrap;">Modelo Layout</span>
             <mat-form-field>
               <mat-select formControlName="model" placeholder="Modelo Layout">
                 @for (model of modelEnum; track model) {
@@ -405,9 +412,9 @@
           <button matRipple id="cancel" class="button cancel" (click)="onCancel()">Cancelar</button>
         </div>
         <div class="col-auto">
-          <button matRipple id="submit" class="button primary" (click)="!loading ? onConfirm() : null">{{
-            isNewClient && !isToGoToContract ? "Próximo" : "Salvar"
-            }}</button>
+          <button matRipple id="submit" class="button primary" (click)="!loading ? onConfirm() : null">
+            Salvar
+          </button>
         </div>
       </div>
     </div>
