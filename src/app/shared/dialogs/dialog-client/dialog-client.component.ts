@@ -46,6 +46,7 @@ import { SessionQuery } from '@store/session.query';
 import { ClientService } from '@services/client.service';
 import { Segment } from '@models/segment';
 import { ContractModelEnum, ContractTypeServiceEnum } from '@models/contract';
+import { Utils } from '@shared/utils';
 
 @Component({
   selector: 'app-dialog-client',
@@ -56,7 +57,9 @@ export class DialogClientComponent {
   public loading: boolean = false;
   public isToUpdateTable : boolean = false;
   public title: string = 'Novo Cliente';
+  public phoneMasks: string[] = [];
   protected _onDestroy = new Subject<void>();
+  public utils = Utils;
 
   protected isNewClient: boolean = true;
   protected isToEdit: boolean = false;
@@ -185,11 +188,13 @@ export class DialogClientComponent {
       this.isNewClient = false;
       this.title = 'Editar Contato';
 
-      if (this._data.client.phones) {
-        this._data.client.phones.forEach((item) => {
+      if (this._data?.client?.phones) {
+        this._data.client.phones.forEach((item, index) => {
           this.phones.push(this.createTelephoneFromData(item));
+          this.phoneMasks[index] = '(00) 00000-0000';
+          this.updatePhoneMaskOnInit(item.phone, index);
         });
-      }
+      } 
 
       if (this._data.client.emails) {
         this._data.client.emails.forEach((item) => {
@@ -203,6 +208,39 @@ export class DialogClientComponent {
     } else {
       this.phones.push(this.createTelephone());
       this.emails.push(this.createEmail());
+    }
+  }
+
+  updatePhoneMask(event: Event, index: number): void {
+    const input = event.target as HTMLInputElement;
+    const value = input.value.replace(/\D/g, '');
+  
+    if (value.startsWith('0800')) {
+      this.phoneMasks[index] = '0000 000 0000';
+    } else if(value.length < 11 ) {
+      this.phoneMasks[index] = '(00) 0000-0000||(00) 0000-00000';
+    }else{
+      this.phoneMasks[index] = '(00) 00000-0000';
+    }
+
+    const formattedValue = this.utils.formatPhoneNumber(value);
+    const phoneControl = (this.phones.at(index) as FormGroup).get('phone');
+    if (phoneControl) {
+      phoneControl.setValue(formattedValue, { emitEvent: true });
+    }
+  }
+
+  updatePhoneMaskOnInit(phone: string, index: number): void {
+    if (typeof phone !== 'string') return;
+  
+    const numericValue = phone.replace(/\D/g, '');
+
+    if (numericValue.startsWith('0800')) {
+      this.phoneMasks[index] = '0000 000 0000';
+    } else if(numericValue.length < 11 ) {
+      this.phoneMasks[index] = '(00) 0000-0000||(00) 0000-00000';
+    }else{
+      this.phoneMasks[index] = '(00) 00000-0000';
     }
   }
 
