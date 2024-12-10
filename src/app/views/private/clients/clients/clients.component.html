@@ -98,6 +98,7 @@
     (onKeyWord)="openKeyword($event)"
     (onEditClient)="openEditClientDialog($event)"
     (onDeleteClient)="openDeleteClientDialog($event)"
+    (onViewClient)="openEditClientDialog($event, true)"
     [loading]="loading"
     [filters]="filters">
   </app-table-clients>

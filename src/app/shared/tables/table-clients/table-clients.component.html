@@ -76,6 +76,11 @@
                 <i class="fa-solid fa-font"></i>
               </div>
 
+              <div matRipple class="buttonTemplate"
+                (click)="onViewClient.emit(client); $event.stopPropagation()">
+                <i class="fa-solid fa-eye"></i>
+              </div>
+
               <div matTooltip="Editar" matRipple class="buttonTemplate"
                 (click)="onEditClient.emit(client); $event.stopPropagation()">
                 <i class="fa-solid fa-pen-to-square"></i>

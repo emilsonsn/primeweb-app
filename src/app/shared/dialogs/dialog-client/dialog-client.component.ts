@@ -106,6 +106,7 @@ export class DialogClientComponent {
   // Contract
   protected serviceTypeEnum = Object.values(ContractTypeServiceEnum);
   protected modelEnum = Object.values(ContractModelEnum);
+  public view: boolean = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -177,6 +178,10 @@ export class DialogClientComponent {
     this.formClient.get('cep').valueChanges.subscribe((res) => {
       this.autocompleteCep();
     });
+
+    if(this._data.view){
+      this.view = true      
+    }
 
     this.formClient.valueChanges.subscribe((res) => {
       if (res.duedate_day < 0 || res.duedate_day > 31) {
@@ -360,7 +365,11 @@ export class DialogClientComponent {
   }
 
   public postContract(): void {
-    if (!this.formContract.valid || this.loading) return;
+    if (!this.formContract.valid || this.loading) {
+      this.formContract.markAllAsTouched();
+      this._toastr.warning('Preencha todos os campos obrigatórios');
+      return;
+    }
 
     this._initOrStopLoading();
 

@@ -61,6 +61,9 @@ export class TableClientsComponent {
   public onEditClient = new EventEmitter<any>();
 
   @Output()
+  public onViewClient = new EventEmitter<any>();
+
+  @Output()
   public onDeleteClient = new EventEmitter<any>();
 
   public columns = [

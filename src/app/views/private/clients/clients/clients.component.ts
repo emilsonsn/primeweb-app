@@ -108,7 +108,7 @@ export class ClientsComponent {
       });
   }
 
-  public openEditClientDialog(client) {
+  public openEditClientDialog(client, view = false): void {
     const dialogConfig: MatDialogConfig = {
       width: '80%',
       height: '90%',
@@ -119,7 +119,7 @@ export class ClientsComponent {
 
     this._dialog
       .open(DialogClientComponent, {
-        data: { client },
+        data: { client , view},
         ...dialogConfig,
       })
       .afterClosed()
