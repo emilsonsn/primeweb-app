@@ -300,10 +300,10 @@
 
 
           <div class="mt-2">
-            <span class="fw-bolder">Descrição</span>
+            <span class="fw-bolder">Observações</span>
             <mat-form-field>
               <textarea matInput formControlName="observations" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
-                cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5" [placeholder]="'Descrição'">
+                cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5" [placeholder]="'Observações'">
               </textarea>
             </mat-form-field>
           </div>
@@ -366,7 +366,7 @@
             </mat-form-field>
           </div>
 
-          <div class="col mb-3">
+          <!-- <div class="col mb-3">
             <span class="fw-bolder" style="white-space: nowrap;">Modelo Layout</span>
             <mat-form-field>
               <mat-select formControlName="model" placeholder="Modelo Layout">
@@ -375,18 +375,18 @@
                 }
               </mat-select>
             </mat-form-field>
-          </div>
+          </div> -->
 
           <div>
-            <span class="fw-bolder">Descrição</span>
+            <span class="fw-bolder">Observações</span>
             <mat-form-field>
               <textarea matInput formControlName="observations" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
-                cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5" [placeholder]="'Descrição'">
+                cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5" [placeholder]="'Observações'">
               </textarea>
             </mat-form-field>
           </div>
 
-          <div *ngIf="!view" class="d-flex justify-content-end mt-2">
+          <div *ngIf="!view && formClient?.get('id')?.value" class="d-flex justify-content-end mt-2">
             <button matRipple class="button primary" (click)="!loading ? postContract() : null">{{
               "Adicionar Contrato"
               }}</button>

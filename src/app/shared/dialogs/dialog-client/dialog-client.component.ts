@@ -133,6 +133,7 @@ export class DialogClientComponent {
 
   ngOnInit(): void {
     this.formClient = this._fb.group({
+      id: [null],
       company: [null, [Validators.required]],
       domain: [null, [Validators.required]],
       client_responsable_name: [null, [Validators.required]],
@@ -179,7 +180,7 @@ export class DialogClientComponent {
       this.autocompleteCep();
     });
 
-    if(this._data.view){
+    if(this._data?.view){
       this.view = true      
     }
 
@@ -271,9 +272,8 @@ export class DialogClientComponent {
       .subscribe({
         next: (res) => {
           this._toastr.success('Contato cadastrado com sucesso!');
-          this.isToGoToContract = true;
-          this.tabToContract = 1;
-          this.client_id = res.data.id;
+          this.formClient.get('id').patchValue(res.data.id);
+          this.postContract(true);
         },
         error: (err) => {
           this._toastr.error(err.error.error);
@@ -348,15 +348,18 @@ export class DialogClientComponent {
     }
 
     if (this.isNewClient) {
+      this.isToGoToContract = true;
+      this.tabToContract = 1;
 
-      if(this.isToGoToContract) {
-        this._dialogRef.close(true)
+      if (!this.formContract.valid) {
+        this.formContract.markAllAsTouched();
         return;
-      };
+      }      
 
       this.postClient({
         ...this.formClient.getRawValue(),
       });
+
     } else {
       this.patch(this._data.client.id, {
         ...this.formClient.getRawValue(),
@@ -364,10 +367,11 @@ export class DialogClientComponent {
     }
   }
 
-  public postContract(): void {
-    if (!this.formContract.valid || this.loading) {
+  public postContract(was_client_confirm = false): void {
+    debugger;
+    if (!this.formContract.valid) {
       this.formContract.markAllAsTouched();
-      this._toastr.warning('Preencha todos os campos obrigatórios');
+      if(!was_client_confirm) this._toastr.warning('Preencha todos os campos obrigatórios');
       return;
     }
 
@@ -375,7 +379,7 @@ export class DialogClientComponent {
 
     this._clientService
       .postContract(
-        this._data?.client.id ?? this.client_id,
+        this.formClient.get('id').value ?? this._data?.client.id ?? this.client_id,
         this.prepareFormData({ ...this.formContract.getRawValue() })
       )
       .pipe(
@@ -386,6 +390,7 @@ export class DialogClientComponent {
       .subscribe({
         next: (res) => {
           this._toastr.success('Contrato adicionado!');
+          if(was_client_confirm) this._dialogRef.close(true);
           this.formContract.reset();
 
         },
