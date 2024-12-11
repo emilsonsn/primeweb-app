@@ -60,7 +60,7 @@ export class ScheduleComponent {
 
   public loadOccurrences(filters?: any): void {
 
-    let statusSchedule = 'PresentationVisit,SchedulingVisit,ReschedulingVisit';
+    let statusSchedule = 'PresentationVisit,SchedulingVisit,ReschedulingVisit,MeetingScheduling,Meetingrescheduling';    
 
     this.eventsPromise = new Promise<EventInput[]>((resolve, reject) => {
       this._initOrStopLoading();
