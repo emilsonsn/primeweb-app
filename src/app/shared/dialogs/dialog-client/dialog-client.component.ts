@@ -192,7 +192,7 @@ export class DialogClientComponent {
 
     if (this._data) {
       this.isNewClient = false;
-      this.title = 'Editar Contato';
+      this.title = 'Editar Cliente';
 
       if (this._data?.client?.phones) {
         this._data.client.phones.forEach((item, index) => {

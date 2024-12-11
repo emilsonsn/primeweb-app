@@ -310,9 +310,13 @@
         </div>
 
       </form>
+
+      <div *ngIf="view" class="p-md-2 p-1 mt-1" style="border: 1px solid #333547; border-radius: 4px;">
+        <app-table-clients-contracts [showActions]="false" [loading]="loading" [client_id]="_data?.client?.id ?? client_id"></app-table-clients-contracts>
+      </div>
     </mat-tab>
 
-    <mat-tab label="Contrato" [disabled]="!isToGoToContract && isNewClient">
+    <mat-tab *ngIf="!view" label="Contrato" [disabled]="!isToGoToContract && isNewClient">
       <form [formGroup]="formContract" class="my-3" style="overflow: hidden;">
 
         <div class="row">

@@ -50,7 +50,7 @@ export class TableClientsContractsComponent {
 
   @Input()
   loading: boolean = false;
-
+  
   @Input()
   client_id : number;
 
