@@ -43,6 +43,7 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {MatTabsModule} from '@angular/material/tabs';
 import { DialogClientStatusComponent } from './dialog-client-status/dialog-client-status.component';
 import { DialogClientKeywordComponent } from './dialog-client-keyword/dialog-client-keyword.component';
+import { DialogOccurrencePatchComponent } from './dialog-occurrence-patch/dialog-occurrence-patch.component';
 
 @Injectable()
 export class DefaultIntl extends OwlDateTimeIntl {
@@ -101,6 +102,7 @@ export const MY_NATIVE_FORMATS = {
     DialogClientComponent,
     DialogClientStatusComponent,
     DialogClientKeywordComponent,
+    DialogOccurrencePatchComponent
   ],
   imports: [
     CommonModule,

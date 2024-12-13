@@ -103,7 +103,7 @@ export class TableClientsComponent {
     {
       slug: 'actions',
       order: false,
-      title: 'Menu',
+      title: 'Ações',
       classes: 'justify-content-end me-5 pe-4',
     },
   ];

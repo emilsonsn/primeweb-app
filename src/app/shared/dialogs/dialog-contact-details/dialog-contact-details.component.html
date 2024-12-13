@@ -52,6 +52,21 @@
                     {{ occurrence?.status  | occurrence }}
                   </div>
                 </td>
+
+                <td>
+                  <div class="row">
+                      <div (click)="openEditOccurenceDialog(occurrence)" matTooltip="Editar" matRipple class="buttonTemplate">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                      </div>
+      
+                      <div
+                      *ngIf="is_admin"
+                      (click)="deleteOccurrence(occurrence.id)"
+                      matTooltip="Deletar" matRipple class="ms-2 buttonTemplate delete">
+                        <i class="fa-solid fa-trash"></i>
+                      </div>
+                  </div>
+                </td>
               </tr>
             }
           }

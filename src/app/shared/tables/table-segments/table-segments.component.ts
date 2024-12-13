@@ -60,7 +60,7 @@ export class TableSegmentsComponent {
     {
       slug: "actions",
       order: false,
-      title: "Menu",
+      title: "Ações",
       classes: "justify-content-end me-3 pe-2",
     },
   ];

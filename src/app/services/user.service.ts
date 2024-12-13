@@ -18,6 +18,10 @@ export class UserService {
   ) {
   }
 
+  public getAll(): Observable<ApiResponsePageable<User>> {
+    return this._http.get<ApiResponsePageable<User>>(`${environment.api}/${this.sessionEndpoint}/all`);
+  }
+
   public getUsers(pageControl?: PageControl, filters?): Observable<ApiResponsePageable<User>> {
     const paginate = Utils.mountPageControl(pageControl);
     const filterParams = Utils.mountPageControl(filters);

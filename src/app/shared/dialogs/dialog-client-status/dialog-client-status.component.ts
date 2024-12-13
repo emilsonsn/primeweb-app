@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ClientStatusEnum } from '@models/client';
+import { Client, ClientStatusEnum } from '@models/client';
 import { ClientService } from '@services/client.service';
 import dayjs from 'dayjs';
 import { ToastrService } from 'ngx-toastr';

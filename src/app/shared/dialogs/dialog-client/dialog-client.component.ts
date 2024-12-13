@@ -529,14 +529,13 @@ export class DialogClientComponent {
 
   // Getters do Back
   public getUsersFromBack() {
-    this._userService.getUsers().subscribe((res) => {
+    this._userService.getAll().subscribe((res) => {
       this.userSelect = res.data;
 
       this.filteredConsultants.next(
         this.userSelect
           .filter(
-            (user) =>
-              user.role.toLowerCase() === UserRoles.Consultant.toLowerCase()
+            (user) => user.role.toLowerCase() === UserRoles.Consultant.toLowerCase()
           )
           .slice()
       );

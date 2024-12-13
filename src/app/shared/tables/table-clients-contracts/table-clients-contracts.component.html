@@ -42,7 +42,7 @@
           </td>
           <td>
             <div>
-              {{ contract?.model | contract}}
+              {{ contract?.number_words_contract}}
             </div>
           </td>
           <td>
@@ -55,7 +55,6 @@
               {{ contract?.date_hire | date:"dd/MM/YYYY" }}
             </div>
           </td>
-          @if(showActions) {
           <td>
             <div class="d-flex justify-content-end gap-2">
 
@@ -64,23 +63,22 @@
                 <i class="fa-solid fa-file"></i>
               </div>
 
-              <div matTooltip="Deletar" matRipple class="buttonTemplate delete"
+              <div *ngIf="showActions" matTooltip="Deletar" matRipple class="buttonTemplate delete"
                 (click)="deleteContract(contract); $event.stopPropagation()">
                 <i class="fa-solid fa-trash"></i>
               </div>
             </div>
-          </td>
-          }
+          </td>        
         </tr>
         <tr>
           <td colspan="7" class="p-0">
             <div [@detailExpand]="contract == expanded ? 'expanded' : 'collapsed'" style="overflow: hidden;">
-              <div class="row">
+              <div class="row" >
                 <div class="col-12">
                   <div class="p-md-3 p-2">
                     <span class="mb-2" style="font-weight: 500; font-size: 1rem; color: #5c5c5c;">Observações</span>
-                    <div>
-                      {{ contract.observations }}
+                    <div *ngIf="contract.observations && contract.observations!='null'">
+                      {{ contract.observations ?? '' }}
                     </div>
                   </div>
                 </div>

@@ -1,5 +1,6 @@
 export interface Client {
   id?: number;
+  company: string;
   name: string;
   cpf_cnpj: string;
   phone: number;
