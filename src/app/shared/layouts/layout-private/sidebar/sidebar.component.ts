@@ -48,6 +48,14 @@ export class SidebarComponent {
           return !justAdmin.includes(item.label);
         });
       }
+
+      if(role === 'Financial'){
+        const justAdmin = ['Telefonemas', 'Contatos', 'Agenda Comercial'];
+
+        this.menuItem = this.menuItem.filter((item) => {
+          return !justAdmin.includes(item.label);
+        });
+      }
   }
 
   public toggleShowSidebar() {

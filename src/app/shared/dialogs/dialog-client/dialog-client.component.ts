@@ -165,7 +165,7 @@ export class DialogClientComponent {
       number_words_contract: [null, [Validators.required]],
       service_type: [null, [Validators.required]],
       model: [null],
-      observations: [null, [Validators.required]],
+      observations: [null],
     });
 
     this.cityFilterCtrl.valueChanges.pipe().subscribe(() => {
@@ -368,7 +368,6 @@ export class DialogClientComponent {
   }
 
   public postContract(was_client_confirm = false): void {
-    debugger;
     if (!this.formContract.valid) {
       this.formContract.markAllAsTouched();
       if(!was_client_confirm) this._toastr.warning('Preencha todos os campos obrigatórios');

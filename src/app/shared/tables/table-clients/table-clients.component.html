@@ -71,7 +71,7 @@
                 <i class="fa-solid fa-globe"></i>
               </div>
 
-              <div matTooltip="Palavras-Chave" matRipple class="buttonTemplate"
+              <div *ngIf="is_admin" matTooltip="Palavras-Chave" matRipple class="buttonTemplate"
                 (click)="onKeyWord.emit(client); $event.stopPropagation()">
                 <i class="fa-solid fa-font"></i>
               </div>
@@ -86,7 +86,7 @@
                 <i class="fa-solid fa-pen-to-square"></i>
               </div>
 
-              <div matTooltip="Deletar" matRipple class="buttonTemplate delete"
+              <div *ngIf="is_admin" matTooltip="Deletar" matRipple class="buttonTemplate delete"
                 (click)="onDeleteClient.emit(client); $event.stopPropagation()">
                 <i class="fa-solid fa-trash"></i>
               </div>

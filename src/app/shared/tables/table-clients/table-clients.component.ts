@@ -20,6 +20,7 @@ import {
 } from '@angular/animations';
 import { ContactService } from '@services/contact.service';
 import { ClientService } from '@services/client.service';
+import { SessionService } from '@store/session.service';
 
 @Component({
   selector: 'app-table-clients',
@@ -65,6 +66,8 @@ export class TableClientsComponent {
 
   @Output()
   public onDeleteClient = new EventEmitter<any>();
+
+  public is_admin: boolean = false;
 
   public columns = [
     {
@@ -113,7 +116,7 @@ export class TableClientsComponent {
     itemCount: 0,
     pageCount: 0,
     orderField: 'id',
-    order: Order.ASC,
+    order: Order.DESC,
   };
 
   isFinancial: boolean = false;
@@ -124,17 +127,27 @@ export class TableClientsComponent {
     private readonly _toastr: ToastrService,
     private readonly _clientService : ClientService,
     private readonly _sessionQuery: SessionQuery,
-    private readonly _testService: TestService
+    private readonly _testService: TestService,
+    private readonly _sessionService: SessionService
   ) {}
 
   ngOnInit(): void {
     // this.subscription = this._sidebarService.accountIdAlterado$.subscribe(
     //   () => { this._onSearch() }
     // );
+    this._sessionService.getUserFromBack().subscribe(res => {
+      this.loadPermissions(res.role);
+    });
 
     if (!this.showActions) {
       this.columns.pop();
     }
+  }
+
+  public loadPermissions(role): void {
+      if(role === 'Admin'){
+        this.is_admin = true;
+      }
   }
 
   ngOnChanges(changes: SimpleChanges): void {

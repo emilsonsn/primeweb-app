@@ -39,7 +39,7 @@ export class StatusPipe implements PipeTransform {
       case ClientStatusEnum.CANCELED:
         return 'Cancelado';
       case ClientStatusEnum.CLOSED:
-        return 'Fechado';
+        return 'Contrato Encerrado';
       case ClientStatusEnum.FINISHED:
         return 'Finalizado';
       case ClientStatusEnum.IN_PROGRESS:

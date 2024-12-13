@@ -64,7 +64,7 @@ export class TableClientsContractsComponent {
     {
       slug: 'model',
       order: false,
-      title: 'Modelo',
+      title: 'Quantidade de palavras',
       classes: '',
     },
     {
@@ -76,7 +76,7 @@ export class TableClientsContractsComponent {
     {
       slug: 'date_hire',
       order: false,
-      title: 'Data Contratada',
+      title: 'Data da Contratação',
       classes: '',
     },
     {
