@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { LayoutPrivateComponent } from "@shared/layouts/layout-private/layout-private.component";
 import { SessionService } from '../../store/session.service';
 import { permissionGuard } from '@app/guards/permission.guard';
+import { ReportsComponent } from './reports/reports.component';
+import { TechniciansComponent } from './reports/technicians/technicians.component';
 
 const routes: Routes = [
   {
@@ -81,6 +83,11 @@ const routes: Routes = [
           page: 'clients'
         }
       },
+      {
+        path: 'reports', 
+        loadChildren: () => import('./reports/reports.module').then(m => m.ReportsModule)
+      },
+      { path: '**', redirectTo: 'home', pathMatch: 'full' },
       {
         path: '**',
         redirectTo: 'home',

@@ -29,6 +29,20 @@ export class SidebarComponent {
   ngOnInit(){
     this._sessionService.getUserFromBack().subscribe(res => {
       this.loadPermissions(res.role);
+      this.menuItem.push({
+        label: ' Relatórios',
+        icon: 'fa-solid fa-chart-line',
+        isDropdown: true, // Torna Relatórios um menu dropdown
+        dropdownItems: [
+          {
+            label: ' Técnicos',
+            icon: 'fa-solid fa-user-cog',
+            route: '/painel/reports/technicians'
+          }
+        ]
+      });
+      console.log(this.menuItem);
+
     });
   }
 

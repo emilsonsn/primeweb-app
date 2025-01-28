@@ -1,0 +1,25 @@
+<div>
+  <app-component-header>
+    <div id="buttons">
+      <button matRipple class="button primary">
+        <i class="fa-solid fa-plus"></i> Relatórios técnicos
+      </button>
+    </div>
+  </app-component-header>
+</div>
+
+<!-- Criação das abas -->
+<mat-tab-group [(selectedIndex)]="selectedTab" (selectedIndexChange)="updateTitle($event)">
+  <mat-tab label="Posicionamento">
+  </mat-tab>
+
+  <mat-tab label="Contatos">
+    <app-table-technicians
+      (onViewTechnician)="openViewTechnicianDialog($event)"
+      (onDeleteTechnician)="openDeleteTechnicianDialog($event)"
+      [loading]="loading"
+      [technicians]="technicians"
+      [showActions]="true">
+    </app-table-technicians>
+  </mat-tab>
+</mat-tab-group>

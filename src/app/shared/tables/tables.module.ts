@@ -19,6 +19,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { TableClientsComponent } from './table-clients/table-clients.component';
 import { TableClientsContractsComponent } from './table-clients-contracts/table-clients-contracts.component';
 import { TableClientsKeywordComponent } from './table-clients-keyword/table-clients-keyword.component';
+import { TableTechniciansComponent } from './table-technicians/table-technicians.component';
+
+
 
 const tables = [
   TableUserComponent,
@@ -28,12 +31,14 @@ const tables = [
   TableLogsComponent,
   TableClientsComponent,
   TableClientsContractsComponent,
-  TableClientsKeywordComponent
+  TableClientsKeywordComponent,
+  TableTechniciansComponent
 ]
 
 @NgModule({
   declarations: [
     tables,
+    TableTechniciansComponent,
   ],
   imports: [
     CommonModule,
@@ -50,7 +55,8 @@ const tables = [
     MatIconModule,
   ],
   exports: [
-    tables
+    tables,
+    TableTechniciansComponent
   ],
 })
 export class TablesModule { }

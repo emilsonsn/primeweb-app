@@ -8,6 +8,8 @@ import {DirectivesModule} from "./directives/directives.module";
 import {PipesModule} from "./pipes/pipes.module";
 import {TablesModule} from "./tables/tables.module";
 import {LayoutsModule} from "@shared/layouts/layouts.module";
+import { ComponentHeaderComponent } from './components/component-header/component-header.component';
+import { TableTechniciansComponent } from './tables/table-technicians/table-technicians.component';
 
 @NgModule({
   declarations: [],
@@ -18,7 +20,7 @@ import {LayoutsModule} from "@shared/layouts/layouts.module";
     DirectivesModule,
     LayoutsModule,
     PipesModule,
-    TablesModule
+    TablesModule,
   ],
   exports: [
     ComponentsModule,

@@ -1,0 +1,84 @@
+@import "_variables";
+
+
+
+mat-spinner {
+  height: 4.5rem !important;
+}
+
+.segment {
+  text-align: center;
+  border-radius: 12px;
+  width: 5rem;
+  min-width: fit-content;
+  background-color: $vigenary;
+  color: $white-100;
+  padding: 0.1rem 0.6rem;
+}
+
+.table-line-hover {
+  td {
+    background-color: transparent;
+  }
+
+  &:hover {
+    cursor: pointer;
+    background-color: $terciary;
+  }
+}
+
+.status {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 12px;
+  padding: 4px 5px;
+  color: $white;
+
+  &.IN_PROGRESS {
+    background-color: orange;
+  }
+
+  &.CLOSED {
+    background-color: rgb(0, 86, 143);
+  }
+
+  &.FINISHED {
+    background-color: $green;
+  }
+
+  &.CANCELED {
+    background-color: $red;
+  }
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+
+  thead {
+    background-color: $white; 
+    $gray-dark:#333; 
+    font-weight: bold;
+    text-transform: capitalize; 
+    font-size: 0.92rem;
+
+    th {
+      padding: 12px;
+      text-align: left;
+      font-weight: bold;
+      color: $gray-dark;
+      //text-transform: capitalize; 
+    }
+  }
+
+  tbody {
+    tr {
+      &:nth-child(even) {
+        background-color: $secondary;
+      }
+    }
+  }
+}

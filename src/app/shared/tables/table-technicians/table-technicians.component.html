@@ -1,0 +1,62 @@
+<div class="table-container">
+  <div class="overflow-auto">
+    <table class="table table-responsive">
+      <thead>
+        <tr>
+          <th>Domínio</th>
+          <th>Data de Cadastro</th>
+          <th *ngIf="showActions">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        @if(loading) {
+        <tr>
+          <td colspan="3">
+            <div id="mat-loading">
+              <mat-spinner></mat-spinner>
+            </div>
+          </td>
+        </tr>
+        }
+        @else {
+        @if(!technicians?.length) {
+        <tr>
+          <td colspan="3" class="text-center">
+            <div>Nenhum resultado encontrado</div>
+          </td>
+        </tr>
+        }
+        @else {
+        @for (technician of technicians; track technician) {
+        <tr class="table-line-hover">
+          <td>{{ technician?.domain }}</td>
+          <td>{{ technician?.createdAt | date:'dd/MM/yyyy' }}</td>
+          <td class="d-flex justify-content-end gap-2" *ngIf="showActions">
+            <div matTooltip="Visualizar" matRipple class="buttonTemplate"
+              (click)="viewTechnician(technician)">
+              <i class="fa-solid fa-eye"></i>
+            </div>
+            <div matTooltip="Deletar" matRipple class="buttonTemplate delete"
+              (click)="deleteTechnician(technician)">
+              <i class="fa-solid fa-trash"></i>
+            </div>
+          </td>
+        </tr>
+        }
+        }
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <mat-paginator
+    [length]="totalItems"
+    [pageSize]="pageControl.take"
+    [showFirstLastButtons]="true"
+    [pageSizeOptions]="[10, 25, 50, 100]"
+    [hidePageSize]="false"
+    [pageIndex]="pageControl.page"
+    (page)="pageEvent($event)"
+    aria-label="Paginação">
+  </mat-paginator>
+</div>
