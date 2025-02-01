@@ -20,6 +20,11 @@ import { TableClientsComponent } from './table-clients/table-clients.component';
 import { TableClientsContractsComponent } from './table-clients-contracts/table-clients-contracts.component';
 import { TableClientsKeywordComponent } from './table-clients-keyword/table-clients-keyword.component';
 import { TableTechniciansComponent } from './table-technicians/table-technicians.component';
+import { TableTechnicianContactComponent } from './table-technicians/table-technician-contact/table-technician-contact.component';
+import { TableTechnicianPositionComponent } from './table-technicians/table-technician-position/table-technician-position.component';
+import { TableCurrentPositionComponent } from './table-technicians/table-technician-position/table-current-position/table-current-position.component';
+import { TableAnnualGridComponent } from './table-technicians/table-technician-position/table-annual-grid/table-annual-grid.component';
+
 
 
 
@@ -32,13 +37,17 @@ const tables = [
   TableClientsComponent,
   TableClientsContractsComponent,
   TableClientsKeywordComponent,
-  TableTechniciansComponent
+ 
 ]
 
 @NgModule({
   declarations: [
     tables,
-    TableTechniciansComponent,
+    TableTechnicianPositionComponent,
+    TableCurrentPositionComponent,
+    TableAnnualGridComponent,
+   
+
   ],
   imports: [
     CommonModule,
@@ -56,7 +65,8 @@ const tables = [
   ],
   exports: [
     tables,
-    TableTechniciansComponent
+    TableCurrentPositionComponent,
+    TableAnnualGridComponent
   ],
 })
 export class TablesModule { }

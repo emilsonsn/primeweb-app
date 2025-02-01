@@ -1,0 +1,60 @@
+<div class="container">
+  <!-- Painel de Informações -->
+  <div class="info-panel">
+    <p><strong>Total de Palavras:</strong> {{ info.totalPalavras }}</p>
+    <p><strong>1º Página:</strong> {{ info.paginas[0] }}</p>
+    <p><strong>2º Página:</strong> {{ info.paginas[1] }}</p>
+    <p><strong>3º Página:</strong> {{ info.paginas[2] }}</p>
+    <hr>
+    <p><strong>Cadastrado:</strong> {{ info.cadastrado | date: 'dd/MM/yyyy' }}</p>
+    <p><strong>Contratação:</strong> {{ info.contratacao | date: 'dd/MM/yyyy' }}</p>
+    <p><strong>Finalizado:</strong> {{ info.finalizado | date: 'dd/MM/yyyy' }}</p>
+    <hr>
+    <p><strong>Técnico:</strong> {{ info.tecnico }}</p>
+    <p><strong>Consultor:</strong> {{ info.consultor }}</p>
+    <p><strong>Vendedor:</strong> {{ info.vendedor }}</p>
+  </div>
+
+  <!-- Tabela de Grade Anual -->
+  <div class="table-wrapper">
+    <table class="table table-responsive">
+      <thead>
+        <tr>
+          <th>Mês</th>
+          <th *ngFor="let rank of rankings">{{ rank }}º</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="loading">
+          <td colspan="13" class="text-center">
+            <mat-spinner></mat-spinner>
+          </td>
+        </tr>
+
+        <tr *ngIf="!loading && months.length === 0">
+          <td colspan="13" class="text-center">
+            Nenhum dado encontrado.
+          </td>
+        </tr>
+
+        <!-- Exibição dinâmica dos meses e posições -->
+        <tr *ngFor="let month of months">
+          <td>{{ month.name }}</td>
+          <td *ngFor="let position of month.positions">{{ position || '-' }}</td>
+          <td>{{ month.total }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Paginação -->
+    <mat-paginator
+      [length]="totalItems"
+      [pageSize]="pageControl.take"
+      [showFirstLastButtons]="true"
+      [pageSizeOptions]="[10, 25, 50, 100]"
+      (page)="pageEvent($event)"
+      aria-label="Paginação">
+    </mat-paginator>
+  </div>
+</div>

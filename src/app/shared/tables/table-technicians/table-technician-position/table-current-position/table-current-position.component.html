@@ -1,0 +1,75 @@
+<div class="container">
+  <!-- Painel de Informações -->
+  <div class="info-panel">
+    <p><strong>Total de Palavras:</strong> {{ info.totalPalavras }}</p>
+    <p><strong>1º Página:</strong> {{ info.paginas[0] }}</p>
+    <p><strong>2º Página:</strong> {{ info.paginas[1] }}</p>
+    <p><strong>3º Página:</strong> {{ info.paginas[2] }}</p>
+    <hr>
+    <p><strong>Cadastrado:</strong> {{ info.cadastrado | date: 'dd/MM/yyyy' }}</p>
+    <p><strong>Contratação:</strong> {{ info.contratacao | date: 'dd/MM/yyyy' }}</p>
+    <p><strong>Finalizado:</strong> {{ info.finalizado | date: 'dd/MM/yyyy' }}</p>
+    <hr>
+    <p><strong>Técnico:</strong> {{ info.tecnico }}</p>
+    <p><strong>Consultor:</strong> {{ info.consultor }}</p>
+    <p><strong>Vendedor:</strong> {{ info.vendedor }}</p>
+  </div>
+
+  <!-- Tabela de Posicionamento Atual -->
+  <div class="table-wrapper">
+    <table class="table table-responsive">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Página</th>
+          <th>Posição</th>
+          <th>Palavra Chave</th>
+          <th>Última Consulta</th>
+          <th>Criado Em</th>
+          <th>Criado Por</th>
+          <th *ngIf="showActions">Opções</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="loading">
+          <td colspan="8" class="text-center">
+            <mat-spinner></mat-spinner>
+          </td>
+        </tr>
+
+        <tr *ngIf="!loading && positions.length === 0">
+          <td colspan="8" class="text-center">
+            Nenhum posicionamento encontrado.
+          </td>
+        </tr>
+
+        <tr *ngFor="let position of positions">
+          <td>{{ position.id }}</td>
+          <td>{{ position.page }}</td>
+          <td>{{ position.position }}</td>
+          <td>{{ position.keyword }}</td>
+          <td>{{ position.lastCheck | date: 'dd/MM/yyyy' }}</td>
+          <td>{{ position.createdAt | date: 'dd/MM/yyyy' }}</td>
+          <td>{{ position.createdBy }}</td>
+          <td *ngIf="showActions" class="d-flex justify-content-end gap-2">
+            <button matRipple (click)="viewPosition(position)" matTooltip="Visualizar">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+            <button matRipple (click)="deletePosition(position)" matTooltip="Deletar" class="delete">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <mat-paginator
+      [length]="totalItems"
+      [pageSize]="pageControl.take"
+      [showFirstLastButtons]="true"
+      [pageSizeOptions]="[10, 25, 50, 100]"
+      (page)="pageEvent($event)"
+      aria-label="Paginação">
+    </mat-paginator>
+  </div>
+</div>

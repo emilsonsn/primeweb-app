@@ -1,0 +1,54 @@
+<div class="table-container">
+  <div class="overflow-auto">
+    <table class="table table-responsive">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Email</th>
+          <th>Telefone</th>
+          <th *ngIf="showActions">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Exibir carregamento enquanto busca os dados -->
+        <tr *ngIf="loading">
+          <td colspan="4" class="text-center">
+            <mat-spinner></mat-spinner>
+          </td>
+        </tr>
+
+        <!-- Exibir mensagem caso não haja contatos -->
+        <tr *ngIf="!loading && contacts.length === 0">
+          <td colspan="4" class="text-center">
+            Nenhum contato encontrado.
+          </td>
+        </tr>
+
+        <!-- Exibir lista de contatos -->
+        <tr *ngFor="let contact of contacts">
+          <td>{{ contact.name }}</td>
+          <td>{{ contact.email }}</td>
+          <td>{{ contact.phone }}</td>
+          <td *ngIf="showActions" class="d-flex justify-content-end gap-2">
+            <button matRipple (click)="viewContact(contact)" matTooltip="Visualizar">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+            <button matRipple (click)="deleteContact(contact)" matTooltip="Deletar" class="delete">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Paginação da tabela -->
+  <mat-paginator
+    [length]="totalItems"
+    [pageSize]="pageControl.take"
+    [showFirstLastButtons]="true"
+    [pageSizeOptions]="[10, 25, 50, 100]"
+    (page)="pageEvent($event)"
+    aria-label="Paginação">
+  </mat-paginator>
+</div>

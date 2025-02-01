@@ -14,10 +14,22 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { TechnicianContactComponent } from './technician-contact/technician-contact.component';
+import { TechnicianPositionComponent } from './technician-position/technician-position.component';
+import { TableTechnicianContactComponent } from '@shared/tables/table-technicians/table-technician-contact/table-technician-contact.component';
+import { AnnualGridComponent } from './technician-position/annual-grid/annual-grid.component';
+import { CurrentPositionComponent } from './technician-position/current-position/current-position.component';
+import { TablesModule } from '@shared/tables/tables.module';
 
 @NgModule({
   declarations: [
-    TechniciansComponent
+    TechniciansComponent,
+    TechnicianContactComponent,
+    TechnicianPositionComponent,
+    AnnualGridComponent,
+    CurrentPositionComponent,
+    
+    
   ],
   imports: [
     CommonModule,
@@ -35,7 +47,8 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     NgxMaskDirective,
     NgxMaskPipe,
     NgxMatSelectSearchModule,
-    MatTabsModule
+    MatTabsModule,
+    TablesModule
   ]
 })
 export class TechniciansModule { }

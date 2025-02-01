@@ -1,0 +1,28 @@
+<div class="container">
+    <!-- Painel de Informações -->
+    <div class="info-panel">
+      <p><strong>Total de Palavras:</strong> {{ info.totalPalavras }}</p>
+      <p><strong>1º Página:</strong> {{ info.paginas[0] }}</p>
+      <p><strong>2º Página:</strong> {{ info.paginas[1] }}</p>
+      <p><strong>3º Página:</strong> {{ info.paginas[2] }}</p>
+      <hr>
+      <p><strong>Cadastrado:</strong> {{ info.cadastrado | date: 'dd/MM/yyyy' }}</p>
+      <p><strong>Contratação:</strong> {{ info.contratacao | date: 'dd/MM/yyyy' }}</p>
+      <p><strong>Finalizado:</strong> {{ info.finalizado | date: 'dd/MM/yyyy' }}</p>
+      <hr>
+      <p><strong>Técnico:</strong> {{ info.tecnico }}</p>
+      <p><strong>Consultor:</strong> {{ info.consultor }}</p>
+      <p><strong>Vendedor:</strong> {{ info.vendedor }}</p>
+    </div>
+  
+    <!-- Tabela de Contatos -->
+    <div class="table-wrapper">
+      <app-table-technician-contact
+        [loading]="loading"
+        [contacts]="contacts"
+        (onViewContact)="viewContact($event)"
+        (onDeleteContact)="deleteContact($event)">
+      </app-table-technician-contact>
+    </div>
+  </div>
+  

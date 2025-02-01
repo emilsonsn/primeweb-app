@@ -1,0 +1,12 @@
+<div class="flex-container">
+  <div class="current-position-container">
+    <app-table-current-position
+      [loading]="loading"
+      [positions]="positions"
+      [totalItems]="totalItems"
+      (onViewPosition)="viewPosition($event)"
+      (onDeletePosition)="deletePosition($event)"
+      (onPageChange)="onPageChange($event)">
+    </app-table-current-position>
+  </div>
+</div>

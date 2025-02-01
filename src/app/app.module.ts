@@ -21,6 +21,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { OWL_DATE_TIME_FORMATS, OwlDateTimeIntl, OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -48,6 +49,7 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     FullCalendarModule,
     HttpClientModule,
     CurrencyMaskModule,
+    MatProgressSpinnerModule,
     ToastrModule.forRoot({
       positionClass: 'toast-top-right'
     }),

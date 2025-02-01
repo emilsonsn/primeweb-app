@@ -2,24 +2,18 @@
   <app-component-header>
     <div id="buttons">
       <button matRipple class="button primary">
-        <i class="fa-solid fa-plus"></i> Relatórios técnicos
+        <i class="fa-solid fa-plus"></i> Relatórios Técnicos
       </button>
     </div>
   </app-component-header>
 </div>
 
-<!-- Criação das abas -->
 <mat-tab-group [(selectedIndex)]="selectedTab" (selectedIndexChange)="updateTitle($event)">
   <mat-tab label="Posicionamento">
+    <app-technician-position></app-technician-position>
   </mat-tab>
 
   <mat-tab label="Contatos">
-    <app-table-technicians
-      (onViewTechnician)="openViewTechnicianDialog($event)"
-      (onDeleteTechnician)="openDeleteTechnicianDialog($event)"
-      [loading]="loading"
-      [technicians]="technicians"
-      [showActions]="true">
-    </app-table-technicians>
+    <app-technician-contact></app-technician-contact>
   </mat-tab>
 </mat-tab-group>
